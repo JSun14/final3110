@@ -14,6 +14,14 @@ default: build
 build:
 	$(OCAMLBUILD) $(OBJECTS)
 
+# CUSTOM ENVIORMENT FOR TESTING YOUR OWN MODULES
+tank:
+	utop -init tank.ml
+
+interaction:
+	utop -init interaction.ml
+# FOLLOW THE PATTERN
+
 test:
 	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
 
