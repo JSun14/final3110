@@ -1,10 +1,12 @@
-MODULES=tank interactions
+# Add your modules here
+MODULES=tank interactions main
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
+MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
-PKGS=unix,oUnit,str
+PKGS=unix,oUnit,str,ANSITerminal
 
 default: build
 	utop
@@ -13,7 +15,10 @@ build:
 	$(OCAMLBUILD) $(OBJECTS)
 
 test:
-	BISECT_COVERAGE=YES $(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
+	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
+
+play:
+	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
 zip:
 	zip search_src.zip *.ml* _tags Makefile  
