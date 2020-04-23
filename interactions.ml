@@ -1,3 +1,4 @@
+open Tank
 (** 
 
    type tank_species = Blab | Blob | Bleb;
@@ -29,3 +30,23 @@
    }
 
 *)
+
+(**[hitbox_detect tank projs] takes in a tank and tests if any projectiles are
+   in the tank's hitbox and returns a boolean of whether the tank was hit or not *)
+let hitbox_detect tank projs= 
+  failwith ("Unimplemented")
+
+(**[tank removal projs tanks] takes in a list of tanks and projectiles and 
+   returns back the list of active tanks and removes tanks hit by projectiles*)
+let tank_removal projs tanks= 
+  failwith ("Unimplemented")
+
+(**[wall_detect proj walls] takes in a proj and a list of walls and returns back
+   a boolean of whether the project has hit a wall *)
+let wall_detect proj walls= 
+  failwith ("Unimplemented")
+
+(**[proj_removal projs tanks obs] takes in a list of projs, tanks, and obs and
+   returns back an active list of projectiles *)
+let proj_removal projs tanks obs= 
+  failwith ("Unimplemented")
