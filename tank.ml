@@ -21,3 +21,13 @@ type projectile = {
 
 let has_hit_obstacle t =
   not (t.grid_loc = t.past_loc)
+
+let kill_tank t =
+  {t with health = Dead}
+
+let stop_tank t =
+  {t with velocity = (0.0, 0.0)}
+
+let move_tank t =
+  {t with abs_loc = 
+            (fst t.abs_loc +. fst t.velocity, snd t.abs_loc +. snd t.velocity)}
