@@ -18,8 +18,8 @@ build:
 tank:
 	utop -init tank.ml
 
-interaction:
-	utop -init interaction.ml
+interactions:
+	utop -init interactions.ml
 # FOLLOW THE PATTERN
 
 test:

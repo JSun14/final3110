@@ -37,7 +37,7 @@ let cmp_set_like_lists lst1 lst2 =
   uniq1 = uniq2
 
 module DummyA = struct 
-  (* open DummyA *)
+  open Tank
 
   let tests = [
     "check dict8" >:: 
@@ -46,8 +46,8 @@ module DummyA = struct
 end 
 
 module DummyB = struct
-  (* open DummyB *)
-
+  (* uncomment when compiles *)
+  (* open Interactions *)
   let tests = [
     "cdummy test" >:: (fun _ -> assert_equal 0 0 ~printer:string_of_int);
   ]
