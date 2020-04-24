@@ -31,10 +31,19 @@ open Tank
 
 *)
 
+
+(**[get_distance_from pointA pointB] calculates the distance from 2 points*)
+let get_distance_from pointA pointB =
+  sqrt((fst(pointA) -. fst(pointB))*.(fst(pointA) -. fst(pointB)) +. 
+       (snd(pointA) -. snd(pointB))*.(snd(pointA) -. snd(pointB)))
+
 (**[hitbox_detect tank projs] takes in a tank and tests if any projectiles are
    in the tank's hitbox and returns a boolean of whether the tank was hit or not *)
-let hitbox_detect tank projs= 
-  failwith ("Unimplemented")
+let rec hitbox_detect tank projs= 
+  match projs with
+  | [] -> false
+  | h::t -> if get_distance_from (get_pos h) (get_pos tank) < 1.0 then true else
+      false
 
 (**[tank removal projs tanks] takes in a list of tanks and projectiles and 
    returns back the list of active tanks and removes tanks hit by projectiles*)
