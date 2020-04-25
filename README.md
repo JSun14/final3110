@@ -16,9 +16,10 @@ sudo apt-get install pkg-config
 sudo apt-get install libx11-dev
 ```
 
-Mac:
+Mac:???
 
-idk lmao
+brew install pkg-config
+macports intall pkg-config
 
 run:
 

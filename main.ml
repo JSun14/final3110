@@ -19,6 +19,7 @@ let init_world = {
 let rec game_helper w st =
 (* print debug info about game state *)
   print_state st;
+  Render.clear;
 (* let s1 = Get_user_in.execute world state *)
 (* let s2 = Physics.execute world s1*)
 (* let s3 = Interactions.excute world s2 *)

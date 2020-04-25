@@ -1,7 +1,11 @@
 open Graphics
+open Movable
 
 let start_rend = 
     open_graph ":0"
+
+let clear = 
+    clear_graph ()
 
 let draw_tank =
 (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
@@ -9,6 +13,5 @@ let draw_tank =
     draw_circle 100 100 4
 
 let render_frame =
-    clear_graph ();
     draw_tank
 
