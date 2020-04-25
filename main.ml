@@ -29,6 +29,8 @@ let rec game_helper w st =
   let final_state = {
     st with cycle_no = st.cycle_no + 1
   } in 
+
+  let () = Render.render_frame in
   if final_state.win_cond then 
     print_endline "GG EZ"
   else
@@ -44,6 +46,8 @@ let main () =
   (* match read_line () with
   | exception End_of_file -> ()
   | file_name -> play_game file_name *)
+  start_rend;
+
   let w = init_world in
   let s0 = init_state w in
   game_helper w s0
