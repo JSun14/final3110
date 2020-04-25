@@ -7,7 +7,7 @@ let pp_string s = "\"" ^ s ^ "\""
 
 (** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt]
     to pretty-print each element of [lst]. 
-    
+
     Taken from A3*)
 let pp_list pp_elt lst =
   let pp_elts lst =
@@ -25,7 +25,7 @@ let pp_list pp_elt lst =
     First, they must both be {i set-like}, meaning that they do not
     contain any duplicates.  Second, they must contain the same elements,
     though not necessarily in the same order. 
-    
+
     Taken from A2*)
 let cmp_set_like_lists lst1 lst2 =
   let uniq1 = List.sort_uniq compare lst1 in
@@ -37,11 +37,11 @@ let cmp_set_like_lists lst1 lst2 =
   uniq1 = uniq2
 
 module DummyA = struct 
-  open Tank
+  open Movable
 
   let tests = [
     "check dict8" >:: 
-      (fun _ -> assert_equal 0 0 ~printer:string_of_int);
+    (fun _ -> assert_equal 0 0 ~printer:string_of_int);
   ]
 end 
 
@@ -54,6 +54,6 @@ module DummyB = struct
 end 
 
 let suite = "search test suite" >::: List.flatten 
-  [DummyA.tests; DummyB.tests;]
+              [DummyA.tests; DummyB.tests;]
 
 let _ = run_test_tt_main suite
