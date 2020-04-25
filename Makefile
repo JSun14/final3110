@@ -1,5 +1,5 @@
 # Add your modules here
-MODULES=tank interactions main
+MODULES=movable interactions main
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
