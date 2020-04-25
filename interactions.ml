@@ -54,7 +54,7 @@ let get_distance_from pointA pointB =
 let rec hitbox_detect tank projs= 
   match projs with
   | [] -> false
-  | h::t -> if get_distance_from h.loc tank.loc < 4.0 then true 
+  | h::t -> if get_distance_from h.loc tank.loc < 5.0 then true 
     else hitbox_detect tank t
 
 (**[tank removal projs tanks] takes in a list of tanks and projectiles and 
@@ -72,7 +72,7 @@ let rec tank_removal projs tanks=
 let rec tank_detect tanks proj=
   match tanks with
   | [] -> false
-  | h::t -> if get_distance_from proj.loc h.loc < 4.0 then true
+  | h::t -> if get_distance_from proj.loc h.loc < 5.0 then true
     else tank_detect t proj
 
 (**[proj_removal projs tanks obs] takes in a list of projs, tanks, and walls and
