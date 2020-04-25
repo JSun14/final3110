@@ -1,4 +1,5 @@
 type team = Self | Enemy
+type proj_species = Bouncy | Standard
 
 type tank = {
   loc : float * float;
@@ -14,7 +15,7 @@ type projectile = {
   past_loc : float * float;
   velocity : float * float;
   health : int;
-  side : team;
+  weap_species: proj_species
 }
 
 (** [is dead t] returns whether or not if a movable is dead *)
@@ -26,7 +27,7 @@ let stop_tank t =
 
 let move t =
   {t with loc = (fst t.loc +. fst t.velocity, snd t.loc +. snd t.velocity);
-    past_loc = t.loc;
+          past_loc = t.loc;
   }
 
 (** [grid_loc (x, y)] is a tuple represting the grid location of a [(x, y)]. *)
