@@ -20,7 +20,7 @@ type projectile = {
 
 (** [is dead t] returns whether or not if a movable is dead *)
 let is_dead t =
-  if t.health = 0 then true else false
+  t.health = 0
 
 let stop_tank t =
   {t with velocity = (0.0, 0.0)}
