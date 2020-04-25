@@ -1,0 +1,245 @@
+{
+  "blocks": [
+    {
+      "name": "1",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        0.5,
+        8.5
+      ]
+    },
+    {
+      "name": "2",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        0.5,
+        9.5
+      ]
+    },
+    {
+      "name": "3",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        1.5,
+        6.5
+      ]
+    },
+    {
+      "name": "4",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        1.5,
+        7.5
+      ]
+    },
+    {
+      "name": "5",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        1.5,
+        8.5
+      ]
+    },
+    {
+      "name": "6",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        1.5,
+        9.5
+      ]
+    },
+    {
+      "name": "7",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        2.5,
+        3.5
+      ]
+    },
+    {
+      "name": "8",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        2.5,
+        6.5
+      ]
+    },
+    {
+      "name": "9",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        2.5,
+        8.5
+      ]
+    },
+    {
+      "name": "10",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        3.5,
+        1.5
+      ]
+    },
+    {
+      "name": "11",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        3.5,
+        2.5
+      ]
+    },
+    {
+      "name": "12",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        3.5,
+        3.5
+      ]
+    },
+    {
+      "name": "13",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        3.5,
+        8.5
+      ]
+    },
+    {
+      "name": "14",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        4.5,
+        4.5
+      ]
+    },
+    {
+      "name": "15",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        4.5,
+        5.5
+      ]
+    },
+    {
+      "name": "16",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        5.5,
+        4.5
+      ]
+    },
+    {
+      "name": "17",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        5.5,
+        5.5
+      ]
+    },
+    {
+      "name": "18",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        6.5,
+        1.5
+      ]
+    },
+    {
+      "name": "19",
+      "kind": "Wall",
+      "width": 1,
+      "coord": [
+        6.5,
+        0.5
+      ]
+    }
+  ],
+  "tanks": [
+    {
+      "loc": [
+        0.5,
+        0.5
+      ],
+      "past_loc": [
+        0.5,
+        0.5
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "health": 1,
+      "last_fire_time": 0,
+      "side": "Self"
+    },
+    {
+      "loc": [
+        3.5,
+        6.5
+      ],
+      "past_loc": [
+        3.5,
+        6.5
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "health": 1,
+      "last_fire_time": 0,
+      "side": "Enemy"
+    },
+    {
+      "loc": [
+        8.5,
+        4.5
+      ],
+      "past_loc": [
+        8.5,
+        4.5
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "health": 1,
+      "last_fire_time": 0,
+      "side": "Enemy"
+    },
+    {
+      "loc": [
+        8.5,
+        8.5
+      ],
+      "past_loc": [
+        8.5,
+        8.5
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "health": 1,
+      "last_fire_time": 0,
+      "side": "Enemy"
+    }
+  ]
+}
