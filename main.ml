@@ -1,5 +1,6 @@
 open State
 open Render
+open Interactions
 
 (* eventually needs to do something with w *)
 let init_state w = {
@@ -20,18 +21,19 @@ let rec game_helper w st =
 (* print debug info about game state *)
   print_state st;
   Render.clear;
-(* let s1 = Get_user_in.execute world state *)
-(* let s2 = Physics.execute world s1*)
-(* let s3 = Interactions.excute world s2 *)
-(* Render.execute world s3 *)
-  
+
   Unix.sleepf(0.01);
 
+(* let s1 = Get_user_in.execute world state *)
+(* let s2 = Physics.execute world s1*)
+  let s3 = Interactions.execute w st in
+(* Render.execute world s3 *)
+
   let final_state = {
-    st with cycle_no = st.cycle_no + 1
+    s3 with cycle_no = st.cycle_no + 1
   } in 
 
-  let () = Render.render_frame in
+  let () = Render.render_frame final_state in
   if final_state.win_cond then 
     print_endline "GG EZ"
   else

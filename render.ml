@@ -1,5 +1,6 @@
 open Graphics
 open Movable
+open State
 
 let start_rend = 
     open_graph ":0"
@@ -12,6 +13,6 @@ let draw_tank =
     set_color blue;
     draw_circle 100 100 4
 
-let render_frame =
+let render_frame st =
     draw_tank
 

@@ -83,5 +83,6 @@ let rec proj_removal projs tanks walls=
   | h::t -> if tank_detect tanks h  
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
-let execute state = 
-  failwith "Unimplemented"
+let execute w st = 
+  (* failwith "Unimplemented" *)
+  st
