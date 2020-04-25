@@ -3,3 +3,5 @@ PKG oUnit
 PKG str
 PKG unix
 PKG ocamlbuild
+PKG graphics
+PKG ANSITerminal

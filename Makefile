@@ -1,12 +1,12 @@
 # Add your modules here
-MODULES=movable interactions state block main
+MODULES=movable interactions state block render main
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
-PKGS=unix,oUnit,str,ANSITerminal
+PKGS=unix,oUnit,str,ANSITerminal,graphics
 
 default: build
 	utop

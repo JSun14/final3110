@@ -1,4 +1,5 @@
 open State
+open Render
 
 (* eventually needs to do something with w *)
 let init_state w = {

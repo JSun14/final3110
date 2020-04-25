@@ -1,0 +1,11 @@
+#require "oUnit";;
+#require "yojson";;
+#require "ANSITerminal";;
+#require "Graphics";;
+#directory "_build";;
+#load "state.cmo";;
+#load "block.cmo";;
+#load "render.cmo";;
+#load "main.cmo";;
+#load "movable.cmo";;
+#load "interactions.cmo";;

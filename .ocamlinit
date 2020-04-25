@@ -1,7 +1,6 @@
+#use "topfind";;
 #require "oUnit";;
 #require "yojson";;
 #require "ANSITerminal";;
+#require "graphics";;
 #directory "_build";;
-#load "main.cmo";;
-#load "movable.cmo";;
-#load "interactions.cmo";;

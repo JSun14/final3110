@@ -37,7 +37,7 @@ let cmp_set_like_lists lst1 lst2 =
   uniq1 = uniq2
 
 module DummyA = struct 
-  open Tank
+  open Movable
 
   let tests = [
     "check dict8" >:: 
