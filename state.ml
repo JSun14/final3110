@@ -1,16 +1,17 @@
-open Tank
-open Wall
+open Movable
+open Block
 
 (* Master state that is passed around in MCL *)
 type state = {
-  current : room_id;
-  visited : room_id list;
+    (* control cycle counter *)
+  cycle_no: int;
+  (* score of the player *)
   score : int;
-  inventory: string list;
-  loc_dict: (string * string list) list;
-  win_cond: bool;
+  tanks: Movable.tank list;
+  projectiles: Movable.projectile list;
 }
 
 type world = {
-    wall_list_cord : ()
+  wall_list : Block.block list;
+  ditch_list : Block.block list;
 }
