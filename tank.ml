@@ -3,7 +3,6 @@ type status = Dead | Alive
 
 type tank = {
   abs_loc : float * float;
-  grid_loc : int * int;
   past_loc : int * int;
   velocity : float * float;
   health : status;
@@ -31,3 +30,6 @@ let stop_tank t =
 let move_tank t =
   {t with abs_loc = 
             (fst t.abs_loc +. fst t.velocity, snd t.abs_loc +. snd t.velocity)}
+
+let grid_loc t =
+  fst
