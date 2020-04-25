@@ -1,35 +1,34 @@
 type team = Self | Enemy
-type status = Dead | Alive 
 
 type tank = {
-  abs_loc : float * float;
-  past_loc : int * int;
+  loc : float * float;
+  past_loc : float * float;
   velocity : float * float;
-  health : status;
+  health : int;
   last_fire_time : float;
   side : team;
 }
 
 type projectile = {
-  abs_loc : float * float;
-  current_loc : int * int;
+  loc : float * float;
+  past_loc : float * float;
   velocity : float * float;
-  health : status;
+  health : int;
   side : team;
 }
 
-let has_hit_obstacle t =
-  not (t.grid_loc = t.past_loc)
-
-let kill_tank t =
-  {t with health = Dead}
+(** [is dead t] returns whether or not if a movable is dead *)
+let is_dead t =
+  if t.health = 0 then true else false
 
 let stop_tank t =
   {t with velocity = (0.0, 0.0)}
 
-let move_tank t =
-  {t with abs_loc = 
-            (fst t.abs_loc +. fst t.velocity, snd t.abs_loc +. snd t.velocity)}
+let move t =
+  {t with loc = (fst t.loc +. fst t.velocity, snd t.loc +. snd t.velocity);
+    past_loc = t.loc;
+  }
 
-let grid_loc t =
-  fst
+(** [grid_loc t] is a tuple represting the grid location of a movable [t]. *)
+let grid_loc (x, y) =
+  (fst t.loc |> int_of_float, snd t.loc |> int_of_float)
