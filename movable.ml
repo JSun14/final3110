@@ -19,14 +19,14 @@ type projectile = {
 
 (** [is dead t] returns whether or not if a movable is dead *)
 let is_dead t =
-  if t.health = 0 then true else false
+  t.health = 0
 
 let stop_tank t =
   {t with velocity = (0.0, 0.0)}
 
 let move t =
   {t with loc = (fst t.loc +. fst t.velocity, snd t.loc +. snd t.velocity);
-    past_loc = t.loc;
+          past_loc = t.loc;
   }
 
 (** [grid_loc (x, y)] is a tuple represting the grid location of a [(x, y)]. *)
