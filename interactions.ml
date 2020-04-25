@@ -1,4 +1,4 @@
-open Tank
+open Movable
 (** 
 
    type tank_species = Blab | Blob | Bleb;

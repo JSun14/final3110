@@ -5,7 +5,7 @@ type tank = {
   past_loc : float * float;
   velocity : float * float;
   health : int;
-  last_fire_time : float;
+  last_fire_time : int;
   side : team;
 }
 
@@ -29,6 +29,6 @@ let move t =
     past_loc = t.loc;
   }
 
-(** [grid_loc t] is a tuple represting the grid location of a movable [t]. *)
+(** [grid_loc (x, y)] is a tuple represting the grid location of a [(x, y)]. *)
 let grid_loc (x, y) =
-  (fst t.loc |> int_of_float, snd t.loc |> int_of_float)
+  (x |> int_of_float, y |> int_of_float)

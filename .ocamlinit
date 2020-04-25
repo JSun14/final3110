@@ -3,5 +3,5 @@
 #require "ANSITerminal";;
 #directory "_build";;
 #load "main.cmo";;
-#load "tank.cmo";;
+#load "movable.cmo";;
 #load "interactions.cmo";;
