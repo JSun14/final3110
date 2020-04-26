@@ -65,14 +65,22 @@ let draw_grid () =
 
   set_color yellow;
 
-  let dummy = [0.0; 1.0; 2.0; 3.0; 4.0; 5.0; 6.0; 7.0; 8.0; 9.0; 10.0] in 
+  let dummy = [0.0; 1.0; 2.0; 3.0; 4.0; 5.0; 6.0; 7.0; 8.0; 9.0; 10.0; 
+    11.0; 12.0; 13.0; 14.0; 15.0; 16.0; 17.0; 18.0; 19.0; 20.0] in 
   let d_scaled = List.map (fun x -> x *. scale |> int_of_float) dummy in 
 
   let draw_horiz y_val = 
     moveto 0 y_val;
     rlineto 1000 0;
   in
-  List.map draw_horiz d_scaled
+  let draw_vert x_val =
+    moveto x_val 0;
+    rlineto 0 1000;
+  in
+  let _ = List.map draw_horiz d_scaled in 
+  let _ = List.map draw_vert d_scaled in 
+  ()
+  
 
 let render_frame (w:State.world) (st:State.state) =
   let () = clear_graph () in
