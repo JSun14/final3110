@@ -35,7 +35,7 @@ let rec game_helper w st =
   (* Render.execute world s3 *)
 
   let final_state = {
-    s3 with cycle_no = st.cycle_no + 1
+    s3 with cycle_no = s3.cycle_no + 1
   } in 
 
   let _ = Render.render_frame final_state in
