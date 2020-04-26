@@ -1,0 +1,13 @@
+{
+  "blocks" : {},
+  "tanks" : [
+    {
+      "loc": [
+        0.5,
+        0.5
+      ],
+      "health": 1,
+      "side": "Self"
+    }
+  ]
+}

@@ -59,3 +59,9 @@ let win_condition st =
       if h.side = Self then all_enemies_dead t
       else false
   in all_enemies_dead st.tanks
+
+let print_tank_info st = 
+  let rec helper lst = match lst with
+    | [] -> print_endline "________________________"
+    | h :: t -> Movable.tank_info h; helper t 
+  in helper st.tanks
