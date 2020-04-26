@@ -24,10 +24,10 @@ let tank_of_json json = {
         |> List.map (to_float) 
         |> lst_to_tuple;
   past_loc = json 
-            |> member "loc" 
-            |> to_list 
-            |> List.map (to_float) 
-            |> lst_to_tuple;
+             |> member "loc" 
+             |> to_list 
+             |> List.map (to_float) 
+             |> lst_to_tuple;
   velocity = (0.0, 0.0);
   health = json |> member "health" |> to_int;
   last_fire_time = 0;
@@ -39,9 +39,20 @@ let read_block_kind str = match str with
   | "Ditch" -> Ditch
   | _ -> failwith "invalid block kind"
 
-let block_of_json json = {
+let wall_of_json json = {
   id = json |> member "name" |> to_string;
-  kind = json |> member "kind" |> to_string |> read_block_kind;
+  kind = Wall;
+  width = json |> member "width" |> to_float;
+  coord = json 
+          |> member "coord" 
+          |> to_list 
+          |> List.map (to_float) 
+          |> lst_to_tuple;
+}
+
+let ditch_of_json json = {
+  id = json |> member "name" |> to_string;
+  kind = Ditch;
   width = json |> member "width" |> to_float;
   coord = json 
           |> member "coord" 
@@ -55,9 +66,9 @@ let from_json json = {
   wall_list = json 
               |> member "walls"
               |> to_list 
-              |> List.map block_of_json;
+              |> List.map wall_of_json;
   ditch_list = json 
                |> member "ditches" 
                |> to_list 
-               |> List.map block_of_json;
+               |> List.map ditch_of_json;
 }

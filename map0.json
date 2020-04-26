@@ -1,7 +1,7 @@
 {
-  "walls" : [],
-  "ditches" : [],
-  "tanks" : [
+  "walls": [],
+  "ditches": [],
+  "tanks": [
     {
       "loc": [
         0.5,
