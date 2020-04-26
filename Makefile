@@ -1,5 +1,5 @@
 # Add your modules here
-MODULES=movable interactions state block render input main
+MODULES=movable interactions state block render input process read_json main
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
