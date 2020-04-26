@@ -13,7 +13,8 @@ let rec wall_detect coords walls=
     else wall_detect coords t
 
 let tank_phys_engine=
-  failwith ("Unimplemented")
+  ()
+  (* failwith ("Unimplemented") *)
 
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
    tanks according to their velocities. If the tank is in a wall then move the 
@@ -24,7 +25,7 @@ let rec move_tank (tanks:Movable.tank list) walls=
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
     match wall_detect new_loc walls with
-    | Some w -> {loc = tank_phys_engine; past_loc = h.loc; velocity = (0.0,0.0); 
+    | Some w -> {loc = h.loc; past_loc = h.loc; velocity = (0.0,0.0); 
                  health = h.health; last_fire_time = h.last_fire_time; 
                  side = h.side;}::move_tank t walls
     | None -> {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
@@ -35,7 +36,8 @@ let rec move_tank (tanks:Movable.tank list) walls=
    it moves them up against the specific side of the wall that they first tried
    to pass through*)
 let proj_phys_engine=
-  failwith ("Unimplemented")
+  ()
+  (* failwith ("Unimplemented") *)
 (**[move_projs projs walls] is a list of active projectiles with updated 
    locations. If the proj's new location is inside a wall then remove it, but if 
    it is  *)
@@ -50,7 +52,7 @@ let rec move_projs (projs:Movable.projectile list) walls=
               ::move_projs t walls
     | Some w -> match h.weap_species with
       | Bouncy -> if h.health = 2 
-        then {loc = proj_phys_engine; past_loc = h.loc; velocity = (0.0,0.0); 
+        then {loc = h.loc; past_loc = h.loc; velocity = (0.0,0.0); 
               health = h.health; weap_species= h.weap_species;}::move_projs t walls
         else move_projs t walls
       | Standard -> move_projs t walls
