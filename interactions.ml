@@ -12,9 +12,15 @@ let rec wall_detect coords walls=
                (snd h.coord +. 0.5) >= (snd coords) then Some h 
     else wall_detect coords t
 
-let tank_phys_engine=
-  ()
-  (* failwith ("Unimplemented") *)
+let check_grid coordA coordB = 
+  if  Float.to_int (fst coordA)|> (-) (Float.to_int (fst coordB)) |> Int.abs < 2
+   && Float.to_int (snd coordA)|> (-) (Float.to_int (snd coordB)) |> Int.abs < 2
+  then false else true
+
+let rec tank_phys_engine tank walls=
+  match walls with
+  | [] -> false
+  | h::t -> if check_grid h.coord tank.loc then true else false
 
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
    tanks according to their velocities. If the tank is in a wall then move the 
@@ -24,20 +30,24 @@ let rec move_tank (tanks:Movable.tank list) walls=
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    match wall_detect new_loc walls with
-    | Some w -> {loc = h.loc; past_loc = h.loc; velocity = (0.0,0.0); 
-                 health = h.health; last_fire_time = h.last_fire_time; 
-                 side = h.side;}::move_tank t walls
-    | None -> {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
-               health = h.health; last_fire_time = h.last_fire_time; 
-               side = h.side;}::move_tank t walls
+    {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
+     health = h.health; last_fire_time = h.last_fire_time; 
+     side = h.side;}::move_tank t walls
+
+(*match wall_detect new_loc walls with
+  | Some w -> {loc = h.loc; past_loc = h.loc; velocity = (0.0,0.0); 
+             health = h.health; last_fire_time = h.last_fire_time; 
+             side = h.side;}::move_tank t walls
+  | None -> {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
+           health = h.health; last_fire_time = h.last_fire_time; 
+           side = h.side;}::move_tank t walls*)
 
 (**This should return a set of coordinates for both tanks and projectiles where
    it moves them up against the specific side of the wall that they first tried
    to pass through*)
 let proj_phys_engine=
   ()
-  (* failwith ("Unimplemented") *)
+(* failwith ("Unimplemented") *)
 (**[move_projs projs walls] is a list of active projectiles with updated 
    locations. If the proj's new location is inside a wall then remove it, but if 
    it is  *)
@@ -46,16 +56,20 @@ let rec move_projs (projs:Movable.projectile list) walls=
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    match wall_detect new_loc walls with
-    | None -> {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
-               health = h.health; weap_species= h.weap_species;}
-              ::move_projs t walls
-    | Some w -> match h.weap_species with
-      | Bouncy -> if h.health = 2 
-        then {loc = h.loc; past_loc = h.loc; velocity = (0.0,0.0); 
-              health = h.health; weap_species= h.weap_species;}::move_projs t walls
-        else move_projs t walls
-      | Standard -> move_projs t walls
+    {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
+     health = h.health; weap_species= h.weap_species;}
+    ::move_projs t walls
+
+(*match wall_detect new_loc walls with
+  | None -> {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
+           health = h.health; weap_species= h.weap_species;}
+          ::move_projs t walls
+  | Some w -> match h.weap_species with
+  | Bouncy -> if h.health = 2 
+    then {loc = h.loc; past_loc = h.loc; velocity = (0.0,0.0); 
+          health = h.health; weap_species= h.weap_species;}::move_projs t walls
+    else move_projs t walls
+  | Standard -> move_projs t walls*)
 
 
 
@@ -98,6 +112,7 @@ let rec proj_removal projs tanks walls=
   | h::t -> if tank_detect tanks h  
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
-let execute w st= 
-  (* failwith "Unimplemented" *)
+let wall_execute w st=
   st
+let execute w (st:State.state)= 
+  {st with tanks=move_tank st.tanks w; projectiles=move_projs st.projectiles w;}

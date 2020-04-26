@@ -6,7 +6,7 @@ let get_player_tank (tl:Movable.tank list) =
     List.find (fun t -> t.side = Self) tl
 
 let player_speed = 1.0
-
+let input_scale = 5.0
 (**[set_player_vel player u] sets the player tank's velocity according to keys pressed in u*)
 let set_player_vel (player:Movable.tank) u =
     let x0 = match u.a, u.d with

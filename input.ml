@@ -30,7 +30,7 @@ let get_user_in () =
     {
         lmb = button_down ();
         m_pos = (fst m_p |> float_of_int, snd m_p |> float_of_int);
-        w = List.mem 'x' keys;
+        w = List.mem 'w' keys;
         a = List.mem 'a' keys;
         s = List.mem 's' keys;
         d = List.mem 'd' keys;
