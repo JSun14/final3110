@@ -58,7 +58,7 @@ let main () =
   (* match read_line () with
      | exception End_of_file -> ()
      | file_name -> play_game file_name *)
-  start_rend;
+  let () = start_rend in
 
   let w = init_world (json_file_to_map "map0.json") in
   let s0 = init_state (json_file_to_map "map0.json") in
