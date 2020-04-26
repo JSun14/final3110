@@ -1,6 +1,5 @@
 open Block
 open Movable
-open Input
 
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
    list of walls and returns back a boolean of whether the entity is in a wall*)
@@ -99,6 +98,6 @@ let rec proj_removal projs tanks walls=
   | h::t -> if tank_detect tanks h  
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
-let execute w st u = 
+let execute w st= 
   (* failwith "Unimplemented" *)
   st

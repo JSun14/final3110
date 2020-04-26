@@ -2,6 +2,7 @@ open State
 open Render
 open Interactions
 open Input
+open Process
 open Read_json
 
 (* eventually needs to do something with w *)
@@ -28,7 +29,8 @@ let rec game_helper w st =
 
   let u_in = Input.get_user_in () in
   let _ = print_user_in u_in in
-  let s3 = Interactions.execute w st u_in in
+  let s2 = Process.process_u_in st u_in in
+  let s3 = Interactions.execute w s2 in
 (* Render.execute world s3 *)
 
   let final_state = {

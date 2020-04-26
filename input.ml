@@ -35,4 +35,3 @@ let get_user_in () =
         s = List.mem 's' keys;
         d = List.mem 'd' keys;
     }
-
