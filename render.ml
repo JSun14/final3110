@@ -7,18 +7,18 @@ let scale = 5.0
 let start_rend = 
   open_graph ":0"
 
-let clear = 
-  clear_graph ()
-
 let draw_tank (t:Movable.tank)=
   (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
   if t.side = Enemy then set_color red else set_color blue;
   draw_circle (fst t.loc |> int_of_float) (snd t.loc |> int_of_float) 4
 
 let draw_wall (t:Block.block)=
-  (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
   if t.kind = Wall then set_color yellow else set_color black;
-  draw_rect (fst t.coord |> int_of_float) (snd t.coord |> int_of_float) 1 1
+  let unscaled_x = fst t.coord |> int_of_float in
+  let unscaled_y = snd t.coord |> int_of_float in
+  draw_rect (int_of_float scale * unscaled_x) 
+    (int_of_float scale * unscaled_y) (int_of_float scale * 1) 
+    (int_of_float scale * 1)
 
 let draw_walls (tl:Block.block list) =
   List.map draw_wall tl
@@ -60,10 +60,12 @@ let remap_coords_world (w:State.world) =
     ditch_list = List.map remap_block w.ditch_list;
   }
 
-let render_frame (st:State.state) (w:State.world) =
+let render_frame (w:State.world) (st:State.state) =
+  let () = clear_graph () in
   let remapped_state = remap_coords_state st in 
   let remapped_world = remap_coords_world w in
-  draw_tanks remapped_state.tanks;
-  draw_walls remapped_world.wall_list;
-  draw_walls remapped_world.ditch_list;
 
+  let _ = draw_tanks remapped_state.tanks in
+  let _ = draw_walls remapped_world.wall_list in
+  let _ = draw_walls remapped_world.ditch_list in
+  ()
