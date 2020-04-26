@@ -31,10 +31,11 @@ let rec game_helper w st =
   let _ = print_user_in u_in in
   let s2 = Process.process_u_in st u_in in
   let s3 = Interactions.execute w s2 in
+  let s4 = Interactions.wall_execute w s3 in 
   (* Render.execute world s3 *)
 
   let final_state = {
-    s3 with cycle_no = s3.cycle_no + 1
+    s4 with cycle_no = s4.cycle_no + 1
   } in 
 
   let _ = Render.render_frame w final_state in
