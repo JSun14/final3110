@@ -5,7 +5,8 @@ open State
 let scale = 20.0
 
 let start_rend = 
-  open_graph ":0"
+  open_graph ":0";
+  auto_synchronize false
 
 let draw_tank (t:Movable.tank)=
   (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
@@ -92,4 +93,6 @@ let render_frame (w:State.world) (st:State.state) =
   let _ = draw_tanks remapped_state.tanks in
   let _ = draw_walls remapped_world.wall_list in
   let _ = draw_walls remapped_world.ditch_list in
+
+  let () = synchronize () in
   ()
