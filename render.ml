@@ -17,8 +17,8 @@ let draw_wall (t:Block.block)=
   let unscaled_x = fst t.coord |> int_of_float in
   let unscaled_y = snd t.coord |> int_of_float in
   draw_rect (int_of_float scale * unscaled_x) 
-    (int_of_float scale * unscaled_y) (int_of_float scale * 1) 
-    (int_of_float scale * 1)
+    (int_of_float scale * unscaled_y) (int_of_float scale * 2) 
+    (int_of_float scale * 2)
 
 let draw_walls (tl:Block.block list) =
   List.map draw_wall tl
