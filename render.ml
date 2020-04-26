@@ -2,7 +2,7 @@ open Graphics
 open Movable
 open State
 
-let scale = 5.0
+let scale = 20.0
 
 let start_rend = 
   open_graph ":0"
