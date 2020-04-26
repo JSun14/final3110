@@ -26,8 +26,6 @@ let rec game_helper w st =
   Unix.sleepf(0.01);
 
   let u_in = Input.get_user_in () in
-(* let s1 = Get_user_in.execute world state *)
-(* let s2 = Physics.execute world s1*)
   let _ = print_user_in u_in in
   let s3 = Interactions.execute w st u_in in
 (* Render.execute world s3 *)
@@ -36,7 +34,7 @@ let rec game_helper w st =
     s3 with cycle_no = st.cycle_no + 1
   } in 
 
-  let () = Render.render_frame final_state in
+  let _ = Render.render_frame final_state in
   if final_state.win_cond then 
     print_endline "GG EZ"
   else
