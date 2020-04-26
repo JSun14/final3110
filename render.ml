@@ -35,6 +35,14 @@ let remap_coords (st:State.state) =
         projectiles = List.map remap_proj st.projectiles
     }
 
+let draw_grid () =
+    (* let dummy = [0.0; 1.0; 2.0; 3.0; 4.0; 5.0; 6.0; 7.0; 8.0; 9.0; 10.0] in  *)
+    set_color yellow;
+    let () = moveto 0 10 in 
+    let () = rlineto 100 0 in
+    ()
+
+
 let render_frame (st:State.state) =
     let () = clear_graph () in
     let remapped = remap_coords st in 
