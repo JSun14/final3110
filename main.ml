@@ -55,13 +55,14 @@ let main () =
                   "\n\nWelcome to the Tank Game engine.\n");
   print_endline "Please enter the name of the game file you want to load.\n";
   print_string  "> ";
-  (* match read_line () with
-     | exception End_of_file -> ()
-     | file_name -> play_game file_name *)
+  let fn =
+  match read_line () with
+     | exception End_of_file -> failwith "BAD FILE NAME"
+     | file_name -> file_name in
   let () = start_rend in
 
-  let w = init_world (json_file_to_map "map0.json") in
-  let s0 = init_state (json_file_to_map "map0.json") in
+  let w = init_world (json_file_to_map fn) in
+  let s0 = init_state (json_file_to_map fn) in
   game_helper w s0
 
 (* Execute the game engine. *)
