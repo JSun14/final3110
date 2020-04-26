@@ -24,10 +24,10 @@ let tank_of_json json = {
         |> List.map (to_float) 
         |> lst_to_tuple;
   past_loc = json 
-             |> member "loc" 
-             |> to_list 
-             |> List.map (to_float) 
-             |> lst_to_tuple;
+            |> member "loc" 
+            |> to_list 
+            |> List.map (to_float) 
+            |> lst_to_tuple;
   velocity = (0.0, 0.0);
   health = json |> member "health" |> to_int;
   last_fire_time = 0;
@@ -53,12 +53,10 @@ let block_of_json json = {
 let from_json json = {
   tank_list = json |> member "tanks" |> to_list |> List.map tank_of_json;
   wall_list = json 
-              |> member "blocks" 
               |> member "walls"
               |> to_list 
               |> List.map block_of_json;
   ditch_list = json 
-               |> member "blocks" 
                |> member "ditches" 
                |> to_list 
                |> List.map block_of_json;

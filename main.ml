@@ -46,9 +46,8 @@ let rec game_helper w st =
   (* sleep for 1/100 of second *)
 
 let json_file_to_map f =
-  try let json = f |> Yojson.Basic.from_file in
+  let json = f |> Yojson.Basic.from_file in
     json |> Read_json.from_json
-  with e -> failwith ("Invalid map file")
 
 let main () =
   ANSITerminal.(print_string [red]
@@ -60,8 +59,8 @@ let main () =
   | file_name -> play_game file_name *)
   start_rend;
 
-  let w = init_world (json_file_to_map "map1.json") in
-  let s0 = init_state (json_file_to_map "map1.json") in
+  let w = init_world (json_file_to_map "map0.json") in
+  let s0 = init_state (json_file_to_map "map0.json") in
   game_helper w s0
 
 (* Execute the game engine. *)
