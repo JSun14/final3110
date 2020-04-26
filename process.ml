@@ -5,7 +5,7 @@ open Movable
 let get_player_tank (tl:Movable.tank list) =
     List.find (fun t -> t.side = Self) tl
 
-let player_speed = 0.2
+let player_speed = 0.1
 let input_scale = 5.0
 
 (**[set_player_vel player u] sets the player tank's velocity according to keys pressed in u*)

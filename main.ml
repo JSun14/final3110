@@ -25,7 +25,7 @@ let rec game_helper w st =
   print_state st;
   State.print_tank_info st;
 
-  Unix.sleepf(0.01);
+  Unix.sleepf(0.005);
 
   let u_in = Input.get_user_in () in
   let _ = print_user_in u_in in
