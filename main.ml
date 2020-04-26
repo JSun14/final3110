@@ -48,8 +48,7 @@ let rec game_helper w st =
 
 let json_file_to_map f =
   try let json = f |> Yojson.Basic.from_file in
-    let map = json |> Read_json.from_json in
-
+    json |> Read_json.from_json
   with e -> failwith "invalid game file"
 
 let main () =
@@ -57,14 +56,15 @@ let main () =
                   "\n\nWelcome to the Tank Game engine.\n");
   print_endline "Please enter the name of the game file you want to load.\n";
   print_string  "> ";
-
-  match read_line () with
-  | exception End_of_file -> ()
-  | file_name -> (json_file_to_map file_name)
-                   start_rend;
-    let w = init_world map in
-    let s0 = init_state map in
-    game_helper w s0
+  let fn =
+    match read_line () with
+    | exception End_of_file -> failwith "BAD FILE NAME"
+    | file_name -> file_name in
+  let () = start_rend in
+  let map = json_file_to_map fn in
+  let w = init_world map in
+  let s0 = init_state map in
+  game_helper w s0
 
 (* Execute the game engine. *)
 let () = main ()
