@@ -7,6 +7,7 @@ let get_player_tank (tl:Movable.tank list) =
 
 let player_speed = 1.0
 let input_scale = 5.0
+
 (**[set_player_vel player u] sets the player tank's velocity according to keys pressed in u*)
 let set_player_vel (player:Movable.tank) u =
     let x0 = match u.a, u.d with
@@ -18,7 +19,7 @@ let set_player_vel (player:Movable.tank) u =
     | false, true -> -1.0
     | _ -> 0.0 in
     {
-        player with velocity = (x0, y0)
+        player with velocity = (player_speed *. x0, player_speed *. y0)
     }
 
 (**[process_u_in st u] sets velocities and spawns things as needed in [st] based on [u] *)
