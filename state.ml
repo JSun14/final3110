@@ -22,6 +22,9 @@ type world = {
   ditch_list : Block.block list;
 }
 
+let init_state map = 
+  failwith "unimplemented"
+
 (** [is_player_dead st] is true when the player tank is dead and false
     when the player tank is alive. 
 

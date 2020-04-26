@@ -2,6 +2,12 @@ open Yojson.Basic.Util
 open Movable
 open Block
 
+type t = {
+  tank_list : Movable.tank list;
+  wall_list : Block.block list;
+  ditch_list : Block.block list;
+}
+
 let read_side str = match str with
   | "Self" -> Self
   | "Enemy" -> Enemy
@@ -18,15 +24,11 @@ let tank_of_json json = {
         |> List.map (to_float) 
         |> lst_to_tuple;
   past_loc = json 
-             |> member "past_loc" 
+             |> member "loc" 
              |> to_list 
              |> List.map (to_float) 
              |> lst_to_tuple;
-  velocity = json 
-             |> member "velocity" 
-             |> to_list 
-             |> List.map (to_float) 
-             |> lst_to_tuple;
+  velocity = (0.0, 0.0);
   health = json |> member "health" |> to_int;
   last_fire_time = 0;
   side = json |> member "side" |> to_string |> read_side;
@@ -46,4 +48,18 @@ let block_of_json json = {
           |> to_list 
           |> List.map (to_float) 
           |> lst_to_tuple;
+}
+
+let from_json json = {
+  tank_list = json |> member "tanks" |> to_list |> List.map tank_of_json;
+  wall_list = json 
+              |> member "blocks" 
+              |> member "walls"
+              |> to_list 
+              |> List.map block_of_json;
+  ditch_list = json 
+               |> member "blocks" 
+               |> member "ditches" 
+               |> to_list 
+               |> List.map block_of_json;
 }
