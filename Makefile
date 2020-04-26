@@ -1,5 +1,5 @@
 # Add your modules here
-MODULES=movable interactions state block render main
+MODULES=movable interactions state block render input main
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
