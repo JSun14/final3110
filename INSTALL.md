@@ -25,6 +25,7 @@ You will need an XServer to display graphics:
 
 Windows:
 XMing
+https://sourceforge.net/projects/xming/
 
 Mac:
 XQuartz
