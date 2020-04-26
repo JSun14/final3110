@@ -11,14 +11,16 @@ let rec wall_detect coords walls=
                (snd h.coord -. 0.5) <= (snd coords) && 
                (snd h.coord +. 0.5) >= (snd coords) then Some h 
     else wall_detect coords t
-(** 
-   let check_grid coordA coordB = 
-   if Float.to_int fst
 
-   let rec tank_phys_engine tank_center walls=
-   match walls with
-   | [] -> None
-   | h::t -> if *)
+let check_grid coordA coordB = 
+  if  Float.to_int (fst coordA)|> (-) (Float.to_int (fst coordB)) |> Int.abs < 2
+   && Float.to_int (snd coordA)|> (-) (Float.to_int (snd coordB)) |> Int.abs < 2
+  then false else true
+
+let rec tank_phys_engine tank walls=
+  match walls with
+  | [] -> false
+  | h::t -> if check_grid h.coord tank.loc then true else false
 
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
    tanks according to their velocities. If the tank is in a wall then move the 
