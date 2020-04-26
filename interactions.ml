@@ -1,6 +1,6 @@
 open Block
 open Movable
-
+open State
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
    tanks according to their velocities. If the tank is in a wall then move the 
    tank up to the wall. Set the tanks' velocities to 0.*)
@@ -152,6 +152,6 @@ let rec proj_removal projs tanks walls=
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
 let wall_execute w (st:State.state)=
-  {st with tanks= check_tank_wall (move_tank st.tanks w) w;}
+  {st with tanks= check_tank_wall (move_tank st.tanks w.wall_list) w.wall_list;}
 let execute w (st:State.state)= 
-  {st with tanks=move_tank st.tanks w; projectiles=move_projs st.projectiles w;}
+  {st with tanks=move_tank st.tanks w.wall_list; projectiles=move_projs st.projectiles w.wall_list;}
