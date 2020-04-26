@@ -100,8 +100,9 @@ let tank_touch_wall wall (tank:Movable.tank)=
 let rec tank_phys_engine (tank:Movable.tank) walls : Movable.tank =
   match walls with
   | [] -> tank
-  | h::t ->  if tank_touch_wall h tank
-    then {tank with loc=tank.past_loc;}
+  | h::t ->  if check_grid h.coord tank.loc then if tank_touch_wall h tank
+      then {tank with loc=tank.past_loc;}
+      else tank_phys_engine tank t
     else tank_phys_engine tank t
 
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
