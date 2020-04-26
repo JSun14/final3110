@@ -68,7 +68,7 @@ let check_grid coordA coordB =
 
 (**[tank_touch_wall wall tank] returns a bool as to whether a tank is touching
    a specific wall*)
-let tank_touch_wall wall tank=
+let tank_touch_wall wall (tank:Movable.tank)=
   let corn1 = (fst wall.coord-.0.5, snd wall.coord-.0.5) in
   let corn2 = (fst wall.coord+.0.5, snd wall.coord-.0.5) in
   let corn3 = (fst wall.coord+.0.5, snd wall.coord+.0.5) in
@@ -85,7 +85,7 @@ let tank_touch_wall wall tank=
 
 (**[tank_phys_engine tank walls] returns a tank with values either unchanged or 
    changed depending on if the tank touched a wall*)
-let rec tank_phys_engine tank walls=
+let rec tank_phys_engine (tank:Movable.tank) walls : Movable.tank =
   match walls with
   | [] -> tank
   | h::t -> if check_grid h.coord tank.loc then if tank_touch_wall h tank
@@ -105,7 +105,7 @@ let rec proj_phys_engine proj walls=
 
 (**[check_tank_wall tanks walls] returns list of tanks after performing 
    interactions with walls*)
-let rec check_tank_wall tanks walls=
+let rec check_tank_wall (tanks:Movable.tank list) walls : Movable.tank list=
   match tanks with
   | [] -> [] 
   | h::t -> tank_phys_engine h walls :: check_tank_wall t walls
@@ -151,7 +151,7 @@ let rec proj_removal projs tanks walls=
   | h::t -> if tank_detect tanks h  
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
-let wall_execute w st=
-  st
+let wall_execute w (st:State.state)=
+  {st with tanks= check_tank_wall (move_tank st.tanks w) w;}
 let execute w (st:State.state)= 
   {st with tanks=move_tank st.tanks w; projectiles=move_projs st.projectiles w;}
