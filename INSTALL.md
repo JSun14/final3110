@@ -12,7 +12,7 @@ sudo apt-get install libx11-dev
 Mac (Pick One)
 ```
 brew install pkg-config
-macports intall pkg-config
+macports install pkg-config
 ```
 
 run:
