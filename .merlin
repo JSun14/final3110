@@ -5,3 +5,4 @@ PKG unix
 PKG ocamlbuild
 PKG graphics
 PKG ANSITerminal
+PKG yojson
