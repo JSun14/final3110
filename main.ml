@@ -37,7 +37,7 @@ let rec game_helper w st =
     s3 with cycle_no = s3.cycle_no + 1
   } in 
 
-  let _ = Render.render_frame final_state in
+  let _ = Render.render_frame w final_state in
   if final_state.win_cond then 
     print_endline "GG EZ"
   else
