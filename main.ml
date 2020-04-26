@@ -2,20 +2,21 @@ open State
 open Render
 open Interactions
 open Input
+open Read_json
 
 (* eventually needs to do something with w *)
-let init_state w = {
+let init_state map = {
   cycle_no = 0; 
   score = 0;
-  tanks = [];
+  tanks = map.tank_list;
   projectiles = [];
   win_cond = false;
 }
 
 (* eventually needs to load world from json *)
-let init_world = {
-  wall_list = [];
-  ditch_list = [];
+let init_world map = {
+  wall_list = map.wall_list;
+  ditch_list = map.ditch_list;
 }
 
 let rec game_helper w st =

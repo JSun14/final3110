@@ -33,3 +33,11 @@ let move t =
 (** [grid_loc (x, y)] is a tuple represting the grid location of a [(x, y)]. *)
 let grid_loc (x, y) =
   (x |> int_of_float, y |> int_of_float)
+
+let tuple_to_string (t : float * float) = 
+  "(" ^ (fst t |> string_of_float) ^ ", " ^ (snd t |> string_of_float) ^ ")"
+
+let print_tank_info t = 
+  print_endline ("Current location: " ^ (tuple_to_string t.loc));
+  print_endline ("Velocity: " ^ (tuple_to_string t.velocity));
+  print_endline ("Health: " ^ (string_of_int t.health))
