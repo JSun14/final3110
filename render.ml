@@ -7,9 +7,6 @@ let scale = 5.0
 let start_rend = 
     open_graph ":0"
 
-let clear = 
-    clear_graph ()
-
 let draw_tank (t:Movable.tank)=
 (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
     if t.side = Enemy then set_color red else set_color blue;
@@ -39,6 +36,7 @@ let remap_coords (st:State.state) =
     }
 
 let render_frame (st:State.state) =
+    let () = clear_graph () in
     let remapped = remap_coords st in 
     draw_tanks remapped.tanks
 

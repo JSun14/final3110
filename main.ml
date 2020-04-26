@@ -24,7 +24,6 @@ let rec game_helper w st =
   (* print debug info about game state *)
   print_state st;
   State.print_tank_info st;
-  Render.clear;
 
   Unix.sleepf(0.01);
 
