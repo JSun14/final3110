@@ -12,7 +12,7 @@ sudo apt-get install libx11-dev
 Mac (Pick One)
 ```
 brew install pkg-config
-macports install pkg-config
+sudo port install pkgconfig
 ```
 
 run:
@@ -29,6 +29,7 @@ https://sourceforge.net/projects/xming/
 
 Mac:
 XQuartz
+Install via: https://www.xquartz.org/
 
 Unix:
 ???
