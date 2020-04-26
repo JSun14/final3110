@@ -18,7 +18,7 @@ let draw_wall (t:Block.block)=
   if t.kind = Wall then set_color yellow else set_color black;
   let unscaled_x = fst t.coord |> int_of_float in
   let unscaled_y = snd t.coord |> int_of_float in
-  draw_rect (int_of_float scale * unscaled_x) 
+  fill_rect (int_of_float scale * unscaled_x) 
     (int_of_float scale * unscaled_y) (int_of_float scale * 1) 
     (int_of_float scale * 1)
 
@@ -82,7 +82,7 @@ let draw_grid () =
   let _ = List.map draw_horiz d_scaled in 
   let _ = List.map draw_vert d_scaled in 
   ()
-  
+
 
 let render_frame (w:State.world) (st:State.state) =
   let () = clear_graph () in
