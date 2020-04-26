@@ -47,8 +47,7 @@ let rec move_projs (projs:Movable.projectile list) walls=
 
 (**[get_distance_from pointA pointB] calculates the distance from 2 points*)
 let get_distance_from pointA pointB =
-  sqrt((fst(pointA) -. fst(pointB))*.(fst(pointA) -. fst(pointB)) +. 
-       (snd(pointA) -. snd(pointB))*.(snd(pointA) -. snd(pointB)))
+  sqrt(Float.pow (fst(pointA) -. fst(pointB)) 2.0 +. Float.pow (snd(pointA) -. snd(pointB)) 2.0)
 
 
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
@@ -66,31 +65,43 @@ let check_grid coordA coordB =
    && Float.to_int (snd coordA)|> (-) (Float.to_int (snd coordB)) |> Int.abs < 2
   then true else false
 
+let edge_touch_tank (tank:Movable.tank) corn2 corn1=
+  let tank_radius = 0.4 in
+  let ax = fst corn2 -. fst tank.loc in let ay = snd corn2 -. snd tank.loc in let bx = fst corn1 -. fst tank.loc in let by = snd corn1 -. snd tank.loc in
+  let a = Float.pow (bx -. ax) 2.0 +. Float.pow (by -. ay) 2.0 in
+  let b = 2.0 *. (ax *. (bx -. ax) +. ay *. (by -. ay)) in
+  let c = Float.pow ax 2.0 +. Float.pow ay 2.0 -. Float.pow tank_radius 2.0 in 
+  let disc = Float.pow b 2.0 -. 4.0*.a*.c in 
+  if disc <= 0.0 then false else 
+    let sqrt_disc = Float.sqrt disc in 
+    let t1 = (Float.neg b +. sqrt_disc ) /. (2.0*.a) in
+    let t2 = (Float.neg b -. sqrt_disc ) /. (2.0*.a) in
+    if (0.0 < t1 && t1 < 1.0) || (0.0 < t2 && t2 < 1.0) then true else false
+
 (**[tank_touch_wall wall tank] returns a bool as to whether a tank is touching
    a specific wall*)
 let tank_touch_wall wall (tank:Movable.tank)=
-  let corn1 = (fst wall.coord-.0.5, snd wall.coord-.0.5) in
-  let corn2 = (fst wall.coord+.0.5, snd wall.coord-.0.5) in
-  let corn3 = (fst wall.coord+.0.5, snd wall.coord+.0.5) in
-  let corn4 = (fst wall.coord-.0.5, snd wall.coord+.0.5) in
-  let edge1 = Float.abs ((fst corn4 -. fst corn1)*.(fst tank.loc) +. (snd corn1 -. snd corn4)*.(snd tank.loc) +. (fst corn1 -. fst corn4)*.(snd corn1) +. (snd corn4 -. snd corn1)*.(fst corn1)) /. Float.sqrt ((Float.pow (fst corn4 -. fst corn1) 2.0)+.(Float.pow (snd corn1 -. snd corn4) 2.0)) in
-  let edge2 = Float.abs ((fst corn2 -. fst corn1)*.(fst tank.loc) +. (snd corn1 -. snd corn2)*.(snd tank.loc) +. (fst corn1 -. fst corn2)*.(snd corn1) +. (snd corn2 -. snd corn1)*.(fst corn1)) /. Float.sqrt ((Float.pow (fst corn2 -. fst corn1) 2.0)+.(Float.pow (snd corn1 -. snd corn2) 2.0)) in
-  let edge3 = Float.abs ((fst corn2 -. fst corn3)*.(fst tank.loc) +. (snd corn3 -. snd corn2)*.(snd tank.loc) +. (fst corn3 -. fst corn2)*.(snd corn3) +. (snd corn2 -. snd corn3)*.(fst corn3)) /. Float.sqrt ((Float.pow (fst corn2 -. fst corn3) 2.0)+.(Float.pow (snd corn3 -. snd corn2) 2.0)) in
-  let edge4 = Float.abs ((fst corn4 -. fst corn3)*.(fst tank.loc) +. (snd corn3 -. snd corn4)*.(snd tank.loc) +. (fst corn3 -. fst corn4)*.(snd corn3) +. (snd corn4 -. snd corn3)*.(fst corn3)) /. Float.sqrt ((Float.pow (fst corn4 -. fst corn3) 2.0)+.(Float.pow (snd corn3 -. snd corn4) 2.0)) in
-  if get_distance_from tank.loc corn1 < 0.4 || 
-     get_distance_from tank.loc corn2 < 0.4 || 
-     get_distance_from tank.loc corn3 < 0.4 ||
-     get_distance_from tank.loc corn4 < 0.4 || edge1 < 0.4 || edge2 < 0.4 || 
-     edge3 < 0.4 || edge4 < 0.4 then true else false
+  let half_wall_width = 0.5 in
+  let tank_radius = 0.4 in
+  let corn1 = (fst wall.coord-.half_wall_width, snd wall.coord-.half_wall_width) in
+  let corn2 = (fst wall.coord+.half_wall_width, snd wall.coord-.half_wall_width) in
+  let corn3 = (fst wall.coord+.half_wall_width, snd wall.coord+.half_wall_width) in
+  let corn4 = (fst wall.coord-.half_wall_width, snd wall.coord+.half_wall_width) in
+  if get_distance_from tank.loc corn1 < tank_radius || 
+     get_distance_from tank.loc corn2 < tank_radius || 
+     get_distance_from tank.loc corn3 < tank_radius ||
+     get_distance_from tank.loc corn4 < tank_radius || 
+     edge_touch_tank tank corn4 corn1 || edge_touch_tank tank corn2 corn1 ||
+     edge_touch_tank tank corn3 corn2 || edge_touch_tank tank corn3 corn4
+  then true else false
 
 (**[tank_phys_engine tank walls] returns a tank with values either unchanged or 
    changed depending on if the tank touched a wall*)
 let rec tank_phys_engine (tank:Movable.tank) walls : Movable.tank =
   match walls with
   | [] -> tank
-  | h::t -> if check_grid h.coord tank.loc then if tank_touch_wall h tank
-      then {tank with loc=tank.past_loc;}
-      else tank_phys_engine tank t
+  | h::t ->  if tank_touch_wall h tank
+    then {tank with loc=tank.past_loc;}
     else tank_phys_engine tank t
 
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
