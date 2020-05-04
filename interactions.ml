@@ -163,6 +163,6 @@ let rec proj_removal projs tanks walls=
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
 let wall_execute w (st:State.state)=
-  {st with tanks= check_tank_wall st.tanks w.wall_list;}
+  {st with tanks= check_tank_wall st.tanks (w.wall_list@w.ditch_list);}
 let execute w (st:State.state)= 
   {st with tanks=move_tank st.tanks w.wall_list; projectiles=move_projs st.projectiles w.wall_list;}
