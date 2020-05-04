@@ -56,4 +56,4 @@ let tank_info (t : tank) =
 let proj_info (p : projectile) = 
   print_string ("Current location: " ^ (tuple_to_string p.loc));
   print_string (", Velocity: " ^ (tuple_to_string p.velocity));
-  print_string (", Health: " ^ (string_of_int p.health))
+  print_string (", Health: " ^ (string_of_int p.health ^ "\n"))
