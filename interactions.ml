@@ -76,18 +76,20 @@ let tank_touch_wall wall (tank:Movable.tank)=
      edge_touch_tank tank corn3 corn2 || edge_touch_tank tank corn3 corn4
   then true else false
 
+let rec tank_touch_tank (tanks: Movable.tank list) (tank: Movable.tank)=
+  match tanks with
+  | [] -> false
+  | h::t -> if h.loc <> tank.loc && (get_distance_from h.loc tank.loc) < 0.8 then true else tank_touch_tank t tank
+
 (**[tank_phys_engine tank walls] returns a tank with values either unchanged or 
    changed depending on if the tank touched a wall*)
-let rec tank_phys_engine (tank:Movable.tank) walls : Movable.tank =
-  match walls with
-  | [] -> tank
-  | h::t ->  if check_grid h.coord tank.loc then if tank_touch_wall h tank
+let rec tank_phys_engine (tanks:Movable.tank list) (tank:Movable.tank) walls : Movable.tank =
+  if tank_touch_tank tanks tank then {tank with loc=tank.past_loc;} else
+    match walls with
+    | [] -> tank
+    | h::t ->  if (check_grid h.coord tank.loc && tank_touch_wall h tank) 
       then {tank with loc=tank.past_loc;}
-      else tank_phys_engine tank t
-    else tank_phys_engine tank t
-
-(* if a projectile is in a wall (where past loc is different,
-   x grid coord changed hit vertical wall) then change velocity based on that *)
+      else tank_phys_engine tanks tank t
 
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
    Some proj if it is with modified proj values.*)
@@ -104,7 +106,7 @@ let rec proj_phys_engine proj walls=
 let rec check_tank_wall (tanks:Movable.tank list) walls : Movable.tank list=
   match tanks with
   | [] -> [] 
-  | h::t -> tank_phys_engine h walls :: check_tank_wall t walls
+  | h::t -> tank_phys_engine tanks h walls :: check_tank_wall t walls
 
 let rec check_proj_wall walls (projs:Movable.projectile list) : Movable.projectile list=
   match projs with
