@@ -70,7 +70,10 @@ let print_tank_info st =
   in helper st.tanks
 
 let print_proj_info st =
-  List.map (fun x -> Movable.proj_info x) st.projectiles
+  let rec helper lst = match lst with 
+    | [] -> print_endline "________________________"
+    | h :: t -> Movable.proj_info h; helper t 
+  in helper st.projectiles
 
 (** [player_tank st_stank_list] is the player tank
 
