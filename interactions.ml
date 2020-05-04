@@ -111,8 +111,8 @@ let rec proj_phys_engine proj walls=
   match walls with
   | [] -> Some proj
   | h::t -> if wall_detect proj.loc h then match proj.weap_species with
-      | Bouncy -> Some proj (**IMPLEMENT PROJ REFLECTION *)
-      | Standard -> None
+      | Standard -> Some proj (**IMPLEMENT PROJ REFLECTION *)
+      | Rocket -> None
     else proj_phys_engine proj t
 
 (**[check_tank_wall tanks walls] returns list of tanks after performing 

@@ -1,5 +1,5 @@
 type team = Self | Enemy
-type proj_species = Bouncy | Standard
+type proj_species = Standard | Rocket
 
 type tank = {
   loc : float * float;
