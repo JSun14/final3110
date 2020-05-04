@@ -26,7 +26,7 @@ let make_bullet l v = {
   past_loc = fdiff l v;
   velocity = v;
   health = 1;
-  weap_species = Bouncy;
+  weap_species = Bullet;
 }
 
 (** [is dead t] returns whether or not if a movable is dead *)

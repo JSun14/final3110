@@ -13,11 +13,16 @@ type state = {
   win_cond : progress
 }
 
+(** [string_of_progress prog] is a string value of [prog] *)
 let string_of_progress (prog : progress) : string = match prog with
   | Playing -> "playing"
   | Win -> "won"
   | Loss -> "lost"
 
+(** [print_state st] prints information about the state of the game
+    including the cycle number and the progress of [st] 
+
+    Requires: [st] is a valid game state. *)
 let print_state st = 
   (* more print statements *)
   print_endline ("Cycle No: " ^ string_of_int st.cycle_no);
@@ -27,26 +32,6 @@ type world = {
   wall_list : Block.block list;
   ditch_list : Block.block list;
 }
-
-(** [is_player_dead st] is true when the player tank is dead and false
-    when the player tank is alive. 
-
-    Requires: [st] is a valid game state *)
-let is_player_dead st = 
-  (** [helper lst] is true when the player tank is dead and false
-      when the player tank is alive. *)
-  let rec helper lst = match lst with 
-    | [] -> true
-    | h :: t -> 
-      if h.side = Enemy then helper t
-      else false
-  in helper st.tanks
-
-(** [loss_condition st] is whether the player has lost the game. 
-    [loss_condition st] is true when the player has lost, and false if
-    the game is ongoing or the player has won. *)
-let loss_condition st =
-  is_player_dead st
 
 (** [win_condition st] is whether the player has won the game. 
     It is true when the player has won the game and false if it is
@@ -62,13 +47,20 @@ let win_condition st =
   else if not enemy_tank then Win
   else Playing
 
+(** [print_tank_info st] prints information about every living tank
+    in [st]
+
+    Requires: [st] is a valid game state. *)
 let print_tank_info st = 
   let rec helper lst = match lst with
     | [] -> print_endline "________________________"
     | h :: t -> Movable.tank_info h; helper t 
   in helper st.tanks
 
-(** [get_player_tank st_stank_list] is the player tank *)
+(** [print_proj_info st] prints information about every viable projectile
+    in [st]
+
+    Requires: [st] is a valid game state.  *)
 let print_proj_info st =
   let rec helper lst = match lst with 
     | [] -> print_endline "________________________"
@@ -95,3 +87,6 @@ let update_tank_list old_tank_list new_player_tank =
     Requires: [st] is a valid game state *)
    let player_loc st = 
    (get_player_tank st).loc  *)
+
+let enemy_tanks st = 
+  List.filter (fun x -> x.side = Enemy) st.tanks

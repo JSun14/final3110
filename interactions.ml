@@ -86,6 +86,9 @@ let rec tank_phys_engine (tank:Movable.tank) walls : Movable.tank =
       else tank_phys_engine tank t
     else tank_phys_engine tank t
 
+(* if a projectile is in a wall (where past loc is different,
+   x grid coord changed hit vertical wall) then change velocity based on that *)
+
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
    Some proj if it is with modified proj values.*)
 let rec proj_phys_engine proj walls=
@@ -103,12 +106,12 @@ let rec check_tank_wall (tanks:Movable.tank list) walls : Movable.tank list=
   | [] -> [] 
   | h::t -> tank_phys_engine h walls :: check_tank_wall t walls
 
-let rec check_proj_wall projs walls=
+let rec check_proj_wall walls (projs:Movable.projectile list) : Movable.projectile list=
   match projs with
   | [] -> []
   | h::t -> match proj_phys_engine h walls with
-    | None -> check_proj_wall t walls
-    | Some proj -> proj::check_proj_wall t walls
+    | None -> check_proj_wall walls t
+    | Some proj -> proj::check_proj_wall walls t
 
 (**[hitbox_detect tank projs] takes in a tank and tests if any projectiles are
    in the tank's hitbox and returns true if a projectile hit a tank and false
@@ -136,7 +139,7 @@ let rec proj_removal (projs:Movable.projectile list) (tanks:Movable.tank list) w
   | h::t -> proj_removal (tank_detect h projs) t walls
 
 let entity_removal_execute w (st:State.state)=
-  {st with tanks=tank_removal st.projectiles st.tanks; projectiles=proj_removal st.projectiles st.tanks w.wall_list}
+  {st with tanks=tank_removal st.projectiles st.tanks; projectiles=(proj_removal st.projectiles st.tanks w.wall_list) |> check_proj_wall w.wall_list}
 let wall_execute w (st:State.state)=
   {st with tanks= check_tank_wall st.tanks (w.wall_list@w.ditch_list);}
 let execute w (st:State.state)= 
