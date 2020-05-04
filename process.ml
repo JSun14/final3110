@@ -2,9 +2,6 @@ open Input
 open State
 open Movable
 
-let get_player_tank (tl:Movable.tank list) =
-    List.find (fun t -> t.side = Self) tl
-
 let player_speed = 0.1
 let input_scale = 5.0
 
@@ -23,15 +20,20 @@ let set_player_vel (player:Movable.tank) u =
     }
 
 (** [generate_palyer_proj player u] spawns a projectile *)
-let generate_player_proj player u =
-    
+let player_shoot st u =
+    let player = player_tank st.tanks in
+    (* 5 is a hard coded min reload time *)
+    let shoot = st.cycle_no - player.last_fire_time < 5 &&
+    u.lmb = true in 
+    if shoot then make_bullet 
+
 (**[process_u_in st u] sets velocities and spawns things as needed in [st] based on [u] *)
 let process_u_in st (u:Input.user_in_data) =
-    let player = get_player_tank st.tanks in
+    let player = player_tank st.tanks in
     let enemies = List.filter (fun t -> t.side = Enemy) st.tanks in
     let new_tank_list = (set_player_vel player u)::enemies in
-    let new_projectile_list = 
+    let new_projectile_list = (player_shoot st u)::st.projectiles in
     {
         st with tanks = new_tank_list;
-        with projectiles = 
+        with projectiles = new_projectile_list;
     }
