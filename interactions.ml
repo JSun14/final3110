@@ -86,6 +86,9 @@ let rec tank_phys_engine (tank:Movable.tank) walls : Movable.tank =
       else tank_phys_engine tank t
     else tank_phys_engine tank t
 
+(* if a projectile is in a wall (where past loc is different,
+   x grid coord changed hit vertical wall) then change velocity based on that *)
+
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
    Some proj if it is with modified proj values.*)
 let rec proj_phys_engine proj walls=
