@@ -3,6 +3,7 @@ open Movable
 open State
 
 open Util
+open Const
 
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
    tanks according to their velocities. If the tank is in a wall then move the 
@@ -25,7 +26,7 @@ let rec move_projs (projs:Movable.projectile list) walls=
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
+    {loc = new_loc; past_loc = h.loc; velocity = h.velocity; 
      health = h.health; weap_species= h.weap_species;}
     ::move_projs t walls
 

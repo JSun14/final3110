@@ -3,9 +3,6 @@ open Util
 type team = Self | Enemy
 type proj_species = Standard | Rocket
 
-let standard_vel = 3.0
-let tank_rad = 0.4
-
 type tank = {
   loc : float * float;
   past_loc : float * float;

@@ -1,4 +1,5 @@
 open Graphics
+open Const 
 
 type user_in_data = {
     lmb : bool;
@@ -23,8 +24,6 @@ let rec get_keys acc =
     if key_pressed () 
         then get_keys (read_key () :: acc) 
     else acc 
-
-let scale = 20.0
 
 let get_user_in () =
     let keys = get_keys [] in
