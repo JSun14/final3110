@@ -23,7 +23,8 @@ let init_world map = {
 let evaluate_progress st = 
   if not (loss_condition st) && not (win_condition st) then Playing
   else if loss_condition st then Loss
-  else Win
+  else if win_condition st then Win
+  else failwith "impossible JERRY"
 
 let rec game_helper w st =
   (* print debug info about game state *)
