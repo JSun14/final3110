@@ -30,6 +30,9 @@ let draw_projectile (p:Movable.projectile) =
   moveto x y;
   lineto (x + x_vel) (y + y_vel)
 
+let draw_projectiles (pl : Movable.projectile list) =
+  List.map draw_projectile pl
+
 let draw_walls (tl:Block.block list) =
   List.map draw_wall tl
 
@@ -102,6 +105,7 @@ let render_frame (w:State.world) (st:State.state) =
   let _ = draw_tanks remapped_state.tanks in
   let _ = draw_walls remapped_world.wall_list in
   let _ = draw_walls remapped_world.ditch_list in
+  let _ = draw_projectiles remapped_state.projectiles in
 
   let () = synchronize () in
   ()
