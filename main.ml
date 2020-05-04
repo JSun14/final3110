@@ -30,15 +30,15 @@ let rec game_helper w st =
 
   let u_in = Input.get_user_in () in
   let _ = print_user_in u_in in
-  let s2 = Process.process_u_in st u_in in
-  let s3 = Interactions.execute w s2 in
-  let s4 = Interactions.wall_execute w s3 in 
-  let s5 = Interactions.entity_removal_execute w s4 in 
+  let s = Process.process_u_in st u_in in
+  let s = Interactions.execute w s in
+  let s = Interactions.wall_execute w s in 
+  let s = Interactions.entity_removal_execute w s in 
   (* Render.execute world s3 *)
 
   let final_state = {
-    s5 with cycle_no = s5.cycle_no + 1; 
-            win_cond = State.win_condition s4
+    s with cycle_no = s.cycle_no + 1; 
+            win_cond = State.win_condition s
   } in 
 
   let _ = Render.render_frame w final_state in match final_state.win_cond with

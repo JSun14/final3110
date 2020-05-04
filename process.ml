@@ -24,7 +24,7 @@ let gen_bullet st u =
     let player = get_player_tank st.tanks in 
     let target_vec_hat = fdiff u.m_pos player.loc |> unit_vec in 
     let bull_vel = fscale target_vec_hat Const.standard_vel in
-    let spawn_loc = fsum player.loc (fscale target_vec_hat (Const.tank_rad +. Util.eps)) in 
+    let spawn_loc = fsum player.loc (fscale target_vec_hat (Const.tank_rad +. Const.eps)) in 
     (make_bullet spawn_loc bull_vel)::st.projectiles
 
 (** [generate_palyer_proj player u] spawns a projectile *)
