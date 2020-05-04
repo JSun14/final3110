@@ -69,23 +69,24 @@ let print_tank_info st =
     | h :: t -> Movable.tank_info h; helper t 
   in helper st.tanks
 
+(** [get_player_tank st_stank_list] is the player tank *)
 let print_proj_info st =
   let rec helper lst = match lst with 
     | [] -> print_endline "________________________"
     | h :: t -> Movable.proj_info h; helper t 
   in helper st.projectiles
 
-(** [player_tank st_stank_list] is the player tank
+(** [get_player_tank st_stank_list] is the player tank
 
     Requires: [st_tank_list] is a valid game state tank list*)
-let player_tank st_tank_list = 
+let get_player_tank st_tank_list = 
   let player_list = List.filter (fun x -> x.side = Self) st_tank_list in
   if List.length player_list = 0 then failwith "player tank dead"
   else List.hd player_list
 
-(** [player_loc st] is the location of the player tank on the map
+(* (** [player_loc st] is the location of the player tank on the map
     as a tuple of floats 
 
     Requires: [st] is a valid game state *)
 let player_loc st = 
-  (player_tank st).loc 
+  (get_player_tank st).loc  *)

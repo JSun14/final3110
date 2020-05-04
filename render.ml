@@ -1,8 +1,7 @@
 open Graphics
 open Movable
 open State
-
-let scale = 20.0
+open Input 
 
 let start_rend = 
   open_graph ":0";
