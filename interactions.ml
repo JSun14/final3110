@@ -92,8 +92,8 @@ let rec proj_phys_engine proj walls=
   match walls with
   | [] -> Some proj
   | h::t -> if wall_detect proj.loc h then match proj.weap_species with
-      | Standard -> Some proj (**IMPLEMENT PROJ REFLECTION *)
-      | Rocket -> None
+      | Bouncy -> Some proj (**IMPLEMENT PROJ REFLECTION *)
+      | Bullet -> None
     else proj_phys_engine proj t
 
 (**[check_tank_wall tanks walls] returns list of tanks after performing 
@@ -110,7 +110,6 @@ let rec check_proj_wall projs walls=
     | None -> check_proj_wall t walls
     | Some proj -> proj::check_proj_wall t walls
 
-
 (**[hitbox_detect tank projs] takes in a tank and tests if any projectiles are
    in the tank's hitbox and returns true if a projectile hit a tank and false
    if it didn't*)
@@ -126,19 +125,15 @@ let rec tank_removal (projs:Movable.projectile list) (tanks:Movable.tank list) :
 
 (**[tank_detect tanks proj] takes in a list of tanks and a projectile and checks
    to see if a projectile should be removed due to it hitting a tank via bool *)
-let rec tank_detect (tanks: Movable.tank list) proj=
-  match tanks with
-  | [] -> true
-  | h::t -> if get_distance_from proj.loc h.loc < 0.4 then false
-    else tank_detect t proj
+let tank_detect (tank: Movable.tank) (projs: Movable.projectile list) : Movable.projectile list=
+  List.filter (fun (p:Movable.projectile) -> get_distance_from p.loc tank.loc > 0.4) projs
 
 (**[proj_removal projs tanks obs] takes in a list of projs, tanks, and walls and
    returns back an active list of projectiles *)
 let rec proj_removal (projs:Movable.projectile list) (tanks:Movable.tank list) walls : Movable.projectile list = 
-  match projs with
-  | [] -> []
-  | h::t -> if tank_detect tanks h  
-    then h::proj_removal t tanks walls else proj_removal t tanks walls
+  match tanks with
+  | [] -> projs
+  | h::t -> proj_removal (tank_detect h projs) t walls
 
 let entity_removal_execute w (st:State.state)=
   {st with tanks=tank_removal st.projectiles st.tanks; projectiles=proj_removal st.projectiles st.tanks w.wall_list}

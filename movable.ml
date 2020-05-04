@@ -1,7 +1,7 @@
 open Util
 
 type team = Self | Enemy
-type proj_species = Standard | Rocket
+type proj_species = Bouncy | Bullet
 
 type tank = {
   loc : float * float;
@@ -26,7 +26,7 @@ let make_bullet l v = {
   past_loc = fdiff l v;
   velocity = v;
   health = 1;
-  weap_species = Standard;
+  weap_species = Bouncy;
 }
 
 (** [is dead t] returns whether or not if a movable is dead *)
