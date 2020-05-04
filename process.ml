@@ -22,11 +22,16 @@ let set_player_vel (player:Movable.tank) u =
         player with velocity = (player_speed *. x0, player_speed *. y0)
     }
 
+(** [generate_palyer_proj player u] spawns a projectile *)
+let generate_player_proj player u =
+    
 (**[process_u_in st u] sets velocities and spawns things as needed in [st] based on [u] *)
 let process_u_in st (u:Input.user_in_data) =
     let player = get_player_tank st.tanks in
     let enemies = List.filter (fun t -> t.side = Enemy) st.tanks in
     let new_tank_list = (set_player_vel player u)::enemies in
+    let new_projectile_list = 
     {
-        st with tanks = new_tank_list
+        st with tanks = new_tank_list;
+        with projectiles = 
     }

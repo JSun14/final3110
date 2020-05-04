@@ -12,6 +12,9 @@ doc.private
 *.byte
 _build
 
+# just kait things
+final3110
+
 # temporary files
 *.swp
 *~
