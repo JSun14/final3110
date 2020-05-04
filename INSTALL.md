@@ -1,6 +1,9 @@
 # Setup
 
-TODO ASDF REMOVE THIS COMMENT
+A useful command to figure out what packages are needed.
+```
+opam list --safe --recursive --depexts --required-by=<packagename>
+```
 
 You need pkg-config
 
