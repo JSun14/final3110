@@ -56,12 +56,11 @@ let loss_condition st =
 let win_condition st = 
   (** [all_enemies_dead lst] is true when all the enemy tanks are inactive
       and false if at least one enemy tank still is active. *)
-  let rec all_enemies_dead lst = match lst with
-    | [] -> false
-    | h :: t -> 
-      if h.side = Self then all_enemies_dead t
-      else false
-  in all_enemies_dead st.tanks
+  let self_tank = List.exists (fun x -> x.side = Self) st.tanks in
+  let enemy_tank = (List.exists (fun x -> x.side = Enemy) st.tanks) in
+  if not self_tank then Loss
+  else if not enemy_tank then Win
+  else Playing
 
 let print_tank_info st = 
   let rec helper lst = match lst with
@@ -85,7 +84,7 @@ let get_player_tank st_tank_list =
   else List.hd player_list
 
 (** [update_tank_list old_tank_list new_player_tank] is a new tank list 
-with the player replaced by the new player*)
+    with the player replaced by the new player*)
 let update_tank_list old_tank_list new_player_tank =
   let enemies = List.filter (fun x -> x.side = Enemy) old_tank_list in
   new_player_tank::enemies
@@ -94,5 +93,5 @@ let update_tank_list old_tank_list new_player_tank =
     as a tuple of floats 
 
     Requires: [st] is a valid game state *)
-let player_loc st = 
-  (get_player_tank st).loc  *)
+   let player_loc st = 
+   (get_player_tank st).loc  *)
