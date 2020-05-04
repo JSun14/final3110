@@ -128,8 +128,8 @@ let rec tank_removal (projs:Movable.projectile list) (tanks:Movable.tank list) :
    to see if a projectile should be removed due to it hitting a tank via bool *)
 let rec tank_detect (tanks: Movable.tank list) proj=
   match tanks with
-  | [] -> false
-  | h::t -> if get_distance_from proj.loc h.loc < 0.4 then true
+  | [] -> true
+  | h::t -> if get_distance_from proj.loc h.loc < 0.4 then false
     else tank_detect t proj
 
 (**[proj_removal projs tanks obs] takes in a list of projs, tanks, and walls and
