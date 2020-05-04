@@ -1,9 +1,5 @@
 (* UTILITY MODULE *)
 
-(* [eps] which stands for epsilon, is a small float*)
-let eps = 
-    0.001
-
 (* int difference *)
 let diff (a,b) (x,y) =
     (a-x, b-y)
