@@ -121,7 +121,7 @@ let hitbox_detect (tanks:Movable.tank list) (proj:Movable.projectile): Movable.t
    returns back the list of active tanks and removes tanks hit by projectiles*)
 let rec tank_removal (projs:Movable.projectile list) (tanks:Movable.tank list) : Movable.tank list= 
   match projs with
-  | [] -> []
+  | [] -> tanks
   | h::t -> tank_removal t (hitbox_detect tanks h)
 
 (**[tank_detect tanks proj] takes in a list of tanks and a projectile and checks
@@ -141,7 +141,7 @@ let rec proj_removal (projs:Movable.projectile list) (tanks:Movable.tank list) w
     then h::proj_removal t tanks walls else proj_removal t tanks walls
 
 let entity_removal_execute w (st:State.state)=
-  {st with tanks=tank_removal st.projectiles st.tanks ; projectiles=proj_removal st.projectiles st.tanks w.wall_list}
+  {st with tanks=tank_removal st.projectiles st.tanks; projectiles=proj_removal st.projectiles st.tanks w.wall_list}
 let wall_execute w (st:State.state)=
   {st with tanks= check_tank_wall st.tanks (w.wall_list@w.ditch_list);}
 let execute w (st:State.state)= 
