@@ -52,6 +52,11 @@ let tuple_to_string (t : float * float) =
   "(" ^ (fst t |> string_of_float) ^ ", " ^ (snd t |> string_of_float) ^ ")"
 
 let tank_info (t : tank) = 
-  print_endline ("Current location: " ^ (tuple_to_string t.loc));
-  print_endline ("Velocity: " ^ (tuple_to_string t.velocity));
-  print_endline ("Health: " ^ (string_of_int t.health))
+  print_string ("Current location: " ^ (tuple_to_string t.loc));
+  print_string (", Velocity: " ^ (tuple_to_string t.velocity));
+  print_string (", Health: " ^ (string_of_int t.health))
+
+let proj_info (p : projectile) = 
+  print_string ("Current location: " ^ (tuple_to_string p.loc));
+  print_string (", Velocity: " ^ (tuple_to_string p.velocity));
+  print_string (", Health: " ^ (string_of_int p.health ^ "\n"))

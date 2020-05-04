@@ -28,7 +28,8 @@ let evaluate_progress st =
 let rec game_helper w st =
   (* print debug info about game state *)
   print_state st;
-  State.print_tank_info st;
+  (* State.print_tank_info st; *)
+  State.print_proj_info st;
 
   Unix.sleepf(0.005);
 
