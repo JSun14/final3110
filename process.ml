@@ -3,9 +3,7 @@ open State
 open Movable
 
 open Util
-
-let player_speed = 0.1
-let input_scale = 5.0
+open Const
 
 (**[set_player_vel player u] sets the player tank's velocity according to keys pressed in u*)
 let set_player_vel (player:Movable.tank) u =
@@ -25,8 +23,8 @@ let set_player_vel (player:Movable.tank) u =
 let gen_bullet st u =
     let player = get_player_tank st.tanks in 
     let target_vec_hat = fdiff u.m_pos player.loc |> unit_vec in 
-    let bull_vel = scale target_vec_hat Movable.standard_vel in
-    let spawn_loc = fsum player.loc (scale target_vec_hat (Movable.tank_rad +. Util.eps)) in 
+    let bull_vel = fscale target_vec_hat Const.standard_vel in
+    let spawn_loc = fsum player.loc (fscale target_vec_hat (Const.tank_rad +. Util.eps)) in 
     (make_bullet spawn_loc bull_vel)::st.projectiles
 
 (** [generate_palyer_proj player u] spawns a projectile *)
