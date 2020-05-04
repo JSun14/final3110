@@ -1,6 +1,7 @@
 open Movable
 open Block
 
+type progress = Playing | Win | Loss
 (* Master state that is passed around in MCL *)
 type state = {
   (* control cycle counter *)
@@ -9,13 +10,18 @@ type state = {
   score : int;
   tanks: Movable.tank list;
   projectiles: Movable.projectile list;
-  win_cond : bool
+  win_cond : progress
 }
+
+let string_of_progress (prog : progress) : string = match prog with
+  | Playing -> "playing"
+  | Win -> "won"
+  | Loss -> "lost"
 
 let print_state st = 
   (* more print statements *)
   print_endline ("Cycle No: " ^ string_of_int st.cycle_no);
-  print_endline ("win: " ^ string_of_bool st.win_cond)
+  print_endline ("win: " ^ string_of_progress st.win_cond)
 
 type world = {
   wall_list : Block.block list;
