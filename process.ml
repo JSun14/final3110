@@ -31,7 +31,7 @@ let gen_bullet st u =
 let query_player_shoot st u =
     let player = get_player_tank st.tanks in
     (* 5 is a hard coded min reload time *)
-    let shoot = st.cycle_no - player.last_fire_time > 5 &&
+    let shoot = st.cycle_no - player.last_fire_time > Const.standard_reload &&
     u.lmb in 
     let new_projectiles = if shoot then gen_bullet st u else st.projectiles in
     let new_player_tank = if shoot then {player with last_fire_time = st.cycle_no} else player in  
