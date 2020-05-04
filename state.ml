@@ -22,9 +22,6 @@ type world = {
   ditch_list : Block.block list;
 }
 
-let init_state map = 
-  failwith "unimplemented"
-
 (** [is_player_dead st] is true when the player tank is dead and false
     when the player tank is alive. 
 
@@ -65,3 +62,18 @@ let print_tank_info st =
     | [] -> print_endline "________________________"
     | h :: t -> Movable.tank_info h; helper t 
   in helper st.tanks
+
+(** [player_tank st] is the player tank
+
+    Requires: [st] is a valid game state *)
+let player_tank st = 
+  let player_list = List.filter (fun x -> x.side = Self) st.tanks in
+  if List.length player_list = 0 then failwith "player tank dead"
+  else List.hd player_list
+
+(** [player_loc st] is the location of the player tank on the map
+    as a tuple of floats 
+
+    Requires: [st] is a valid game state *)
+let player_loc st = 
+  (player_tank st).loc 
