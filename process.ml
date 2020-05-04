@@ -33,8 +33,8 @@ let gen_bullet st u =
 let player_shoot st u =
     let player = get_player_tank st.tanks in
     (* 5 is a hard coded min reload time *)
-    let shoot = st.cycle_no - player.last_fire_time < 5 &&
-    u.lmb = true in 
+    let shoot = st.cycle_no - player.last_fire_time > 5 &&
+    u.lmb in 
     if shoot then gen_bullet st u else st.projectiles
 
 (**[process_u_in st u] sets velocities and spawns things as needed in [st] based on [u] *)
