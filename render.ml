@@ -27,7 +27,8 @@ let draw_projectile (p:Movable.projectile) =
   let x_vel = fst p.velocity |> int_of_float in
   let y_vel = snd p.velocity |> int_of_float in
   moveto x y;
-  lineto (x + x_vel) (y + y_vel)
+  lineto (x + x_vel) (y + y_vel);
+  set_line_width 20
 
 let draw_projectiles (pl : Movable.projectile list) =
   List.map draw_projectile pl
