@@ -114,19 +114,15 @@ let rec check_proj_wall projs walls=
 (**[hitbox_detect tank projs] takes in a tank and tests if any projectiles are
    in the tank's hitbox and returns true if a projectile hit a tank and false
    if it didn't*)
-let rec hitbox_detect (tank:Movable.tank) (projs:Movable.projectile list)= 
-  match projs with
-  | [] -> false
-  | h::t -> if get_distance_from h.loc tank.loc < 0.4 then true 
-    else hitbox_detect tank t
+let hitbox_detect (tanks:Movable.tank list) (proj:Movable.projectile): Movable.tank list= 
+  List.filter (fun (tank:Movable.tank) -> get_distance_from proj.loc tank.loc > 0.4) tanks
 
 (**[tank removal projs tanks] takes in a list of tanks and projectiles and 
    returns back the list of active tanks and removes tanks hit by projectiles*)
 let rec tank_removal (projs:Movable.projectile list) (tanks:Movable.tank list) : Movable.tank list= 
-  match tanks with
+  match projs with
   | [] -> []
-  | h::t -> if hitbox_detect h projs then h:: tank_removal projs t 
-    else tank_removal projs t 
+  | h::t -> tank_removal t (hitbox_detect tanks h)
 
 (**[tank_detect tanks proj] takes in a list of tanks and a projectile and checks
    to see if a projectile should be removed due to it hitting a tank via bool *)
