@@ -33,9 +33,11 @@ let query_player_shoot st u =
     (* 5 is a hard coded min reload time *)
     let shoot = st.cycle_no - player.last_fire_time > 5 &&
     u.lmb in 
-    let new_projectiles = if shoot then gen_bullet st u else st.projectiles in 
+    let new_projectiles = if shoot then gen_bullet st u else st.projectiles in
+    let new_player_tank = if shoot then {player with last_fire_time = st.cycle_no} else player in  
     {
-        st with projectiles = new_projectiles
+        st with projectiles = new_projectiles;
+                      tanks = update_tank_list st.tanks new_player_tank
     }
 
 (** [move_player st u] is a new state where the player 
