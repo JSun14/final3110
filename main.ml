@@ -40,7 +40,7 @@ let rec game_helper w st =
 
   let _ = Render.render_frame w final_state in
   if final_state.win_cond then 
-    print_endline "GG EZ"
+    (print_endline "GG EZ"; Stdlib.exit 0)
   else
     game_helper w final_state
 
