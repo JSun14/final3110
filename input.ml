@@ -24,12 +24,14 @@ let rec get_keys acc =
         then get_keys (read_key () :: acc) 
     else acc 
 
+let scale = 20.0
+
 let get_user_in () =
     let keys = get_keys [] in
     let m_p = mouse_pos () in
     {
         lmb = button_down ();
-        m_pos = (fst m_p |> float_of_int, snd m_p |> float_of_int);
+        m_pos = ((fst m_p |> float_of_int) /. scale, (snd m_p |> float_of_int) /. scale);
         w = List.mem 'w' keys;
         a = List.mem 'a' keys;
         s = List.mem 's' keys;

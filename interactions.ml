@@ -1,6 +1,9 @@
 open Block
 open Movable
 open State
+
+open Util
+
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
    tanks according to their velocities. If the tank is in a wall then move the 
    tank up to the wall. Set the tanks' velocities to 0.*)
@@ -44,11 +47,6 @@ let rec move_projs (projs:Movable.projectile list) walls=
           health = h.health; weap_species= h.weap_species;}::move_projs t walls
     else move_projs t walls
   | Standard -> move_projs t walls*)
-
-(**[get_distance_from pointA pointB] calculates the distance from 2 points*)
-let get_distance_from pointA pointB =
-  sqrt(Float.pow (fst(pointA) -. fst(pointB)) 2.0 +. Float.pow (snd(pointA) -. snd(pointB)) 2.0)
-
 
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
    list of walls and returns back a boolean of whether the entity is in a wall*)

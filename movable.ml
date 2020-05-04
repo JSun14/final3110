@@ -1,3 +1,5 @@
+open Util
+
 type team = Self | Enemy
 type proj_species = Standard | Rocket
 
@@ -16,6 +18,15 @@ type projectile = {
   velocity : float * float;
   health : int;
   weap_species: proj_species
+}
+
+(** [make_bullet] spawns a standard projectile *)
+let make_bullet l v = {
+  loc = l;
+  past_loc = fdiff l v;
+  velocity = v;
+  health = 1;
+  weap_species = Standard;
 }
 
 (** [is dead t] returns whether or not if a movable is dead *)

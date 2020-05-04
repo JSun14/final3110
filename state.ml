@@ -71,11 +71,12 @@ let print_tank_info st =
 
 let print_proj_info st =
   List.map (fun x -> Movable.proj_info x) st.projectiles
-(** [player_tank st] is the player tank
 
-    Requires: [st] is a valid game state *)
-let player_tank st = 
-  let player_list = List.filter (fun x -> x.side = Self) st.tanks in
+(** [player_tank st_stank_list] is the player tank
+
+    Requires: [st_tank_list] is a valid game state tank list*)
+let player_tank st_tank_list = 
+  let player_list = List.filter (fun x -> x.side = Self) st_tank_list in
   if List.length player_list = 0 then failwith "player tank dead"
   else List.hd player_list
 
