@@ -39,10 +39,11 @@ let rec game_helper w st =
   let s2 = Process.process_u_in st u_in in
   let s3 = Interactions.execute w s2 in
   let s4 = Interactions.wall_execute w s3 in 
+  let s5 = Interactions.entity_removal_execute w s4 in 
   (* Render.execute world s3 *)
 
   let final_state = {
-    s4 with cycle_no = s4.cycle_no + 1; 
+    s5 with cycle_no = s5.cycle_no + 1; 
             win_cond = evaluate_progress s4
   } in 
 
