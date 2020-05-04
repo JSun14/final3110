@@ -21,7 +21,7 @@ type projectile = {
 }
 
 (** [make_bullet] spawns a standard projectile *)
-let make_bullet l pl v = {
+let make_bullet l v = {
   loc = l;
   past_loc = fdiff l v;
   velocity = v;
