@@ -1,4 +1,4 @@
-let standard_vel = 3.0
+let standard_vel = 0.05
 let tank_rad = 0.4
 let standard_reload = 100
 
