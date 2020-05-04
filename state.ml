@@ -69,6 +69,8 @@ let print_tank_info st =
     | h :: t -> Movable.tank_info h; helper t 
   in helper st.tanks
 
+let print_proj_info st =
+  List.map (fun x -> Movable.proj_info x) st.projectiles
 (** [player_tank st] is the player tank
 
     Requires: [st] is a valid game state *)
