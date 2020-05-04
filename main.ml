@@ -20,12 +20,6 @@ let init_world map = {
   ditch_list = map.ditch_list;
 }
 
-let evaluate_progress st = 
-  if not (loss_condition st) && not (win_condition st) then Playing
-  else if loss_condition st then Loss
-  else if win_condition st then Win
-  else failwith "impossible JERRY"
-
 let rec game_helper w st =
   (* print debug info about game state *)
   print_state st;
@@ -44,7 +38,7 @@ let rec game_helper w st =
 
   let final_state = {
     s5 with cycle_no = s5.cycle_no + 1; 
-            win_cond = evaluate_progress s4
+            win_cond = State.win_condition s4
   } in 
 
   let _ = Render.render_frame w final_state in match final_state.win_cond with
