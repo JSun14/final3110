@@ -11,7 +11,7 @@ let init_state map = {
   score = 0;
   tanks = map.tank_list;
   projectiles = [];
-  win_cond = false;
+  win_cond = Playing;
 }
 
 (* eventually needs to load world from json *)
@@ -19,6 +19,11 @@ let init_world map = {
   wall_list = map.wall_list;
   ditch_list = map.ditch_list;
 }
+
+let evaluate_progress st = 
+  if not (loss_condition st) && not (win_condition st) then Playing
+  else if loss_condition st then Loss
+  else Win
 
 let rec game_helper w st =
   (* print debug info about game state *)
@@ -35,14 +40,14 @@ let rec game_helper w st =
   (* Render.execute world s3 *)
 
   let final_state = {
-    s4 with cycle_no = s4.cycle_no + 1
+    s4 with cycle_no = s4.cycle_no + 1; 
+            win_cond = evaluate_progress s4
   } in 
 
-  let _ = Render.render_frame w final_state in
-  if final_state.win_cond then 
-    (print_endline "GG EZ"; Stdlib.exit 0)
-  else
-    game_helper w final_state
+  let _ = Render.render_frame w final_state in match final_state.win_cond with
+  | Playing -> game_helper w final_state
+  | Win -> (print_endline "GG EZ"; Stdlib.exit 0)
+  | Loss -> (print_endline "You lost."; Stdlib.exit 0)
 
 (* sleep for 1/100 of second *)
 

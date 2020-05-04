@@ -21,6 +21,15 @@ let draw_wall (t:Block.block)=
   fill_rect scaled_x scaled_y (int_of_float scale * 1) 
     (int_of_float scale * 1)
 
+let draw_projectile (p:Movable.projectile) =
+  set_color black;
+  let x = fst p.loc |> int_of_float in
+  let y = snd p.loc |> int_of_float in
+  let x_vel = fst p.velocity |> int_of_float in
+  let y_vel = snd p.velocity |> int_of_float in
+  moveto x y;
+  lineto (x + x_vel) (y + y_vel)
+
 let draw_walls (tl:Block.block list) =
   List.map draw_wall tl
 
