@@ -91,13 +91,25 @@ let rec tank_phys_engine (tanks:Movable.tank list) (tank:Movable.tank) walls : M
       then {tank with loc=tank.past_loc;}
       else tank_phys_engine tanks tank t
 
+type edge = Corner | Vert | Horiz
+
+let edge_detector posA posB=
+  let vert =  Float.to_int (fst posA)|> (-) (Float.to_int (fst posB)) |> Int.abs <> 0 in
+  let horiz = Float.to_int (snd posA)|> (-) (Float.to_int (snd posB)) |> Int.abs <> 0 in
+  if vert && horiz then Corner else if vert then Vert else Horiz 
+
+
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
    Some proj if it is with modified proj values.*)
 let rec proj_phys_engine proj walls=
   match walls with
   | [] -> Some proj
   | h::t -> if wall_detect proj.loc h then match proj.weap_species with
-      | Bouncy -> Some proj (**IMPLEMENT PROJ REFLECTION *)
+      | Bouncy -> if proj.health <> 1 then (match edge_detector proj.loc proj.past_loc with
+          | Vert -> Some {proj with velocity = (fst proj.velocity*. (-1.0), snd proj.velocity); health = proj.health-1;}
+          | Horiz -> Some {proj with velocity = (fst proj.velocity, snd proj.velocity*. (-1.0));health = proj.health-1;}
+          | Corner -> Some {proj with velocity = (fst proj.velocity*. (-1.0), snd proj.velocity*. (-1.0));health = proj.health-1;})
+        else None
       | Bullet -> None
     else proj_phys_engine proj t
 
