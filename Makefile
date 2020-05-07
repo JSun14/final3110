@@ -22,6 +22,9 @@ interactions:
 	utop -init interactions.ml
 # FOLLOW THE PATTERN
 
+ai:
+	utop -init ai.ml
+
 test:
 	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
 
