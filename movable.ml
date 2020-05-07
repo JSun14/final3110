@@ -26,6 +26,14 @@ let make_bullet l v = {
   past_loc = fdiff l v;
   velocity = v;
   health = 3;
+  weap_species = Bullet;
+}
+
+let make_bouncy l v = {
+  loc = l;
+  past_loc = fdiff l v;
+  velocity = v;
+  health = 3;
   weap_species = Bouncy;
 }
 

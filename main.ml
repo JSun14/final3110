@@ -4,6 +4,7 @@ open Interactions
 open Input
 open Process
 open Read_json
+open Ai 
 
 (* eventually needs to do something with w *)
 let init_state map = {
@@ -31,6 +32,7 @@ let rec game_helper w st =
   let u_in = Input.get_user_in () in
   let _ = print_user_in u_in in
   let s = Process.process_u_in st u_in in
+  let s = Ai.attempt_shoot_map w s in 
   let s = Interactions.execute w s in
   let s = Interactions.wall_execute w s in 
   let s = Interactions.entity_removal_execute w s in 
