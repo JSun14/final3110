@@ -1,5 +1,4 @@
 open OUnit2
-
 (** [pp_string s] pretty-prints string [s]. 
 
     Taken from A3*)
@@ -46,10 +45,59 @@ module DummyA = struct
 end 
 
 module DummyB = struct
-  (* uncomment when compiles *)
-  (* open Interactions *)
+  (* open Interactions and Block*)
+  open Interactions
+  open Block
+  let move_helper
+      (name:string)
+      (wall:State.world)
+      (state:State.state)
+      (exp_out:State.state)=
+    name >:: (fun _ ->  assert_equal exp_out (execute wall state))
+
+  let wall_helper
+      (name:string)
+      (wall:State.world)
+      (state:State.state)
+      (exp_out:State.state)=
+    name >:: (fun _ -> assert_equal exp_out (wall_execute wall state))
+
+  let tankA : Movable.tank = 
+    {loc=(5.0,5.0);past_loc=(5.0,5.0);velocity=(1.0,1.0);health=1;
+     last_fire_time=0;side=Enemy}
+  let projA : Movable.projectile = 
+    {loc=(5.0,5.0);past_loc=(5.0,5.0);velocity=(1.0,1.0);health=1;
+     weap_species=Bullet}
+  let stateA : State.state=
+    {cycle_no=0; score=0; tanks=[{tankA with velocity=(2.0,2.0)}; 
+                                 {tankA with velocity=(-2.0,1.0)};
+                                 {tankA with velocity=(-2.0,-1.0)};
+                                 {tankA with velocity=(1.0, -2.0);}];
+     projectiles=[{projA with velocity=(2.0,2.0)}; 
+                  {projA with velocity=(-2.0,1.0)};
+                  {projA with velocity=(-2.0,-1.0)}; 
+                  {projA with velocity=(1.0, -2.0);}];
+     win_cond=Playing}
+  let blockA : Block.block =
+    {id="1"; kind=Wall; width=1.0; coord=(0.5,8.5);}
+  let worldA : State.world = 
+    {wall_list=[];ditch_list=[]}
+
   let tests = [
-    "cdummy test" >:: (fun _ -> assert_equal 0 0 ~printer:string_of_int);
+    move_helper "Testing execute for interactions" worldA stateA 
+      {stateA with 
+       tanks=[
+         {tankA with velocity=(0.0,0.0); loc=(7.0,7.0);past_loc=(5.0,5.0)};
+         {tankA with velocity=(0.0,0.0); loc=(3.0,6.0);past_loc=(5.0,5.0)};
+         {tankA with velocity=(0.0,0.0); loc=(3.0,4.0);past_loc=(5.0,5.0)};
+         {tankA with velocity=(0.0,0.0); loc=(6.0,3.0);past_loc=(5.0,5.0)};];
+       projectiles=[
+         {projA with velocity=(0.0,0.0); loc=(7.0,7.0);past_loc=(5.0,5.0)};
+         {projA with velocity=(0.0,0.0); loc=(3.0,6.0);past_loc=(5.0,5.0)};
+         {projA with velocity=(0.0,0.0); loc=(3.0,4.0);past_loc=(5.0,5.0)};
+         {projA with velocity=(0.0,0.0); loc=(6.0,3.0);past_loc=(5.0,5.0)};]};
+
+
   ]
 end 
 
