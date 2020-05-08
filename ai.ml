@@ -34,14 +34,16 @@ let move_all_enemies st =
   {st with tanks = updated_tanks}
 
 (**[clear_los w player enemy] is true if there's a clear los to player*)
-let clear_los w player enemy =
+let clear_los w (player:Movable.tank) (enemy:Movable.tank) =
+  let target_vec_hat = fdiff player.loc enemy.loc |> unit_vec in 
+  let tiny_dt = fscale target_vec_hat 0.01 in 
   false
 
 (** [] returns a projectile option  *)
 let can_shoot ccno tank = 
   ccno - tank.last_fire_time > Const.standard_reload
 
-let attempt_shoot w ccno player enemy =
+let attempt_shoot w ccno (player:Movable.tank)  (enemy:Movable.tank) =
   let fire = can_shoot ccno enemy in 
   if fire && clear_los w player enemy then 
     let new_tank = {
