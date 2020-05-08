@@ -33,3 +33,17 @@ let unit_vec vec =
 let get_distance_from pointA pointB =
   sqrt(Float.pow (fst(pointA) -. fst(pointB)) 2.0 +. 
        Float.pow (snd(pointA) -. snd(pointB)) 2.0)
+
+let rec range_helper target iter acc =
+    match target, iter with
+    | t, i when t < 1 -> failwith "target must be > 0"
+    | t, i when t = i -> acc 
+    | t, i -> range_helper t (i+1) (i::acc)
+
+(** [range target] is a list from [0; 1; 2; ... target-2; target-1]*)
+let range target =
+    range_helper target 0 [] |> List.rev
+
+(** [range target] is a list from [0.0; 1.0; 2.0; ... target -. 2.0; target -. 1.0]*)
+let float_range target = 
+    List.map (fun x -> float_of_int x) (range (int_of_float target))

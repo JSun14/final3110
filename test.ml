@@ -128,7 +128,18 @@ module DummyB = struct
   ]
 end 
 
+module UtilT = struct 
+  open Util
+
+  let tests = [
+    "Test range function" >:: 
+    (fun _ -> assert_equal [0;1;2;3] (range 4) ~printer:(pp_list string_of_int));
+  ]
+end 
+
+
+
 let suite = "search test suite" >::: List.flatten 
-              [DummyA.tests; DummyB.tests;]
+              [DummyA.tests; DummyB.tests; UtilT.tests]
 
 let _ = run_test_tt_main suite

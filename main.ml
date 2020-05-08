@@ -36,11 +36,12 @@ let rec game_helper w st =
   let s = Interactions.execute w s in
   let s = Interactions.wall_execute w s in 
   let s = Interactions.entity_removal_execute w s in 
+  let s = Ai.move_all_enemies s in
   (* Render.execute world s3 *)
 
   let final_state = {
     s with cycle_no = s.cycle_no + 1; 
-            win_cond = State.win_condition s
+           win_cond = State.win_condition s
   } in 
 
   let _ = Render.render_frame w final_state in match final_state.win_cond with
