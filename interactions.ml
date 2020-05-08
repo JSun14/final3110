@@ -165,20 +165,39 @@ let tank_detect (tank: Movable.tank) (projs: Movable.projectile list) :
   List.filter (fun (p:Movable.projectile) -> 
       get_distance_from p.loc tank.loc > 0.4) projs
 
+(**[proj_detect proj projs] takes in a list of projectiles and a projectile and
+   checks to see if any projectiles share a spare with one another, thus removing
+   both of them*)
+let rec proj_detect (proj: Movable.projectile) (projs: Movable.projectile list) : 
+  Movable.projectile list=
+  match projs with 
+  | [] -> []
+  | p::t -> if get_distance_from p.loc proj.loc < 0.05 && p <> proj then 
+      proj_detect proj t else p::proj_detect proj t
+
 (**[proj_removal projs tanks obs] takes in a list of projs, tanks, and walls and
    returns back an active list of projectiles *)
 let rec proj_removal (projs:Movable.projectile list) (tanks:Movable.tank list) 
-    walls : Movable.projectile list = 
+  : Movable.projectile list = 
   match tanks with
   | [] -> projs
-  | h::t -> proj_removal (tank_detect h projs) t walls
+  | h::t -> proj_removal (tank_detect h projs) t 
+
+(**[proj_removal2 projs proj] takes in a list of projs, tanks, and walls and
+   returns back an active list of projectiles *)
+let rec proj_removal2 (projs:Movable.projectile list) 
+    (projcopy:Movable.projectile list) : Movable.projectile list = 
+  match projs with
+  | [] -> projcopy
+  | h::t -> proj_removal2 t (proj_detect h projcopy)
 
 (**[entity_removal_execute w st] returns a state of the game after removing
    entities*) 
 let entity_removal_execute w (st:State.state)=
   {st with tanks=tank_removal st.projectiles st.tanks; 
-           projectiles=(proj_removal st.projectiles st.tanks w.wall_list) |> 
-                       check_proj_wall w.wall_list}
+           projectiles=let projs = (proj_removal st.projectiles st.tanks) in
+             proj_removal2 projs projs |> check_proj_wall w.wall_list 
+  }
 
 (**[wall_execute w st] returns a state of the game after performing
    wall interactions on entities*) 
