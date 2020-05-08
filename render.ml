@@ -12,7 +12,7 @@ let start_rend =
 let draw_tank (t:Movable.tank)=
   (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
   if t.side = Enemy then set_color red else set_color blue;
-  draw_circle (fst t.loc |> int_of_float) (snd t.loc |> int_of_float) 
+  fill_circle (fst t.loc |> int_of_float) (snd t.loc |> int_of_float) 
     ((scale *. 0.4) |> int_of_float)
 
 let draw_wall (t:Block.block)=
