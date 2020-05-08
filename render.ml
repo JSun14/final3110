@@ -24,12 +24,14 @@ let draw_wall (t:Block.block)=
 
 let draw_projectile (p:Movable.projectile) =
   set_color black;
+  set_line_width 2;
   let x = fst p.loc |> int_of_float in
   let y = snd p.loc |> int_of_float in
   let x_vel = fst p.velocity |> int_of_float in
   let y_vel = snd p.velocity |> int_of_float in
   moveto x y;
-  lineto (x + x_vel) (y + y_vel)
+  lineto (x + x_vel) (y + y_vel);
+  set_line_width 1
 
 let draw_projectiles (pl : Movable.projectile list) =
   List.map draw_projectile pl
