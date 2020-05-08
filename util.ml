@@ -24,6 +24,17 @@ let magn (a,b) =
 let fscale (a,b) scale_fact =
   (a *. scale_fact, b *. scale_fact) 
 
+(** [floor (a,b)] is the grid location [(x,y)] cooresponding to a coord [(a,b)]*)
+let floor (a,b) = 
+  (int_of_float a, int_of_float b)
+
+let comp_pair (a, b) (x, y) =
+  a = x && b = y
+
+let comp_pair_s (a, b) (x, y) = 
+  if comp_pair (a,b) (x,y) then 0 else
+  if a < b then -1 else 1
+  
 (* unit vector *)
 let unit_vec vec = 
   let magn_inv = magn vec |> mult_inv in 
