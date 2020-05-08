@@ -21,19 +21,19 @@ type projectile = {
 }
 
 (** [make_bullet] spawns a standard projectile *)
-let make_bullet l v = {
+let make_bullet l v health = {
   loc = l;
   past_loc = fdiff l v;
   velocity = v;
-  health = 3;
+  health = health;
   weap_species = Bullet;
 }
 
-let make_bouncy l v = {
+let make_bouncy l v health = {
   loc = l;
   past_loc = fdiff l v;
   velocity = v;
-  health = 3;
+  health = health;
   weap_species = Bouncy;
 }
 

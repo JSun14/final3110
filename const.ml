@@ -1,5 +1,5 @@
 let standard_vel = 0.04
-let enemy_bullet_vel = 0.05
+let enemy_bullet_vel = 0.045
 let tank_rad = 0.4
 
 let standard_reload = 50
