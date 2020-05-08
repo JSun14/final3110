@@ -11,7 +11,7 @@ let rec move_tank (tanks:Movable.tank list) =
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {h with loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0);}::move_tank t 
+    {h with loc = new_loc; past_loc = h.loc;}::move_tank t 
 
 
 (**[move_projs projs walls] is a list of active projectiles with updated 
