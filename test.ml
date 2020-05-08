@@ -4,6 +4,7 @@ open OUnit2
     Taken from A3*)
 let pp_string s = "\"" ^ s ^ "\""
 
+let pp_tuple (f : 'a -> string) (x, y) = "(" ^ (f x) ^ ", " ^ (f y) ^ ")"
 (** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt]
     to pretty-print each element of [lst]. 
 
@@ -134,13 +135,29 @@ module UtilT = struct
 
   let tests = [
     "Test range function" >:: 
-    (fun _ -> assert_equal [0;1;2;3] (range 4) ~printer:(pp_list string_of_int));
+    (fun _ -> assert_equal [0;1;2;3] (range 4) 
+        ~printer:(pp_list string_of_int));
+    "Test diff function with (0,0)" >:: 
+    (fun _ -> assert_equal (1,1) (diff (1, 1) (0, 0)) 
+        ~printer:(pp_tuple string_of_int));
+    "Test diff function" >:: 
+    (fun _ -> assert_equal (-2,1) (diff (1, 4) (3, 3)) 
+        ~printer:(pp_tuple string_of_int));
+    "Test diff function with itself" >:: 
+    (fun _ -> assert_equal (0,0) (diff (2, -1) (2, -1)) 
+        ~printer:(pp_tuple string_of_int));
+    "Test fdiff function" >:: 
+    (fun _ -> assert_equal (-1.0,2.0) (fdiff (3.0, 2.0) (4.0, 0.0)) 
+        ~printer:(pp_tuple string_of_float));
+    "Test fsum function" >:: 
+    (fun _ -> assert_equal (3.0, 3.1) (fsum (1.0, 1.0) (2.0, 2.1)) 
+        ~printer:(pp_tuple string_of_float));
   ]
 end 
 
 
 
-let suite = "search test suite" >::: List.flatten 
+let suite = "We Play Tanks test suite" >::: List.flatten 
               [DummyA.tests; DummyB.tests; UtilT.tests]
 
 let _ = run_test_tt_main suite
