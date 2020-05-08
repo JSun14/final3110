@@ -36,9 +36,9 @@ let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
   let target_vec_hat =  target_vec |> unit_vec in 
   let tiny_dt = fscale target_vec_hat 0.01 in 
   let num_query  = total_dist /. Const.query_distance in 
-  let probe_coords = List.map (fun x -> fsum (fscale tiny_dt x) enemy.loc |> floor) (float_range num_query) in
+  let probe_coords = List.map (fun x -> (fsum (fscale tiny_dt x) enemy.loc) |> pfloor) (float_range num_query) in
   let simp_probe = List.sort_uniq comp_pair_s probe_coords in
-  let wall_locs = List.map (fun x -> floor x.coord) wl in 
+  let wall_locs = List.map (fun x -> pfloor x.coord) wl in 
   let bools = List.map (fun x -> List.mem x wall_locs) simp_probe in 
   let wall_in_way = List.fold_left (fun acc x -> x || acc) false bools in 
   not wall_in_way
