@@ -45,9 +45,8 @@ let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
   let simp_probe = List.sort_uniq comp_pair_s probe_coords in
   let wall_locs = List.map (fun x -> floor x.coord) wl in 
   let bools = List.map (fun x -> List.mem x wall_locs) simp_probe in 
-  List.fold_left (fun acc x -> x && acc) false bools
+  List.fold_left (fun acc x -> x && acc) true bools
 
-(** [] returns a projectile option  *)
 let can_shoot ccno tank = 
   ccno - tank.last_fire_time > Const.standard_reload
 
@@ -57,19 +56,20 @@ let attempt_shoot wl ccno (player:Movable.tank)  (enemy:Movable.tank) =
     let new_tank = {
       enemy with last_fire_time = ccno;
     } in
-    Some (make_bouncy (1.0,1.0) (1.0, 1.0), new_tank)
+    (Some (make_bouncy (1.0,1.0) (1.0, 1.0)), new_tank)
   else
-    None
+    (None, enemy)
 
 (* generates list of projectile options *)
 let attempt_shoot_map w st=
   let wl = w.wall_list in 
   let player = get_player_tank st.tanks in 
   let enemy_tank_list = get_enemy_tanks st.tanks in
-  let proj_tank_list = List.filter_map (fun t -> attempt_shoot wl st.cycle_no player t) enemy_tank_list in 
-  let (new_projs, new_tanks) = List.split proj_tank_list in 
+  let proj_tank_list = List.map (fun t -> attempt_shoot wl st.cycle_no player t) enemy_tank_list in 
+  let (new_projs, new_enemies) = List.split proj_tank_list in
+  let new_projs = List.filter_map (fun x -> x) new_projs in 
   {
     st with projectiles = st.projectiles @ new_projs;
-            tanks = st.tanks @ new_tanks;
+                  tanks = update_tl_enemies st.tanks new_enemies;
   }
 
