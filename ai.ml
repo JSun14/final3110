@@ -27,7 +27,8 @@ let move_all_enemies lst =
 
 (**[clear_los w player enemy] is true if there's a clear los to player*)
 let clear_los w player enemy =
-  false
+  let target_vec_hat = fdiff player.loc enemy.loc |> unit_vec in 
+  let tiny_dt = fscale target_vec_hat 0.01
 
 (** [] returns a projectile option  *)
 let can_shoot ccno tank = 

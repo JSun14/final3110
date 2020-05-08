@@ -1,5 +1,4 @@
 open OUnit2
-
 (** [pp_string s] pretty-prints string [s]. 
 
     Taken from A3*)
@@ -49,11 +48,19 @@ module DummyB = struct
   (* uncomment when compiles *)
   (* open Interactions *)
   let tests = [
-    "cdummy test" >:: (fun _ -> assert_equal 0 0 ~printer:string_of_int);
+  ]
+end 
+
+module UtilT = struct
+  open Util
+  (* uncomment when compiles *)
+  (* open Interactions *)
+  let tests = [
+    "Test range function" >:: (fun _ -> assert_equal [0;1;2;3] (range 4) ~printer:(pp_list string_of_int));
   ]
 end 
 
 let suite = "search test suite" >::: List.flatten 
-              [DummyA.tests; DummyB.tests;]
+              [DummyA.tests; DummyB.tests; UtilT.tests]
 
 let _ = run_test_tt_main suite
