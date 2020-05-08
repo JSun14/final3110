@@ -22,8 +22,7 @@ let rec move_projs (projs:Movable.projectile list) =
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {h with loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0)}::move_projs t
-
+    {h with loc = new_loc; past_loc = h.loc;}::move_projs t
 
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
    list of walls and returns back a boolean of whether the entity is in a wall*)
