@@ -7,6 +7,7 @@ let enemy_reload = 50
 
 let player_speed = 0.1
 let max_enemy_speed = 0.05
+let max_enemy_accel = 0.01
 let input_scale = 20.0
 
 let query_distance = 0.01
