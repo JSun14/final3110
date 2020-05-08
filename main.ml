@@ -33,9 +33,12 @@ let rec waiter ref_time =
 
 let rec game_helper (w:State.world) (st:State.state) =
   (* print debug info about game state *)
-  print_state st;
+  (* print_state st; *)
   (* State.print_tank_info st; *)
-  State.print_proj_info st;
+  (* State.print_proj_info st; *)
+
+  (* if Unix.gettimeofday () -. st.sys_time > Const.cycle_time then
+    print_endline "WARNING YOUR MACHINE IS SLOW"; *)
 
   (* delay until cycle_time has elpased *)
   waiter st.sys_time;
@@ -46,7 +49,7 @@ let rec game_helper (w:State.world) (st:State.state) =
   } in
 
   let u_in = Input.get_user_in () in
-  let _ = print_user_in u_in in
+  (* let _ = print_user_in u_in in *)
   let s = Process.process_u_in s u_in in
   let s = Ai.attempt_shoot_map w s in 
   let s = Ai.move_all_enemies s in
