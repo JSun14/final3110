@@ -5,9 +5,11 @@ open Input
 open Process
 open Read_json
 open Ai 
+open Const 
 
 (* eventually needs to do something with w *)
 let init_state map = {
+  sys_time = 0.0;
   cycle_no = 0; 
   score = 0;
   tanks = map.tank_list;
@@ -21,17 +23,31 @@ let init_world map = {
   ditch_list = map.ditch_list;
 }
 
+let rec waiter ref_time = 
+  if Unix.gettimeofday () -. ref_time > Const.cycle_time then 
+    () 
+  else begin
+    Unix.sleepf(0.0001); 
+    waiter ref_time
+  end
+
 let rec game_helper (w:State.world) (st:State.state) =
   (* print debug info about game state *)
   print_state st;
   (* State.print_tank_info st; *)
   State.print_proj_info st;
 
-  Unix.sleepf(0.005);
+  (* delay until cycle_time has elpased *)
+  waiter st.sys_time;
+
+  (* set control cycle time *)
+  let s = {
+    st with sys_time = Unix.gettimeofday ();
+  } in
 
   let u_in = Input.get_user_in () in
   let _ = print_user_in u_in in
-  let s = Process.process_u_in st u_in in
+  let s = Process.process_u_in s u_in in
   let s = Ai.attempt_shoot_map w s in 
   let s = Ai.move_all_enemies s in
   let s = Interactions.execute w s in
