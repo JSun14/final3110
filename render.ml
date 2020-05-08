@@ -16,7 +16,7 @@ let draw_tank (t:Movable.tank)=
     ((scale *. 0.4) |> int_of_float)
 
 let draw_wall (t:Block.block)=
-  if t.kind = Wall then set_color yellow else set_color black;
+  if t.kind = Wall then set_color yellow else set_color (rgb 139 69 19);
   let scaled_x = fst t.coord |> int_of_float in
   let scaled_y = snd t.coord |> int_of_float in
   fill_rect scaled_x scaled_y (int_of_float scale * 1) 
