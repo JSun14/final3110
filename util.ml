@@ -41,7 +41,7 @@ let rec range_helper target iter acc =
     | t, i -> range_helper t (i+1) (i::acc)
 
 let range target =
-    range_helper target 0 []
+    range_helper target 0 [] |> List.rev
 
 let float_range target = 
     List.map (fun x -> float_of_int x) (range (int_of_float target))
