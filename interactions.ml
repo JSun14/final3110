@@ -172,7 +172,7 @@ let rec proj_detect (proj: Movable.projectile) (projs: Movable.projectile list) 
   Movable.projectile list=
   match projs with 
   | [] -> []
-  | p::t -> if get_distance_from p.loc proj.loc < 0.05 && p <> proj then 
+  | p::t -> if get_distance_from p.loc proj.loc < 0.1 && p <> proj then 
       proj_detect proj t else p::proj_detect proj t
 
 (**[proj_removal projs tanks obs] takes in a list of projs, tanks, and walls and
