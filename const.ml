@@ -1,6 +1,8 @@
 let standard_vel = 0.04
 let tank_rad = 0.4
+
 let standard_reload = 50
+let enemy_reload = 50
 
 let player_speed = 0.1
 let max_enemy_speed = 0.1

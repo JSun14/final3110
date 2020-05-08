@@ -88,5 +88,5 @@ let update_tank_list old_tank_list new_player_tank =
    let player_loc st = 
    (get_player_tank st).loc  *)
 
-let enemy_tanks st = 
-  List.filter (fun x -> x.side = Enemy) st.tanks
+let get_enemy_tanks st_tank_list = 
+  List.filter (fun x -> x.side = Enemy) st_tank_list
