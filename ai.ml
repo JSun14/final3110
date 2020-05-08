@@ -5,11 +5,6 @@ open Util
 open Const
 open Block 
 
-(** [random_mag] is either 1.0 or -1.0 with equal probability. *)
-let random_mag =
-  if Random.bool () then 1.0
-  else -1.0
-
 (** [cap_velocity t accel] returns true when the sum of [accel] and the 
     velocity of [t] is less than or equal to an enemy's maximum speed. *)
 let cap_velocity (t : Movable.tank) accel = 

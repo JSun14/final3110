@@ -4,6 +4,8 @@ open Block
 type progress = Playing | Win | Loss
 (* Master state that is passed around in MCL *)
 type state = {
+  (* the sys_time before game input (from last cycle) *)
+  sys_time: float;
   (* control cycle counter *)
   cycle_no: int;
   (* score of the player *)
