@@ -86,7 +86,7 @@ module DummyB = struct
   let projB : Movable.projectile = 
     {projA with loc=(3.0,3.0)}
   let stateA : State.state=
-    {cycle_no=0; score=0; tanks=[{tankA with velocity=(2.0,2.0)}; 
+    {sys_time=0.0; cycle_no=0; score=0; tanks=[{tankA with velocity=(2.0,2.0)}; 
                                  {tankA with velocity=(-2.0,1.0)};
                                  {tankA with velocity=(-2.0,-1.0)};
                                  {tankA with velocity=(1.0, -2.0);}];
