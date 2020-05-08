@@ -15,8 +15,8 @@ let cap_velocity (t : Movable.tank) accel =
 let rec randomize (t : Movable.tank) : Movable.tank =
   let x_accel = (Random.float 1.0) *. 2.0 |> (-.) 1.0 in
   let y_accel = (Random.float 1.0) *. 2.0 |> (-.) 1.0 in
-  let magnitude = max_enemy_speed in
-  let accel = fscale ((x_accel, y_accel) |> unit_vec) magnitude in
+  let accel_magnitude = max_enemy_accel in
+  let accel = fscale ((x_accel, y_accel) |> unit_vec) accel_magnitude in
   if cap_velocity t accel then {t with velocity = fsum t.velocity accel}
   else randomize t
 
@@ -70,6 +70,6 @@ let attempt_shoot_map w st=
   let new_projs = List.filter_map (fun x -> x) new_projs in 
   {
     st with projectiles = st.projectiles @ new_projs;
-                  tanks = update_tl_enemies st.tanks new_enemies;
+            tanks = update_tl_enemies st.tanks new_enemies;
   }
 
