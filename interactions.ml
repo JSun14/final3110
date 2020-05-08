@@ -1,34 +1,28 @@
 open Block
 open Movable
 open State
-
 open Util
 open Const
 
 (**[move_tank tanks walls] takes in a list of tanks and walls and moves the
-   tanks according to their velocities. If the tank is in a wall then move the 
-   tank up to the wall. Set the tanks' velocities to 0.*)
-let rec move_tank (tanks:Movable.tank list) walls= 
+   tanks according to their velocities. Set the tanks' velocities to 0.*)
+let rec move_tank (tanks:Movable.tank list) = 
   match tanks with  
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0); 
-     health = h.health; last_fire_time = h.last_fire_time; 
-     side = h.side;}::move_tank t walls
+    {h with loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0);}::move_tank t 
 
 
 (**[move_projs projs walls] is a list of active projectiles with updated 
    locations. If the proj's new location is inside a wall then remove it, but if 
    it is  *)
-let rec move_projs (projs:Movable.projectile list) walls=
-  match projs with
+let rec move_projs (projs:Movable.projectile list) = 
+  match projs with  
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {loc = new_loc; past_loc = h.loc; velocity = h.velocity; 
-     health = h.health; weap_species= h.weap_species;}
-    ::move_projs t walls
+    {h with loc = new_loc; past_loc = h.loc; velocity = (0.0,0.0)}::move_projs t
 
 
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
@@ -46,9 +40,12 @@ let check_grid coordA coordB =
    && Float.to_int (snd coordA)|> (-) (Float.to_int (snd coordB)) |> Int.abs < 2
   then true else false
 
+(**[edge_touch_tank tank corn2 corn1] returns a bool of whether a tank is 
+   touching any edge on a wall*)
 let edge_touch_tank (tank:Movable.tank) corn2 corn1=
   let tank_radius = 0.4 in
-  let ax = fst corn2 -. fst tank.loc in let ay = snd corn2 -. snd tank.loc in let bx = fst corn1 -. fst tank.loc in let by = snd corn1 -. snd tank.loc in
+  let ax = fst corn2 -. fst tank.loc in let ay = snd corn2 -. snd tank.loc in 
+  let bx = fst corn1 -. fst tank.loc in let by = snd corn1 -. snd tank.loc in
   let a = Float.pow (bx -. ax) 2.0 +. Float.pow (by -. ay) 2.0 in
   let b = 2.0 *. (ax *. (bx -. ax) +. ay *. (by -. ay)) in
   let c = Float.pow ax 2.0 +. Float.pow ay 2.0 -. Float.pow tank_radius 2.0 in 
@@ -64,10 +61,10 @@ let edge_touch_tank (tank:Movable.tank) corn2 corn1=
 let tank_touch_wall wall (tank:Movable.tank)=
   let half_wall_width = 0.5 in
   let tank_radius = 0.4 in
-  let corn1 = (fst wall.coord-.half_wall_width, snd wall.coord-.half_wall_width) in
-  let corn2 = (fst wall.coord+.half_wall_width, snd wall.coord-.half_wall_width) in
-  let corn3 = (fst wall.coord+.half_wall_width, snd wall.coord+.half_wall_width) in
-  let corn4 = (fst wall.coord-.half_wall_width, snd wall.coord+.half_wall_width) in
+  let corn1 =(fst wall.coord-.half_wall_width,snd wall.coord-.half_wall_width)in
+  let corn2 =(fst wall.coord+.half_wall_width,snd wall.coord-.half_wall_width)in
+  let corn3 =(fst wall.coord+.half_wall_width,snd wall.coord+.half_wall_width)in
+  let corn4 =(fst wall.coord-.half_wall_width,snd wall.coord+.half_wall_width)in
   if get_distance_from tank.loc corn1 < tank_radius || 
      get_distance_from tank.loc corn2 < tank_radius || 
      get_distance_from tank.loc corn3 < tank_radius ||
@@ -76,14 +73,18 @@ let tank_touch_wall wall (tank:Movable.tank)=
      edge_touch_tank tank corn3 corn2 || edge_touch_tank tank corn3 corn4
   then true else false
 
+(**[tank_touch_tank tanks tank] returns a bool of whether a tank touches another
+   tank*)
 let rec tank_touch_tank (tanks: Movable.tank list) (tank: Movable.tank)=
   match tanks with
   | [] -> false
-  | h::t -> if h.loc <> tank.loc && (get_distance_from h.loc tank.loc) < 0.8 then true else tank_touch_tank t tank
+  | h::t -> if h.loc <> tank.loc && (get_distance_from h.loc tank.loc) < 0.8 
+    then true else tank_touch_tank t tank
 
 (**[tank_phys_engine tank walls] returns a tank with values either unchanged or 
    changed depending on if the tank touched a wall*)
-let rec tank_phys_engine (tanks:Movable.tank list) (tank:Movable.tank) walls : Movable.tank =
+let rec tank_phys_engine (tanks:Movable.tank list) (tank:Movable.tank) walls
+  : Movable.tank =
   if tank_touch_tank tanks tank then {tank with loc=tank.past_loc;} else
     match walls with
     | [] -> tank
@@ -91,11 +92,16 @@ let rec tank_phys_engine (tanks:Movable.tank list) (tank:Movable.tank) walls : M
       then {tank with loc=tank.past_loc;}
       else tank_phys_engine tanks tank t
 
+(**edge is a type of edge on a wall *)
 type edge = Corner | Vert | Horiz
 
+(**[edge_detector posA posB] returns a type edge for the edge that a projectile
+   hit on a wall*)
 let edge_detector posA posB=
-  let vert =  Float.to_int (fst posA)|> (-) (Float.to_int (fst posB)) |> Int.abs <> 0 in
-  let horiz = Float.to_int (snd posA)|> (-) (Float.to_int (snd posB)) |> Int.abs <> 0 in
+  let vert =  Float.to_int (fst posA)|> (-) (Float.to_int (fst posB)) |> 
+              Int.abs <> 0 in
+  let horiz = Float.to_int (snd posA)|> (-) (Float.to_int (snd posB)) |> 
+              Int.abs <> 0 in
   if vert && horiz then Corner else if vert then Vert else Horiz 
 
 
@@ -105,10 +111,17 @@ let rec proj_phys_engine proj walls=
   match walls with
   | [] -> Some proj
   | h::t -> if wall_detect proj.loc h then match proj.weap_species with
-      | Bouncy -> if proj.health <> 1 then (match edge_detector proj.loc proj.past_loc with
-          | Vert -> Some {proj with velocity = (fst proj.velocity*. (-1.0), snd proj.velocity); health = proj.health-1;}
-          | Horiz -> Some {proj with velocity = (fst proj.velocity, snd proj.velocity*. (-1.0));health = proj.health-1;}
-          | Corner -> Some {proj with velocity = (fst proj.velocity*. (-1.0), snd proj.velocity*. (-1.0));health = proj.health-1;})
+      | Bouncy -> if proj.health <> 1 then 
+          (match edge_detector proj.loc proj.past_loc with
+           | Vert -> Some {proj with velocity = (fst proj.velocity*. (-1.0), 
+                                                 snd proj.velocity); 
+                                     health = proj.health-1;}
+           | Horiz -> Some {proj with velocity = (fst proj.velocity, 
+                                                  snd proj.velocity*. (-1.0));
+                                      health = proj.health-1;}
+           | Corner -> Some {proj with velocity = (fst proj.velocity*. (-1.0), 
+                                                   snd proj.velocity*. (-1.0));
+                                       health = proj.health-1;})
         else None
       | Bullet -> None
     else proj_phys_engine proj t
@@ -120,7 +133,10 @@ let rec check_tank_wall (tanks:Movable.tank list) walls : Movable.tank list=
   | [] -> [] 
   | h::t -> tank_phys_engine tanks h walls :: check_tank_wall t walls
 
-let rec check_proj_wall walls (projs:Movable.projectile list) : Movable.projectile list=
+(**[check_proj_wall walls projs] returns a list of projs after performing
+   interactions with walls*)
+let rec check_proj_wall walls (projs:Movable.projectile list)
+  : Movable.projectile list=
   match projs with
   | [] -> []
   | h::t -> match proj_phys_engine h walls with
@@ -130,31 +146,47 @@ let rec check_proj_wall walls (projs:Movable.projectile list) : Movable.projecti
 (**[hitbox_detect tank projs] takes in a tank and tests if any projectiles are
    in the tank's hitbox and returns true if a projectile hit a tank and false
    if it didn't*)
-let hitbox_detect (tanks:Movable.tank list) (proj:Movable.projectile): Movable.tank list= 
-  List.filter (fun (tank:Movable.tank) -> get_distance_from proj.loc tank.loc > 0.4) tanks
+let hitbox_detect (tanks:Movable.tank list) (proj:Movable.projectile) : 
+  Movable.tank list= 
+  List.filter (fun (tank:Movable.tank) -> 
+      get_distance_from proj.loc tank.loc > 0.4) tanks
 
 (**[tank removal projs tanks] takes in a list of tanks and projectiles and 
    returns back the list of active tanks and removes tanks hit by projectiles*)
-let rec tank_removal (projs:Movable.projectile list) (tanks:Movable.tank list) : Movable.tank list= 
+let rec tank_removal (projs:Movable.projectile list) (tanks:Movable.tank list) :
+  Movable.tank list= 
   match projs with
   | [] -> tanks
   | h::t -> tank_removal t (hitbox_detect tanks h)
 
 (**[tank_detect tanks proj] takes in a list of tanks and a projectile and checks
    to see if a projectile should be removed due to it hitting a tank via bool *)
-let tank_detect (tank: Movable.tank) (projs: Movable.projectile list) : Movable.projectile list=
-  List.filter (fun (p:Movable.projectile) -> get_distance_from p.loc tank.loc > 0.4) projs
+let tank_detect (tank: Movable.tank) (projs: Movable.projectile list) :
+  Movable.projectile list=
+  List.filter (fun (p:Movable.projectile) -> 
+      get_distance_from p.loc tank.loc > 0.4) projs
 
 (**[proj_removal projs tanks obs] takes in a list of projs, tanks, and walls and
    returns back an active list of projectiles *)
-let rec proj_removal (projs:Movable.projectile list) (tanks:Movable.tank list) walls : Movable.projectile list = 
+let rec proj_removal (projs:Movable.projectile list) (tanks:Movable.tank list) 
+    walls : Movable.projectile list = 
   match tanks with
   | [] -> projs
   | h::t -> proj_removal (tank_detect h projs) t walls
 
+(**[entity_removal_execute w st] returns a state of the game after removing
+   entities*) 
 let entity_removal_execute w (st:State.state)=
-  {st with tanks=tank_removal st.projectiles st.tanks; projectiles=(proj_removal st.projectiles st.tanks w.wall_list) |> check_proj_wall w.wall_list}
+  {st with tanks=tank_removal st.projectiles st.tanks; 
+           projectiles=(proj_removal st.projectiles st.tanks w.wall_list) |> 
+                       check_proj_wall w.wall_list}
+
+(**[wall_execute w st] returns a state of the game after performing
+   wall interactions on entities*) 
 let wall_execute w (st:State.state)=
   {st with tanks= check_tank_wall st.tanks (w.wall_list@w.ditch_list);}
+
+(**[execute w st] returns a state of the game after moving entities*) 
 let execute w (st:State.state)= 
-  {st with tanks=move_tank st.tanks w.wall_list; projectiles=move_projs st.projectiles w.wall_list;}
+  {st with tanks=move_tank st.tanks;
+           projectiles=move_projs st.projectiles;}
