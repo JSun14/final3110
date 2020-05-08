@@ -52,31 +52,31 @@ module DummyB = struct
      expected State*)
   let move_helper
       (name:string)
-      (wall:State.world)
+      (world:State.world)
       (state:State.state)
       (exp_out:State.state)=
-    name >:: (fun _ ->  assert_equal exp_out (execute wall state))
+    name >:: (fun _ ->  assert_equal exp_out (execute world state))
 
   (**Expression that calls [wall_execute wall state] and asserts equality with the 
      expected State*)
   let wall_helper
       (name:string)
-      (wall:State.world)
+      (world:State.world)
       (state:State.state)
       (exp_out:State.state)=
-    name >:: (fun _ -> assert_equal exp_out (wall_execute wall state))
+    name >:: (fun _ -> assert_equal exp_out (wall_execute world state))
 
   (**Expression that calls [entity_removal_execute wall state] and asserts 
      equality with the expected State*)
   let entity_removal_helper
       (name:string)
-      (wall:State.world)
+      (world:State.world)
       (state:State.state)
       (exp_out:State.state)=
-    name >:: (fun _ -> assert_equal exp_out (entity_removal_execute wall state))
+    name >:: (fun _ -> assert_equal exp_out (entity_removal_execute world state))
 
   let tankA : Movable.tank = 
-    {loc=(5.0,5.0);past_loc=(5.0,5.0);velocity=(1.0,1.0);health=1;
+    {loc=(5.0,5.0); past_loc=(5.0,5.0); velocity=(1.0,1.0);health=1;
      last_fire_time=0;side=Enemy}
   let tankB : Movable.tank = 
     {tankA with loc=(6.2,6.2); past_loc=(6.5,6.5)}
@@ -86,13 +86,14 @@ module DummyB = struct
   let projB : Movable.projectile = 
     {projA with loc=(3.0,3.0)}
   let stateA : State.state=
-    {sys_time=0.0; cycle_no=0; score=0; tanks=[{tankA with velocity=(2.0,2.0)}; 
-                                 {tankA with velocity=(-2.0,1.0)};
-                                 {tankA with velocity=(-2.0,-1.0)};
-                                 {tankA with velocity=(1.0, -2.0);}];
-     projectiles=[{projA with velocity=(2.0,2.0)}; 
-                  {projA with velocity=(-2.0,1.0)};
-                  {projA with velocity=(-2.0,-1.0)}; 
+    {sys_time=0.0; cycle_no=0; score=0; 
+     tanks=[{tankA with velocity=(2.0, 2.0)}; 
+            {tankA with velocity=(-2.0, 1.0)};
+            {tankA with velocity=(-2.0, -1.0)};
+            {tankA with velocity=(1.0, -2.0);}];
+     projectiles=[{projA with velocity=(2.0, 2.0)}; 
+                  {projA with velocity=(-2.0, 1.0)};
+                  {projA with velocity=(-2.0, -1.0)}; 
                   {projA with velocity=(1.0, -2.0);}];
      win_cond=Playing}
   let stateB : State.state=
@@ -108,23 +109,23 @@ module DummyB = struct
     {worldA with wall_list=[]}
 
   let tests = [
-    move_helper "Testing execute for interactions" worldA stateA 
+    move_helper "Testing execute for interactions" worldA stateA
       {stateA with 
        tanks=[
-         {tankA with velocity=(0.0,0.0); loc=(7.0,7.0);past_loc=(5.0,5.0)};
-         {tankA with velocity=(0.0,0.0); loc=(3.0,6.0);past_loc=(5.0,5.0)};
-         {tankA with velocity=(0.0,0.0); loc=(3.0,4.0);past_loc=(5.0,5.0)};
-         {tankA with velocity=(0.0,0.0); loc=(6.0,3.0);past_loc=(5.0,5.0)};];
+         {tankA with loc=(7.0,7.0);velocity=(2.0, 2.0)};
+         {tankA with loc=(3.0,6.0);velocity=(-2.0, 1.0)};
+         {tankA with loc=(3.0,4.0);velocity=(-2.0, -1.0)};
+         {tankA with loc=(6.0,3.0);velocity=(1.0, -2.0);};];
        projectiles=[
-         {projA with velocity=(0.0,0.0); loc=(7.0,7.0);past_loc=(5.0,5.0)};
-         {projA with velocity=(0.0,0.0); loc=(3.0,6.0);past_loc=(5.0,5.0)};
-         {projA with velocity=(0.0,0.0); loc=(3.0,4.0);past_loc=(5.0,5.0)};
-         {projA with velocity=(0.0,0.0); loc=(6.0,3.0);past_loc=(5.0,5.0)};]};
+         {projA with loc=(7.0,7.0);velocity=(2.0, 2.0)};
+         {projA with loc=(3.0,6.0);velocity=(-2.0, 1.0)};
+         {projA with loc=(3.0,4.0);velocity=(-2.0, -1.0)};
+         {projA with loc=(6.0,3.0);velocity=(1.0, -2.0)}]};
     wall_helper "Testing execute for walls/other tanks" worldA stateB 
       {stateB with tanks=[{tankA with loc=(4.0,4.0); past_loc=(4.0,4.0)};
                           {tankB with loc=(6.5,6.5)}]};
     entity_removal_helper "Testing entity removal for tanks/projs" worldB stateC 
-      {stateC with tanks=[{tankB with loc=(7.0,7.0)}]; projectiles=[projB]}
+      {stateC with tanks=[{tankB with loc=(7.0,7.0)}]; projectiles=[projB]};
   ]
 end 
 
