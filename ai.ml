@@ -61,7 +61,7 @@ let attempt_shoot wl ccno (player:Movable.tank)  (enemy:Movable.tank) =
     let b_spawn_l = 
       fscale target_vec_hat (Const.tank_rad +. Const.eps) |> fsum enemy.loc in
     let b_vel = fscale target_vec_hat Const.enemy_bullet_vel in 
-    (Some (make_bouncy b_spawn_l b_vel), new_tank)
+    (Some (make_bouncy b_spawn_l b_vel 3), new_tank)
   else
     (None, enemy)
 

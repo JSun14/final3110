@@ -25,7 +25,7 @@ let gen_bullet st u =
     let target_vec_hat = fdiff u.m_pos player.loc |> unit_vec in 
     let bull_vel = fscale target_vec_hat Const.standard_vel in
     let spawn_loc = fsum player.loc (fscale target_vec_hat (Const.tank_rad +. Const.eps)) in 
-    (make_bullet spawn_loc bull_vel)::st.projectiles
+    (make_bouncy spawn_loc bull_vel 1)::st.projectiles
 
 (** [generate_palyer_proj player u] spawns a projectile *)
 let query_player_shoot st u =
