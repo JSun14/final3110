@@ -45,7 +45,8 @@ let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
   let simp_probe = List.sort_uniq comp_pair_s probe_coords in
   let wall_locs = List.map (fun x -> floor x.coord) wl in 
   let bools = List.map (fun x -> List.mem x wall_locs) simp_probe in 
-  List.fold_left (fun acc x -> x && acc) true bools
+  let wall_in_way = List.fold_left (fun acc x -> x || acc) false bools in 
+  not wall_in_way
 
 let can_shoot ccno tank = 
   ccno - tank.last_fire_time > Const.standard_reload
@@ -56,7 +57,11 @@ let attempt_shoot wl ccno (player:Movable.tank)  (enemy:Movable.tank) =
     let new_tank = {
       enemy with last_fire_time = ccno;
     } in
-    (Some (make_bouncy (1.0,1.0) (1.0, 1.0)), new_tank)
+    let target_vec_hat = fdiff player.loc enemy.loc |> unit_vec in 
+    let b_spawn_l = 
+      fscale target_vec_hat (Const.tank_rad +. Const.eps) |> fsum enemy.loc in
+    let b_vel = fscale target_vec_hat Const.enemy_bullet_vel in 
+    (Some (make_bouncy b_spawn_l b_vel), new_tank)
   else
     (None, enemy)
 
