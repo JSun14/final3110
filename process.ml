@@ -37,7 +37,7 @@ let query_player_shoot st u =
     let new_player_tank = if shoot then {player with last_fire_time = st.cycle_no} else player in  
     {
         st with projectiles = new_projectiles;
-                      tanks = update_tank_list st.tanks new_player_tank
+                      tanks = update_tl_player st.tanks new_player_tank
     }
 
 (** [move_player st u] is a new state where the player 

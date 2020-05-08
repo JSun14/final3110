@@ -21,7 +21,7 @@ let init_world map = {
   ditch_list = map.ditch_list;
 }
 
-let rec game_helper w st =
+let rec game_helper (w:State.world) (st:State.state) =
   (* print debug info about game state *)
   print_state st;
   (* State.print_tank_info st; *)
@@ -32,11 +32,12 @@ let rec game_helper w st =
   let u_in = Input.get_user_in () in
   let _ = print_user_in u_in in
   let s = Process.process_u_in st u_in in
-  let s = Ai.attempt_shoot_map w s in 
+  (* let s = Ai.attempt_shoot_map w s in  *)
+  (* let s = Ai.move_all_enemies s in *)
   let s = Interactions.execute w s in
   let s = Interactions.wall_execute w s in 
   let s = Interactions.entity_removal_execute w s in 
-  let s = Ai.move_all_enemies s in
+
   (* Render.execute world s3 *)
 
   let final_state = {
