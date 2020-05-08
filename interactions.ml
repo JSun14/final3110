@@ -27,17 +27,16 @@ let rec move_projs (projs:Movable.projectile list) =
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
    list of walls and returns back a boolean of whether the entity is in a wall*)
 let rec wall_detect coords walls= 
-  if (fst walls.coord -. 0.5) <= (fst coords) && 
-     (fst walls.coord +. 0.5) >= fst coords && 
-     (snd walls.coord -. 0.5) <= snd coords && 
-     (snd walls.coord +. 0.5) >= snd coords then true else false
+  (fst walls.coord -. 0.5) <= (fst coords) && 
+  (fst walls.coord +. 0.5) >= fst coords && 
+  (snd walls.coord -. 0.5) <= snd coords && 
+  (snd walls.coord +. 0.5) >= snd coords 
 
 (**[check_grid coordA coordB] sees if 2 coordinates are less than 2 grid pos 
    away in both x and y directions *)
 let check_grid coordA coordB = 
-  if  Float.to_int (fst coordA)|> (-) (Float.to_int (fst coordB)) |> Int.abs < 2
-   && Float.to_int (snd coordA)|> (-) (Float.to_int (snd coordB)) |> Int.abs < 2
-  then true else false
+  Float.to_int (fst coordA)|> (-) (Float.to_int (fst coordB)) |> Int.abs < 2
+  && Float.to_int (snd coordA)|> (-) (Float.to_int (snd coordB)) |> Int.abs < 2
 
 (**[edge_touch_tank tank corn2 corn1] returns a bool of whether a tank is 
    touching any edge on a wall*)
@@ -49,11 +48,10 @@ let edge_touch_tank (tank:Movable.tank) corn2 corn1=
   let b = 2.0 *. (ax *. (bx -. ax) +. ay *. (by -. ay)) in
   let c = Float.pow ax 2.0 +. Float.pow ay 2.0 -. Float.pow tank_radius 2.0 in 
   let disc = Float.pow b 2.0 -. 4.0*.a*.c in 
-  if disc <= 0.0 then false else 
-    let sqrt_disc = Float.sqrt disc in 
-    let t1 = (Float.neg b +. sqrt_disc ) /. (2.0*.a) in
-    let t2 = (Float.neg b -. sqrt_disc ) /. (2.0*.a) in
-    if (0.0 < t1 && t1 < 1.0) || (0.0 < t2 && t2 < 1.0) then true else false
+  let sqrt_disc = Float.sqrt disc in 
+  let t1 = (Float.neg b +. sqrt_disc ) /. (2.0*.a) in
+  let t2 = (Float.neg b -. sqrt_disc ) /. (2.0*.a) in
+  disc > 0.0 && ((0.0 < t1 && t1 < 1.0) || (0.0 < t2 && t2 < 1.0)) 
 
 (**[tank_touch_wall wall tank] returns a bool as to whether a tank is touching
    a specific wall*)
@@ -64,13 +62,12 @@ let tank_touch_wall wall (tank:Movable.tank)=
   let corn2 =(fst wall.coord+.half_wall_width,snd wall.coord-.half_wall_width)in
   let corn3 =(fst wall.coord+.half_wall_width,snd wall.coord+.half_wall_width)in
   let corn4 =(fst wall.coord-.half_wall_width,snd wall.coord+.half_wall_width)in
-  if get_distance_from tank.loc corn1 < tank_radius || 
-     get_distance_from tank.loc corn2 < tank_radius || 
-     get_distance_from tank.loc corn3 < tank_radius ||
-     get_distance_from tank.loc corn4 < tank_radius || 
-     edge_touch_tank tank corn4 corn1 || edge_touch_tank tank corn2 corn1 ||
-     edge_touch_tank tank corn3 corn2 || edge_touch_tank tank corn3 corn4
-  then true else false
+  get_distance_from tank.loc corn1 < tank_radius || 
+  get_distance_from tank.loc corn2 < tank_radius || 
+  get_distance_from tank.loc corn3 < tank_radius ||
+  get_distance_from tank.loc corn4 < tank_radius || 
+  edge_touch_tank tank corn4 corn1 || edge_touch_tank tank corn2 corn1 ||
+  edge_touch_tank tank corn3 corn2 || edge_touch_tank tank corn3 corn4
 
 (**[tank_touch_tank tanks tank] returns a bool of whether a tank touches another
    tank*)
