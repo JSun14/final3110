@@ -164,8 +164,8 @@ let tank_detect (tank: Movable.tank) (projs: Movable.projectile list) :
       get_distance_from p.loc tank.loc > 0.4) projs
 
 (**[proj_detect proj projs] takes in a list of projectiles and a projectile and
-   checks to see if any projectiles share a spare with one another, thus removing
-   both of them*)
+   checks to see if any projectiles share a spare with one another, thus 
+   removing both of them*)
 let rec proj_detect (proj: Movable.projectile) (projs: Movable.projectile list): 
   Movable.projectile list=
   match projs with 
