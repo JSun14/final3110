@@ -15,13 +15,11 @@ default: build
 build:
 	$(OCAMLBUILD) $(OBJECTS)
 
-# CUSTOM ENVIORMENT FOR TESTING YOUR OWN MODULES
 tank:
 	utop -init tank.ml
 
 interactions:
 	utop -init interactions.ml
-# FOLLOW THE PATTERN
 
 ai:
 	utop -init ai.ml
@@ -33,7 +31,7 @@ play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
 zip:
-	zip tank_src.zip *.ml* _tags Makefile *.json 
+	zip tank_src.zip *.ml* _tags Makefile *.json doc.public -r
 
 docs: docs-public
 
