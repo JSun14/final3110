@@ -11,7 +11,7 @@ open Const
 let init_state map = {
   sys_time = 0.0;
   cycle_no = 0; 
-  score = 0;
+  score = 100 * 100 * 10;
   tanks = map.tank_list;
   projectiles = [];
   win_cond = Playing;
@@ -23,6 +23,8 @@ let init_world map = {
   ditch_list = map.ditch_list;
 }
 
+(** [waiter ref_time] recusrively calls itself and waits until 
+[Const.cycle_time] has elpased since [ref_time]. *)
 let rec waiter ref_time = 
   if Unix.gettimeofday () -. ref_time > Const.cycle_time then 
     () 
@@ -31,17 +33,22 @@ let rec waiter ref_time =
     waiter ref_time
   end
 
+(** [debug w st] prints debug information about the game state as a 
+singly togglable function. *)
+let debug w st =
+  State.print_state st;
+  State.print_tank_info st;
+  State.print_proj_info st
+
 let rec game_helper (w:State.world) (st:State.state) =
   (* print debug info about game state *)
-  (* print_state st; *)
-  (* State.print_tank_info st; *)
-  (* State.print_proj_info st; *)
+  (* let () = debug w st in  *)
 
   (* if Unix.gettimeofday () -. st.sys_time > Const.cycle_time then
     print_endline "WARNING YOUR MACHINE IS SLOW"; *)
 
   (* delay until cycle_time has elpased *)
-  waiter st.sys_time;
+  let () = waiter st.sys_time in 
 
   (* set control cycle time *)
   let s = {
@@ -59,22 +66,39 @@ let rec game_helper (w:State.world) (st:State.state) =
 
   (* Render.execute world s3 *)
 
-  let final_state = {
+  (* step forward top level state *)
+  let s = {
     s with cycle_no = s.cycle_no + 1; 
-           win_cond = State.win_condition s
+              score = s.score - 1;
+           win_cond = State.win_condition s;
   } in 
+  let final_state = {
+    s with score = if s.win_cond = Loss 
+      then s.score - Const.on_death_subtraction
+      else s.score
+  } in
 
-  let _ = Render.render_frame w final_state in match final_state.win_cond with
+  let () = Render.render_frame w final_state in match final_state.win_cond with
   | Playing -> game_helper w final_state
-  | Win -> (print_endline "GG EZ"; Stdlib.exit 0)
-  | Loss -> (print_endline "You lost."; Stdlib.exit 0)
-
-(* sleep for 1/100 of second *)
+  | Win -> 
+    ANSITerminal.(print_string [green] "\n\nYou Won! Great job!\n");
+    ANSITerminal.(print_string [green] 
+      ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
+    Stdlib.exit 0
+  | Loss ->       
+    ANSITerminal.(print_string [red]
+      "\n\nYou Lost! Please try again.\n");
+    ANSITerminal.(print_string [red] 
+      ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
+    Stdlib.exit 0
 
 let json_file_to_map f =
   try let json = f |> Yojson.Basic.from_file in
     json |> Read_json.from_json
-  with e -> failwith "invalid game file"
+  with e ->      
+    ANSITerminal.(print_string [red]
+      "\n\nInvalid Map Name. Please try.\n");
+    Stdlib.exit 0
 
 let main () =
   ANSITerminal.(print_string [red]
@@ -83,9 +107,18 @@ let main () =
   print_string  "> ";
   let fn =
     match read_line () with
-    | exception End_of_file -> failwith "BAD FILE NAME"
+    | exception End_of_file ->
+      ANSITerminal.(print_string [red]
+        "\n\nInvalid User Input. Please try.\n");
+      Stdlib.exit 0
     | file_name -> file_name in
-  let () = start_rend () in
+  let () = match start_rend () with
+    | exception e -> 
+      ANSITerminal.(print_string [red]
+        "\n\nWindow not found. Please start a valid X Server to render the game.\n");
+      Stdlib.exit 0
+    | _ -> ()
+    in
   let map = json_file_to_map fn in
   let w = init_world map in
   let s0 = init_state map in

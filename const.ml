@@ -18,3 +18,6 @@ let scale = 20.0
 let eps = 0.1
 
 let cycle_time = 0.008
+
+let initial_score = 100*100*10
+let on_death_subtraction = 100*100*5
