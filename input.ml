@@ -1,7 +1,6 @@
 (** 
     Set of functions to interface with the operating system to get user input.
 *)
-
 open Graphics
 open Const 
 

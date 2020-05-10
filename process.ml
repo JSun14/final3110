@@ -5,12 +5,11 @@
 open Input
 open State
 open Movable
-
 open Util
 open Const
 
 (**[set_player_vel player u] sets the player tank's velocity according to keys 
-   pressed in u*)
+   pressed in [u]*)
 let set_player_vel (player:Movable.tank) u =
   let x0 = match u.a, u.d with
     | true, false -> -1.0

@@ -68,7 +68,12 @@ let attempt_shoot wl ccno (player:Movable.tank)  (enemy:Movable.tank) =
   else
     (None, enemy)
 
-(* generates list of projectile options *)
+(** [attempt_shoot_map w st] is a new game state with the locations
+    of the tanks in [w] and [st]. In this new state, enemy tanks attempt to shoot
+    a projectile at the player tank. If there is a clear shot to the player tank,
+    these projectiles will be generated in the state. 
+
+    Requires: [st] is a valid game state. *)
 let attempt_shoot_map w st=
   let wl = w.wall_list in 
   let player = get_player_tank st.tanks in 

@@ -1,17 +1,17 @@
 (** 
-  Representation of movable in-game objects
- *)
+   Representation of movable in-game objects
+*)
 
 open Util
 
-(**type team is a variant of either Self or Enemy, describing each tank *)
+(**type [team] is a variant of either Self or Enemy, describing each tank *)
 type team = Self | Enemy
 
-(**type proj_species is a variant of either Bouncy or Bullet, describing each 
+(**type [proj_species] is a variant of either Bouncy or Bullet, describing each 
    projectile *)
 type proj_species = Bouncy | Bullet
 
-(**type tank is a record of a tank's location, immediate past location, 
+(**type [tank] is a record of a tank's location, immediate past location, 
    velocity, health, last time it fired a projectile, and its team*)
 type tank = {
   loc : float * float;
@@ -22,7 +22,7 @@ type tank = {
   side : team;
 }
 
-(**type projectile is a record of a projectile's location, immediate past 
+(**type [projectile] is a record of a projectile's location, immediate past 
    location, velocity, health, and the weapon species. *)
 type projectile = {
   loc : float * float;
@@ -49,11 +49,11 @@ let make_bouncy l v health = {
   weap_species = Bouncy;
 }
 
-(** [is_dead t] returns whether or not if a movable is dead *)
+(** [is_dead t] returns whether or not if a movable [t] is dead *)
 let is_dead t =
   t.health = 0
 
-(** [stop_tank t] returns a non-moving tank t *)
+(** [stop_tank t] returns a non-moving tank [t] *)
 let stop_tank t =
   {t with velocity = (0.0, 0.0)}
 
@@ -61,17 +61,18 @@ let stop_tank t =
 let grid_loc (x, y) =
   (x |> int_of_float, y |> int_of_float)
 
-(** [tuple_to_string t] is a tuple represented as a string *)
+(** [tuple_to_string t] is a tuple [t] represented as a string *)
 let tuple_to_string (t : float * float) = 
   "(" ^ (fst t |> string_of_float) ^ ", " ^ (snd t |> string_of_float) ^ ")"
 
-(** [tank_info t] prints the location, velocity, and health of a tank *)
+(** [tank_info t] prints the location, velocity, and health of a tank [t] *)
 let tank_info (t : tank) = 
   print_string ("Current location: " ^ (tuple_to_string t.loc));
   print_string (", Velocity: " ^ (tuple_to_string t.velocity));
   print_string (", Health: " ^ (string_of_int t.health))
 
-(** [proj_info t] prints the location, velocity, and health of a projectile *)
+(** [proj_info t] prints the location, velocity, and health of a 
+    projectile [p] *)
 let proj_info (p : projectile) = 
   print_string ("Current location: " ^ (tuple_to_string p.loc));
   print_string (", Velocity: " ^ (tuple_to_string p.velocity));

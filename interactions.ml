@@ -1,8 +1,6 @@
 (**
    Interaction of the in-game objects with one another.
 *)
-
-
 open Block
 open Movable
 open State
@@ -17,7 +15,6 @@ let rec move_tank (tanks:Movable.tank list) =
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
     {h with loc = new_loc; past_loc = h.loc}::move_tank t 
-
 
 (**[move_projs projs walls] is a list of active projectiles with updated 
    locations. If the proj's new location is inside a wall then remove it, but if 
@@ -106,7 +103,6 @@ let edge_detector posA posB=
   let horiz = floor (snd posA)|> (-.) (floor (snd posB)) |> 
               Float.abs |> Float.to_int <> 0 in
   if vert && horiz then Corner else if vert then Vert else Horiz 
-
 
 (**[proj_phys_engine proj walls] returns None if a proj is not in a wall and
    Some proj if it is with modified proj values.*)
