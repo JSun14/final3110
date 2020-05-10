@@ -33,9 +33,12 @@ let fcompare x y =
 let pfloor (a,b) = 
   (int_of_float (floor a), int_of_float (floor b))
 
+(**[comp_pair (a, b) (x, y)] is a bool of the equality status of two tuples *)
 let comp_pair (a, b) (x, y) =
   a = x && b = y
 
+(**[comp_pair (a, b) (x, y)] is an int of 0 if two tuples are equal and -1 if
+   the first is less than the second and 1 otherwise*)
 let comp_pair_s (a, b) (x, y) = 
   if comp_pair (a,b) (x,y) then 0 else
   if a < b then -1 else 1
@@ -50,6 +53,8 @@ let get_distance_from pointA pointB =
   sqrt(Float.pow (fst(pointA) -. fst(pointB)) 2.0 +. 
        Float.pow (snd(pointA) -. snd(pointB)) 2.0)
 
+(**[range_helper target iter acc] is a list of integers spanning from the first
+   iter to target*)
 let rec range_helper target iter acc =
   match target, iter with
   | t, i when t < 1 -> failwith "target must be > 0"

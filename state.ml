@@ -30,6 +30,7 @@ let print_state st =
   print_endline ("Cycle No: " ^ string_of_int st.cycle_no);
   print_endline ("win: " ^ string_of_progress st.win_cond)
 
+(**type world is a record of a list of walls and ditches of type Block.block *)
 type world = {
   wall_list : Block.block list;
   ditch_list : Block.block list;
@@ -83,6 +84,8 @@ let update_tl_player old_tank_list new_player_tank =
   let enemies = List.filter (fun x -> x.side = Enemy) old_tank_list in
   new_player_tank::enemies
 
+(**[update_tl_enemies old_tank_list new_enemies] is a list of tanks including
+   the player tank and new enemies *)
 let update_tl_enemies old_tank_list new_enemies =
   let player = get_player_tank old_tank_list in 
   player::new_enemies
