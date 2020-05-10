@@ -28,6 +28,16 @@ let debug w st =
   State.print_tank_info st;
   State.print_proj_info st
 
+(** [processor w s] updates the game state with AI and interactions with 
+    [w] and [s]. *)
+let processor w s = 
+  let s = Ai.attempt_shoot_map w s in 
+  let s = Ai.move_all_enemies s in
+  let s = Interactions.execute w s in
+  let s = Interactions.wall_execute w s in 
+  let s = Interactions.entity_removal_execute w s in 
+  s
+
 (** [game_helper w st] updates the state and map of the game with 
     [w] and [st]. *)
 let rec game_helper (w:State.world) (st:State.state) =
@@ -39,22 +49,11 @@ let rec game_helper (w:State.world) (st:State.state) =
     st with sys_time = Unix.gettimeofday ();
   } in
 
-  (**[u_in] is the user input *)
   let u_in = Input.get_user_in () in
   (* let _ = print_user_in u_in in *)
-  (**[s] is a state after being processed with a user input *)
   let s = Process.process_u_in s u_in in
-  (**[s] is a state with Ai's attempting to shoot *)
-  let s = Ai.attempt_shoot_map w s in 
-  (**[s] is a state with Ai's attempting to move *)
-  let s = Ai.move_all_enemies s in
-  (**[s] is a state with movement for all entities *)
-  let s = Interactions.execute w s in
-  (**[s] is a state with interactions with all walls and entities performed *)
-  let s = Interactions.wall_execute w s in 
-  (**[s] is a state with entities removed if applicable *)
-  let s = Interactions.entity_removal_execute w s in 
-
+  let s = processor w s in 
+  
   (* step forward top level state *)
   let s = {
     s with cycle_no = s.cycle_no + 1; 
