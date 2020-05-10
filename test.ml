@@ -50,15 +50,15 @@ module AiT = struct
      health = 1;
      last_fire_time = 0;
      side = Enemy}
-  
+
   let player = {
     tankA with side = Self;
-                loc = (3.0, 14.124)
+               loc = (3.0, 14.124)
   }
 
   let tankB = {
     tankA with loc = (35.0, 14.0);
-    last_fire_time = 99
+               last_fire_time = 99
   }
 
   let s = {
@@ -70,31 +70,44 @@ module AiT = struct
     win_cond = Playing;
   }
 
+  let s2 = {
+    sys_time = 0.0;
+    cycle_no = 100;
+    score = 0;
+    tanks = [player];
+    projectiles = [];
+    win_cond = Playing;
+  }
+
   let state_helper_tests = [
     "get_enemies test" >:: 
-      (fun _ -> assert_equal ~cmp:cmp_set_like_lists
+    (fun _ -> assert_equal ~cmp:cmp_set_like_lists
         [tankB; tankA] 
         (get_enemy_tanks [player; tankA; tankB]));
     "get_player test" >:: 
-      (fun _ -> assert_equal ~cmp:cmp_set_like_lists
+    (fun _ -> assert_equal ~cmp:cmp_set_like_lists
         [tankB; tankA] 
         (get_enemy_tanks [player; tankA; tankB]));
+    "win_condition test" >:: 
+    (fun _ -> assert_equal Playing (win_condition s));
+    "win_condition test" >:: 
+    (fun _ -> assert_equal Win (win_condition s2));
   ]
 
   let shoot_tests = [
     "check true clear line of sight" >:: 
-      (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
+    (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
     "check true clear line of sight symmetric" >:: 
-      (fun _ -> assert_equal true (Ai.clear_los w.wall_list tankA player));  
+    (fun _ -> assert_equal true (Ai.clear_los w.wall_list tankA player));  
     "check false clear line of sight" >:: 
-      (fun _ -> assert_equal false (Ai.clear_los w.wall_list player tankB));
+    (fun _ -> assert_equal false (Ai.clear_los w.wall_list player tankB));
     "check false clear line of sight symmetric" >:: 
-      (fun _ -> assert_equal false (Ai.clear_los w.wall_list tankB player));
+    (fun _ -> assert_equal false (Ai.clear_los w.wall_list tankB player));
 
     "check can't fire" >:: 
-      (fun _ -> assert_equal false (Ai.can_shoot 100 tankB));
+    (fun _ -> assert_equal false (Ai.can_shoot 100 tankB));
     "check can fire" >:: 
-      (fun _ -> assert_equal true (Ai.can_shoot 200 tankB));
+    (fun _ -> assert_equal true (Ai.can_shoot 200 tankB));
   ]
 end 
 
@@ -112,7 +125,7 @@ module InteractionsT = struct
     name >:: (fun _ ->  assert_equal exp_out (execute world state))
 
   (**Expression that calls [wall_execute wall state] and asserts equality with 
-    the expected State*)
+     the expected State*)
   let wall_helper
       (name:string)
       (world:State.world)
@@ -128,7 +141,7 @@ module InteractionsT = struct
       (state:State.state)
       (exp_out:State.state)=
     name >:: 
-      (fun _ -> assert_equal exp_out (entity_removal_execute world state))
+    (fun _ -> assert_equal exp_out (entity_removal_execute world state))
 
   let tankA : Movable.tank = 
     {loc = (5.0,5.0); 
