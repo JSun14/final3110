@@ -82,6 +82,12 @@ module AiT = struct
                last_fire_time = 99
   }
 
+  let slowtankB = {
+    tankA with loc = (35.0, 14.0);
+               velocity = (0.035, 0.035);
+               last_fire_time = 99
+  }
+
   let s = {
     sys_time = 0.0;
     cycle_no = 100;
@@ -154,17 +160,25 @@ module AiT = struct
     "check can fire" >:: 
     (fun _ -> assert_equal true (Ai.can_shoot 200 tankB));
 
+    "check cap_vel slow enough" >:: 
+    (fun _ -> assert_equal false (Ai.cap_velocity slowtankB (0.4,0.5)));
+    "check cap_vel too fast" >:: 
+    (fun _ -> assert_equal true (Ai.cap_velocity slowtankB (0.0001, 0.0001)));
+
     "check shot generation NONE GENERATE" >:: 
     (fun _ -> assert_equal (None, tankB) 
       (Ai.attempt_shoot w.wall_list 10 player tankB));
-
     "check shot generation NONE GENERATE" >:: 
     (fun _ -> assert_equal (None, tankA) 
       (Ai.attempt_shoot w.wall_list 10 player tankA));
-
     "check shot generation SOME GENERATION" >:: 
     (fun _ -> assert_equal true 
       (match Ai.attempt_shoot w.wall_list 100 player tankA with 
+      | Some p, t -> true
+      | None, t -> false));
+    "check shot generation SOME GENERATION, no walls" >:: 
+    (fun _ -> assert_equal true 
+      (match Ai.attempt_shoot [] 200 player tankB with 
       | Some p, t -> true
       | None, t -> false));
   ]
