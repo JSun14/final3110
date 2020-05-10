@@ -26,6 +26,14 @@ run:
 opam install graphics
 ```
 
+You will also need these other opam packages:
+- unix
+- oUnit
+- str
+- ANSITerminal
+- graphics
+- yojson
+
 You will need an XServer to display graphics:
 
 Windows:
@@ -38,3 +46,5 @@ Install via: https://www.xquartz.org/
 
 Unix:
 ???
+
+That should be all.
