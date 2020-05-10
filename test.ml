@@ -9,7 +9,10 @@
    test it accordingly with that context. This testing approach is appropriate 
    for this system, since the system is a game and thus is more suited to being
    tested manually in certain aspects vs others due to the end goal being a 
-   visual representation of the system's logic. Furthermore, more complex 
+   visual representation of the system's logic. For example, making sure that 
+   enemy AI shot their projects in the right direction was visually confirmed 
+   to be working since the outputs were continuously values that would be hard 
+   to test precisely using unit tests. Furthermore, more complex 
    interactions, would require many more lines of code just to set 
    up the proper environment in which a specific interaction would occur, 
    whereas manually testing it would prove to be much faster and more visually 
