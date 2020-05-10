@@ -1,3 +1,6 @@
+(** 
+   Representation of a game state object. 
+*)
 open Movable
 open Block
 
