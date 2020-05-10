@@ -73,8 +73,13 @@ module AiT = struct
   let tests = [
     "check true clear line of sight" >:: 
       (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
+    "check true clear line of sight symmetric" >:: 
+      (fun _ -> assert_equal true (Ai.clear_los w.wall_list tankA player));  
     "check false clear line of sight" >:: 
       (fun _ -> assert_equal false (Ai.clear_los w.wall_list player tankB));
+    "check false clear line of sight symmetric" >:: 
+      (fun _ -> assert_equal false (Ai.clear_los w.wall_list tankB player));
+
     "check can't fire" >:: 
       (fun _ -> assert_equal false (Ai.can_shoot 100 tankB));
     "check can fire" >:: 
