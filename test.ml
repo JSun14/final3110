@@ -109,6 +109,15 @@ module AiT = struct
     win_cond = Playing;
   }
 
+  let s4 = {
+    sys_time = 0.0;
+    cycle_no = 100;
+    score = 0;
+    tanks = [];
+    projectiles = [];
+    win_cond = Playing;
+  }
+
   let state_helper_tests = [
     "get_enemies test" >:: 
     (fun _ -> assert_equal ~cmp:cmp_set_like_lists
@@ -124,6 +133,8 @@ module AiT = struct
     (fun _ -> assert_equal Win (win_condition s2));
     "win_condition test loss" >::
     (fun _ -> assert_equal Loss (win_condition s3));
+    "win_condition test loss" >::
+    (fun _ -> assert_equal Loss (win_condition s4));
     "get_player_tank test" >::
     (fun _ -> assert_equal player (get_player_tank s.tanks))
   ]
