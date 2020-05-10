@@ -57,12 +57,13 @@ module AiT = struct
   }
 
   let tankB = {
-    tankA with loc = (35.0, 14.0)
+    tankA with loc = (35.0, 14.0);
+    last_fire_time = 99
   }
 
   let s = {
     sys_time = 0.0;
-    cycle_no = 0;
+    cycle_no = 100;
     score = 0;
     tanks = [tankA; player];
     projectiles = [];
@@ -72,8 +73,17 @@ module AiT = struct
   let tests = [
     "check true clear line of sight" >:: 
       (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
+    "check true clear line of sight symmetric" >:: 
+      (fun _ -> assert_equal true (Ai.clear_los w.wall_list tankA player));  
     "check false clear line of sight" >:: 
       (fun _ -> assert_equal false (Ai.clear_los w.wall_list player tankB));
+    "check false clear line of sight symmetric" >:: 
+      (fun _ -> assert_equal false (Ai.clear_los w.wall_list tankB player));
+
+    "check can't fire" >:: 
+      (fun _ -> assert_equal false (Ai.can_shoot 100 tankB));
+    "check can fire" >:: 
+      (fun _ -> assert_equal true (Ai.can_shoot 200 tankB));
   ]
 end 
 
@@ -90,8 +100,8 @@ module InteractionsT = struct
       (exp_out:State.state)=
     name >:: (fun _ ->  assert_equal exp_out (execute world state))
 
-  (**Expression that calls [wall_execute wall state] and asserts equality with the 
-     expected State*)
+  (**Expression that calls [wall_execute wall state] and asserts equality with 
+    the expected State*)
   let wall_helper
       (name:string)
       (world:State.world)
@@ -106,7 +116,8 @@ module InteractionsT = struct
       (world:State.world)
       (state:State.state)
       (exp_out:State.state)=
-    name >:: (fun _ -> assert_equal exp_out (entity_removal_execute world state))
+    name >:: 
+      (fun _ -> assert_equal exp_out (entity_removal_execute world state))
 
   let tankA : Movable.tank = 
     {loc = (5.0,5.0); 
