@@ -63,13 +63,9 @@ let read_block_kind str = match str with
 
     Requires: [json] is a valid JSON map representation. *)
 let wall_of_json json = {
-  id = json 
-       |> member "name" 
-       |> to_string;
+  id = json |> member "name" |> to_string;
   kind = Wall;
-  width = json 
-          |> member "width" 
-          |> to_float;
+  width = json |> member "width" |> to_float;
   coord = json 
           |> member "coord" 
           |> to_list 
