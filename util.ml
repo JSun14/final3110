@@ -1,10 +1,10 @@
 (* UTILITY MODULE *)
 
-(* int difference *)
+(** [diff (a,b) (x,y)] is the difference of the two tuples of ints. *)
 let diff (a,b) (x,y) =
   (a-x, b-y)
 
-(* float differece *)
+(** [fdiff (a,b) (x,t)] is the difference of the two tuples of floats. *)
 let fdiff (a,b) (x,y) =
   (a -. x, b -. y)
 
@@ -23,6 +23,11 @@ let magn (a,b) =
 (* scale a vector by a scale factor *)
 let fscale (a,b) scale_fact =
   (a *. scale_fact, b *. scale_fact) 
+
+(** [fcompare x y] is true when [x] and [y] are within 0.000001 from each other.
+    Otherwise, it is false. *)
+let fcompare x y = 
+  Float.abs (x -. y) <= 0.000001
 
 (** [pfloor (a,b)] is the grid location [(x,y)] cooresponding to a coord [(a,b)]*)
 let pfloor (a,b) = 

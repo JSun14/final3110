@@ -152,6 +152,16 @@ module UtilT = struct
     "Test fsum function" >:: 
     (fun _ -> assert_equal (3.0, 3.1) (fsum (1.0, 1.0) (2.0, 2.1)) 
         ~printer:(pp_tuple string_of_float));
+    "Test mult_inv function" >:: 
+    (fun _ -> assert_equal 0.5 (mult_inv 2.0) ~printer:(string_of_float));
+    "Test magn function" >:: 
+    (fun _ -> assert_equal 5.0 (magn (3.0, 4.0)) ~printer:(string_of_float));
+    "Test fscale function" >:: 
+    (fun _ -> assert_equal (3.0, -4.0) (fscale (1.5, -2.0) 2.0) 
+        ~printer:(pp_tuple string_of_float));
+    "Test fscale function" >:: 
+    (fun _ -> assert_equal (-3.0, -3.9) (fscale (1.0, 1.3) (-3.0)) 
+        ~printer:(pp_tuple string_of_float));
   ]
 end 
 
