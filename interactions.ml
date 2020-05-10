@@ -118,9 +118,7 @@ let rec proj_phys_engine proj walls=
            | Horiz -> Some {proj with velocity = (fst proj.velocity, 
                                                   snd proj.velocity *. (-1.0));
                                       health = proj.health-1;}
-           | Corner -> Some {proj with velocity = (fst proj.velocity *. (-1.0), 
-                                                   snd proj.velocity *. (-1.0));
-                                       health = proj.health-1;})
+           | Corner -> None)
         else None
       | Bullet -> None
     else proj_phys_engine proj t
