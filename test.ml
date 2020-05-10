@@ -36,16 +36,42 @@ let cmp_set_like_lists lst1 lst2 =
   &&
   uniq1 = uniq2
 
-module DummyA = struct 
-  open Movable
+module AiT = struct 
+  open Ai
+  open State 
+
+  let map = Main.json_file_to_map "map3.json"
+  let w = Main.init_world map
+
+  let tankA : Movable.tank = 
+    {loc = (3.0,3.0); 
+     past_loc = (5.0,5.0); 
+     velocity = (1.0,1.0);
+     health = 1;
+     last_fire_time = 0;
+     side = Enemy}
+  
+  let player = {
+    tankA with side = Self;
+                loc = (3.0, 14.124)
+  }
+
+  let s = {
+    sys_time = 0.0;
+    cycle_no = 0;
+    score = 0;
+    tanks = [tankA; player];
+    projectiles = [];
+    win_cond = Playing;
+  }
 
   let tests = [
     "check dict8" >:: 
-    (fun _ -> assert_equal 0 0 ~printer:string_of_int);
+    (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
   ]
 end 
 
-module DummyB = struct
+module InteractionsT = struct
   (* open Interactions and Block*)
   open Interactions
   open Block
@@ -230,6 +256,6 @@ module UtilT = struct
 end 
 
 let suite = "We Play Tanks test suite" >::: List.flatten 
-              [DummyA.tests; DummyB.tests; UtilT.tests]
+              [AiT.tests; InteractionsT.tests; UtilT.tests]
 
 let _ = run_test_tt_main suite
