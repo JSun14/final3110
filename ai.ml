@@ -45,7 +45,7 @@ let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
 
 (**[can_shoot ccno tank] returns a bool of whether a tank can shoot*)
 let can_shoot ccno tank = 
-  ccno - tank.last_fire_time > Const.standard_reload
+  ccno - tank.last_fire_time > Const.enemy_reload
 
 (**[attempt_shoot wl ccno player enemy] is an option projectile and a tank*)
 let attempt_shoot wl ccno (player:Movable.tank)  (enemy:Movable.tank) =

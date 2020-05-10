@@ -57,12 +57,13 @@ module AiT = struct
   }
 
   let tankB = {
-    tankA with loc = (35.0, 14.0)
+    tankA with loc = (35.0, 14.0);
+    last_fire_time = 99
   }
 
   let s = {
     sys_time = 0.0;
-    cycle_no = 0;
+    cycle_no = 100;
     score = 0;
     tanks = [tankA; player];
     projectiles = [];
@@ -74,6 +75,10 @@ module AiT = struct
       (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
     "check false clear line of sight" >:: 
       (fun _ -> assert_equal false (Ai.clear_los w.wall_list player tankB));
+    "check can't fire" >:: 
+      (fun _ -> assert_equal false (Ai.can_shoot 100 tankB));
+    "check can fire" >:: 
+      (fun _ -> assert_equal true (Ai.can_shoot 200 tankB));
   ]
 end 
 
