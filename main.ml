@@ -68,12 +68,14 @@ let rec game_helper (w:State.world) (st:State.state) =
   | Win -> 
     ANSITerminal.(print_string [green] "\n\nYou Won! Great job!\n");
     ANSITerminal.(print_string [green] 
-                    ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
+                    ("Your final score is: " ^ (string_of_int final_state.score)
+                     ^ "\n"));
     Stdlib.exit 0
   | Loss ->       
     ANSITerminal.(print_string [red] "\n\nYou Lost! Please try again.\n");
     ANSITerminal.(print_string [red] 
-                    ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
+                    ("Your final score is: " ^ (string_of_int final_state.score)
+                     ^ "\n"));
     Stdlib.exit 0
 
 (** [main] begins the user interface of the game *)
