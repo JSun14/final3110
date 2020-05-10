@@ -100,8 +100,8 @@ module InteractionsT = struct
       (exp_out:State.state)=
     name >:: (fun _ ->  assert_equal exp_out (execute world state))
 
-  (**Expression that calls [wall_execute wall state] and asserts equality with the 
-     expected State*)
+  (**Expression that calls [wall_execute wall state] and asserts equality with 
+    the expected State*)
   let wall_helper
       (name:string)
       (world:State.world)
@@ -116,7 +116,8 @@ module InteractionsT = struct
       (world:State.world)
       (state:State.state)
       (exp_out:State.state)=
-    name >:: (fun _ -> assert_equal exp_out (entity_removal_execute world state))
+    name >:: 
+      (fun _ -> assert_equal exp_out (entity_removal_execute world state))
 
   let tankA : Movable.tank = 
     {loc = (5.0,5.0); 
