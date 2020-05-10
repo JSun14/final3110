@@ -15,13 +15,13 @@ let start_rend () =
   open_graph ":0";
   auto_synchronize false
 
-(**[draw_tank t] is of type unit and draws a rendering of a tank *)
+(**[draw_tank t] is of type unit and draws a rendering of a tank [t] *)
 let draw_tank (t:Movable.tank)=
   if t.side = Enemy then set_color red else set_color blue;
   fill_circle (fst t.loc |> int_of_float) (snd t.loc |> int_of_float) 
     ((scale *. 0.4) |> int_of_float)
 
-(**[draw_wall t] is of type unit and draws a rendering of a wall *)
+(**[draw_wall t] is of type unit and draws a rendering of a wall [t] *)
 let draw_wall (t:Block.block)=
   if t.kind = Wall then set_color yellow else set_color (rgb 139 69 19);
   let scaled_x = fst t.coord |> int_of_float in
@@ -29,7 +29,8 @@ let draw_wall (t:Block.block)=
   fill_rect scaled_x scaled_y (int_of_float scale * 1) 
     (int_of_float scale * 1)
 
-(**[draw_projectile p] is of type unit and draws a rendering of a projectile *)
+(**[draw_projectile p] is of type unit and draws a rendering of a projectile
+   [p] *)
 let draw_projectile (p:Movable.projectile) =
   set_color black;
   set_line_width 2;
@@ -41,7 +42,8 @@ let draw_projectile (p:Movable.projectile) =
   lineto (x + x_vel) (y + y_vel);
   set_line_width 1
 
-(**[draw_projectiles pl] is of type unit list and draws all projectiles *)
+(**[draw_projectiles pl] is of type unit list and draws all projectiles in 
+   [pl] *)
 let draw_projectiles (pl : Movable.projectile list) =
   List.map draw_projectile pl
 
@@ -66,14 +68,14 @@ let remap_proj (t:Movable.projectile) =
     | (x, y) -> (scale *. x, scale *. y) in
   {t with loc = new_loc}
 
-(**[remap_bloock t] is of type block and scales the block accordingly to the 
+(**[remap_bloock t] is of type block and scales the block [t] accordingly to the 
    map *)
 let remap_block (t:Block.block) =
   let new_loc = match t.coord with
     | (x, y) -> (scale *. (x -. 0.5), scale *. (y -. 0.5)) in
   {t with coord = new_loc}
 
-(*[remap_coords_state st] takes in a state, multiplies grid coords by scale 
+(*[remap_coords_state st] takes in a state [st], multiplies grid coords by scale 
   factor and draws them, returning another state*)
 let remap_coords_state (st:State.state) =
   {
@@ -81,7 +83,7 @@ let remap_coords_state (st:State.state) =
             projectiles = List.map remap_proj st.projectiles
   }
 
-(*[remap_coords_world w] takes in a world, multiplies grid coords by scale 
+(*[remap_coords_world w] takes in a world [w], multiplies grid coords by scale 
   factor and draws them, returning another world*)
 let remap_coords_world (w:State.world) =
   {

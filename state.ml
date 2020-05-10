@@ -46,8 +46,6 @@ type world = {
 
     Requires: [st] is a valid game state. *)
 let win_condition st = 
-  (** [all_enemies_dead lst] is true when all the enemy tanks are inactive
-      and false if at least one enemy tank still is active. *)
   let self_tank = List.exists (fun x -> x.side = Self) st.tanks in
   let enemy_tank = (List.exists (fun x -> x.side = Enemy) st.tanks) in
   if not self_tank then Loss
