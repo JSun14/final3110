@@ -5,7 +5,7 @@ open Input
 
 open Const
 
-let start_rend = 
+let start_rend () = 
   open_graph ":0";
   auto_synchronize false
 
