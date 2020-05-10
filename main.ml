@@ -7,7 +7,7 @@ open Ai
 open Const 
 open Initializer
 
-(** [waiter ref_time] recusrively calls itself and waits until 
+(** [waiter ref_time] recursively calls itself and waits until 
     [Const.cycle_time] has elpased since [ref_time]. *)
 let rec waiter ref_time = 
   if Unix.gettimeofday () -. ref_time > Const.cycle_time then 
@@ -24,13 +24,9 @@ let debug w st =
   State.print_tank_info st;
   State.print_proj_info st
 
+(** [game_helper w st] updates the state and map of the game with 
+    [w] and [st]. *)
 let rec game_helper (w:State.world) (st:State.state) =
-  (* print debug info about game state *)
-  (* let () = debug w st in  *)
-
-  (* if Unix.gettimeofday () -. st.sys_time > Const.cycle_time then
-     print_endline "WARNING YOUR MACHINE IS SLOW"; *)
-
   (* delay until cycle_time has elpased *)
   let () = waiter st.sys_time in 
 
@@ -80,7 +76,7 @@ let rec game_helper (w:State.world) (st:State.state) =
                     ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
     Stdlib.exit 0
 
-(**[main] begins the user interface of the game *)
+(** [main] begins the user interface of the game *)
 let main () =
   ANSITerminal.(print_string [red]
                   "\n\nWelcome to the Tank Game engine.\n");
