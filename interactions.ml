@@ -11,7 +11,7 @@ let rec move_tank (tanks:Movable.tank list) =
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {h with loc = new_loc; past_loc = h.loc;}::move_tank t 
+    {h with loc = new_loc; past_loc = h.loc}::move_tank t 
 
 
 (**[move_projs projs walls] is a list of active projectiles with updated 
@@ -22,7 +22,7 @@ let rec move_projs (projs:Movable.projectile list) =
   | [] -> []
   | h::t -> let new_loc = 
               (fst h.velocity +. fst h.loc, snd h.velocity +. snd h.loc) in
-    {h with loc = new_loc; past_loc = h.loc;}::move_projs t
+    {h with loc = new_loc; past_loc = h.loc}::move_projs t
 
 (**[wall_detect coords walls] takes in a entity's coordinates as a tuple and a
    list of walls and returns back a boolean of whether the entity is in a wall*)
@@ -42,15 +42,17 @@ let check_grid coordA coordB =
    touching any edge on a wall*)
 let edge_touch_tank (tank:Movable.tank) corn2 corn1=
   let tank_radius = 0.4 in
-  let ax = fst corn2 -. fst tank.loc in let ay = snd corn2 -. snd tank.loc in 
-  let bx = fst corn1 -. fst tank.loc in let by = snd corn1 -. snd tank.loc in
+  let ax = fst corn2 -. fst tank.loc in 
+  let ay = snd corn2 -. snd tank.loc in 
+  let bx = fst corn1 -. fst tank.loc in 
+  let by = snd corn1 -. snd tank.loc in
   let a = Float.pow (bx -. ax) 2.0 +. Float.pow (by -. ay) 2.0 in
   let b = 2.0 *. (ax *. (bx -. ax) +. ay *. (by -. ay)) in
   let c = Float.pow ax 2.0 +. Float.pow ay 2.0 -. Float.pow tank_radius 2.0 in 
-  let disc = Float.pow b 2.0 -. 4.0*.a*.c in 
+  let disc = Float.pow b 2.0 -. 4.0 *. a *. c in 
   let sqrt_disc = Float.sqrt disc in 
-  let t1 = (Float.neg b +. sqrt_disc ) /. (2.0*.a) in
-  let t2 = (Float.neg b -. sqrt_disc ) /. (2.0*.a) in
+  let t1 = (Float.neg b +. sqrt_disc) /. (2.0 *. a) in
+  let t2 = (Float.neg b -. sqrt_disc) /. (2.0 *. a) in
   disc > 0.0 && ((0.0 < t1 && t1 < 1.0) || (0.0 < t2 && t2 < 1.0)) 
 
 (**[tank_touch_wall wall tank] returns a bool as to whether a tank is touching
@@ -58,10 +60,10 @@ let edge_touch_tank (tank:Movable.tank) corn2 corn1=
 let tank_touch_wall wall (tank:Movable.tank)=
   let half_wall_width = 0.5 in
   let tank_radius = 0.4 in
-  let corn1 =(fst wall.coord-.half_wall_width,snd wall.coord-.half_wall_width)in
-  let corn2 =(fst wall.coord+.half_wall_width,snd wall.coord-.half_wall_width)in
-  let corn3 =(fst wall.coord+.half_wall_width,snd wall.coord+.half_wall_width)in
-  let corn4 =(fst wall.coord-.half_wall_width,snd wall.coord+.half_wall_width)in
+  let corn1=(fst wall.coord-.half_wall_width,snd wall.coord-.half_wall_width) in
+  let corn2=(fst wall.coord+.half_wall_width,snd wall.coord-.half_wall_width) in
+  let corn3=(fst wall.coord+.half_wall_width,snd wall.coord+.half_wall_width) in
+  let corn4=(fst wall.coord-.half_wall_width,snd wall.coord+.half_wall_width) in
   get_distance_from tank.loc corn1 < tank_radius || 
   get_distance_from tank.loc corn2 < tank_radius || 
   get_distance_from tank.loc corn3 < tank_radius ||
@@ -88,7 +90,7 @@ let rec tank_phys_engine (tanks:Movable.tank list) (tank:Movable.tank) walls
       then {tank with loc=tank.past_loc;}
       else tank_phys_engine tanks tank t
 
-(**edge is a type of edge on a wall *)
+(**[edge] is a type of edge on a wall *)
 type edge = Corner | Vert | Horiz
 
 (**[edge_detector posA posB] returns a type edge for the edge that a projectile
@@ -109,14 +111,14 @@ let rec proj_phys_engine proj walls=
   | h::t -> if wall_detect proj.loc h then match proj.weap_species with
       | Bouncy -> if proj.health <> 1 then 
           (match edge_detector proj.loc proj.past_loc with
-           | Vert -> Some {proj with velocity = (fst proj.velocity*. (-1.0), 
+           | Vert -> Some {proj with velocity = (fst proj.velocity *. (-1.0), 
                                                  snd proj.velocity); 
                                      health = proj.health-1;}
            | Horiz -> Some {proj with velocity = (fst proj.velocity, 
-                                                  snd proj.velocity*. (-1.0));
+                                                  snd proj.velocity *. (-1.0));
                                       health = proj.health-1;}
-           | Corner -> Some {proj with velocity = (fst proj.velocity*. (-1.0), 
-                                                   snd proj.velocity*. (-1.0));
+           | Corner -> Some {proj with velocity = (fst proj.velocity *. (-1.0), 
+                                                   snd proj.velocity *. (-1.0));
                                        health = proj.health-1;})
         else None
       | Bullet -> None
@@ -191,17 +193,17 @@ let rec proj_removal2 (projs:Movable.projectile list)
 (**[entity_removal_execute w st] returns a state of the game after removing
    entities*) 
 let entity_removal_execute w (st:State.state)=
-  {st with tanks=tank_removal st.projectiles st.tanks; 
-           projectiles=let projs = (proj_removal st.projectiles st.tanks) in
+  {st with tanks = tank_removal st.projectiles st.tanks; 
+           projectiles = let projs = (proj_removal st.projectiles st.tanks) in
              proj_removal2 projs projs |> check_proj_wall w.wall_list 
   }
 
 (**[wall_execute w st] returns a state of the game after performing
    wall interactions on entities*) 
 let wall_execute w (st:State.state)=
-  {st with tanks= check_tank_wall st.tanks (w.wall_list@w.ditch_list);}
+  {st with tanks = check_tank_wall st.tanks (w.wall_list @ w.ditch_list);}
 
 (**[execute w st] returns a state of the game after moving entities*) 
 let execute w (st:State.state)= 
-  {st with tanks=move_tank st.tanks;
-           projectiles=move_projs st.projectiles;}
+  {st with tanks = move_tank st.tanks;
+           projectiles = move_projs st.projectiles;}

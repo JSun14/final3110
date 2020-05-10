@@ -1,6 +1,7 @@
 open Movable
 open Block
 
+(** [progress] is a type that represents the game progress. *)
 type progress = Playing | Win | Loss
 (* Master state that is passed around in MCL *)
 type state = {
