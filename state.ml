@@ -79,10 +79,14 @@ let get_player_tank st_tank_list =
   if List.length player_list = 0 then failwith "player tank dead"
   else List.hd player_list
 
+(** [get_enemy_tanks st_tank_list] is a list of enemy tanks *)
+let get_enemy_tanks st_tank_list = 
+  List.filter (fun x -> x.side = Enemy) st_tank_list
+
 (** [update_tl_player old_tank_list new_player_tank] is a new tank list 
     with the player replaced by the new player*)
 let update_tl_player old_tank_list new_player_tank =
-  let enemies = List.filter (fun x -> x.side = Enemy) old_tank_list in
+  let enemies = get_enemy_tanks old_tank_list in
   new_player_tank::enemies
 
 (** [update_tl_enemies old_tank_list new_enemies] is a list of tanks including
@@ -91,6 +95,3 @@ let update_tl_enemies old_tank_list new_enemies =
   let player = get_player_tank old_tank_list in 
   player::new_enemies
 
-(** [get_enemy_tanks st_tank_list] is a list of enemy tanks *)
-let get_enemy_tanks st_tank_list = 
-  List.filter (fun x -> x.side = Enemy) st_tank_list

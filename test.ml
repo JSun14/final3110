@@ -70,7 +70,18 @@ module AiT = struct
     win_cond = Playing;
   }
 
-  let tests = [
+  let state_helper_tests = [
+    "get_enemies test" >:: 
+      (fun _ -> assert_equal ~cmp:cmp_set_like_lists
+        [tankB; tankA] 
+        (get_enemy_tanks [player; tankA; tankB]));
+    "get_player test" >:: 
+      (fun _ -> assert_equal ~cmp:cmp_set_like_lists
+        [tankB; tankA] 
+        (get_enemy_tanks [player; tankA; tankB]));
+  ]
+
+  let shoot_tests = [
     "check true clear line of sight" >:: 
       (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
     "check true clear line of sight symmetric" >:: 
@@ -291,6 +302,6 @@ module UtilT = struct
 end 
 
 let suite = "We Play Tanks test suite" >::: List.flatten 
-              [AiT.tests; InteractionsT.tests; UtilT.tests]
+              [AiT.state_helper_tests; AiT.shoot_tests; InteractionsT.tests; UtilT.tests]
 
 let _ = run_test_tt_main suite
