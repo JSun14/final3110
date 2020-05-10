@@ -1,3 +1,7 @@
+(** 
+   Representation of AI enemy tanks with algorithm for these tanks
+    to move and shoot projectiles on their own.
+*)
 open Movable
 open Interactions
 open State

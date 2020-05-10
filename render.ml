@@ -1,3 +1,8 @@
+(** 
+   Renders all parts of the game—tanks, projectiles, walls, ditches, and
+    grid coordinates—using OCaml Graphics. 
+*)
+
 open Graphics
 open Movable
 open State
