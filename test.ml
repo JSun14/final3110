@@ -123,10 +123,10 @@ module AiT = struct
     (fun _ -> assert_equal ~cmp:cmp_set_like_lists
         [tankB; tankA] 
         (get_enemy_tanks [player; tankA; tankB]));
-    "get_player test" >:: 
+    "get_ememies test" >:: 
     (fun _ -> assert_equal ~cmp:cmp_set_like_lists
-        [tankB; tankA] 
-        (get_enemy_tanks [player; tankA; tankB]));
+        []
+        (get_enemy_tanks [player]));
     "win_condition test playing" >:: 
     (fun _ -> assert_equal Playing (win_condition s));
     "win_condition test win" >:: 
