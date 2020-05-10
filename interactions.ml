@@ -94,10 +94,10 @@ type edge = Corner | Vert | Horiz
 (**[edge_detector posA posB] returns a type edge for the edge that a projectile
    hit on a wall*)
 let edge_detector posA posB=
-  let vert =  Float.to_int (fst posA)|> (-) (Float.to_int (fst posB)) |> 
-              Int.abs <> 0 in
-  let horiz = Float.to_int (snd posA)|> (-) (Float.to_int (snd posB)) |> 
-              Int.abs <> 0 in
+  let vert =  floor (fst posA)|> (-.) (floor (fst posB)) |> 
+              Float.abs |> Float.to_int <> 0 in
+  let horiz = floor (snd posA)|> (-.) (floor (snd posB)) |> 
+              Float.abs |> Float.to_int <> 0 in
   if vert && horiz then Corner else if vert then Vert else Horiz 
 
 

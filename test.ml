@@ -252,6 +252,24 @@ module UtilT = struct
     "Test unit_vec function" >:: 
     (fun _ -> assert_equal (0.6, 0.8) (unit_vec (3.0, 4.0)) 
         ~cmp:(compare_pairs) ~printer:(pp_tuple string_of_float));
+    "Test unit_vec function" >:: 
+    (fun _ -> assert_equal (-0.6, -0.8) (unit_vec (-6.0, -8.0)) 
+        ~cmp:(compare_pairs) ~printer:(pp_tuple string_of_float));
+    "Test get_distance_from function" >:: 
+    (fun _ -> assert_equal 5.0 (get_distance_from (0.0, 0.0) (3.0, 4.0)) 
+        ~printer:(string_of_float));
+    "Test get_distance_from function" >:: 
+    (fun _ -> assert_equal 10.0 (get_distance_from (-0.5, -0.5) (5.5, 7.5)) 
+        ~printer:(string_of_float));
+    "Test get_distance_from function" >:: 
+    (fun _ -> assert_equal 0.0 (get_distance_from (3.0, 4.0) (3.0, 4.0)) 
+        ~printer:(string_of_float));
+    "Test get_distance_from function" >:: 
+    (fun _ -> assert_equal 5.0 (get_distance_from (4.0, 3.0) (0.0, 0.0)) 
+        ~printer:(string_of_float));
+    "Test floatrange function" >:: 
+    (fun _ -> assert_equal [0.0; 1.0; 2.0; 3.0] (float_range 4.0) 
+        ~printer:(pp_list string_of_float));
   ]
 end 
 
