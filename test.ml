@@ -1,5 +1,5 @@
 (**TEST PLAN:
-   Three main modules/parts of the system were tested: Ai, State, Interactions, 
+   Four main modules/parts of the system were tested: Ai, State, Interactions, 
    and Util. The renderings, processes, and generations/initializations of all 
    states and entities were further tested by manually make play style testing. 
    Interactions were partially automatically tested as well as visually/manually
@@ -20,7 +20,9 @@ open OUnit2
     Taken from A3*)
 let pp_string s = "\"" ^ s ^ "\""
 
+(** [pp_tuple f (x, y)] pretty-prints tuple [(x,y)] *)
 let pp_tuple (f : 'a -> string) (x, y) = "(" ^ (f x) ^ ", " ^ (f y) ^ ")"
+
 (** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt]
     to pretty-print each element of [lst]. 
 
@@ -95,6 +97,15 @@ module AiT = struct
     win_cond = Playing;
   }
 
+  let s3 = {
+    sys_time = 0.0;
+    cycle_no = 100;
+    score = 0;
+    tanks = [tankA];
+    projectiles = [];
+    win_cond = Playing;
+  }
+
   let state_helper_tests = [
     "get_enemies test" >:: 
     (fun _ -> assert_equal ~cmp:cmp_set_like_lists
@@ -104,10 +115,14 @@ module AiT = struct
     (fun _ -> assert_equal ~cmp:cmp_set_like_lists
         [tankB; tankA] 
         (get_enemy_tanks [player; tankA; tankB]));
-    "win_condition test" >:: 
+    "win_condition test playing" >:: 
     (fun _ -> assert_equal Playing (win_condition s));
-    "win_condition test" >:: 
+    "win_condition test win" >:: 
     (fun _ -> assert_equal Win (win_condition s2));
+    "win_condition test loss" >::
+    (fun _ -> assert_equal Loss (win_condition s3));
+    "get_player_tank test" >::
+    (fun _ -> assert_equal player (get_player_tank s.tanks))
   ]
 
   let shoot_tests = [
