@@ -153,6 +153,20 @@ module AiT = struct
     (fun _ -> assert_equal false (Ai.can_shoot 100 tankB));
     "check can fire" >:: 
     (fun _ -> assert_equal true (Ai.can_shoot 200 tankB));
+
+    "check shot generation NONE GENERATE" >:: 
+    (fun _ -> assert_equal (None, tankB) 
+      (Ai.attempt_shoot w.wall_list 10 player tankB));
+
+    "check shot generation NONE GENERATE" >:: 
+    (fun _ -> assert_equal (None, tankA) 
+      (Ai.attempt_shoot w.wall_list 10 player tankA));
+
+    "check shot generation SOME GENERATION" >:: 
+    (fun _ -> assert_equal true 
+      (match Ai.attempt_shoot w.wall_list 100 player tankA with 
+      | Some p, t -> true
+      | None, t -> false));
   ]
 end 
 
