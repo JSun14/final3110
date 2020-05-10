@@ -85,7 +85,7 @@ let main () =
     match read_line () with
     | exception End_of_file -> failwith "BAD FILE NAME"
     | file_name -> file_name in
-  let () = start_rend in
+  let () = start_rend () in
   let map = json_file_to_map fn in
   let w = init_world map in
   let s0 = init_state map in
