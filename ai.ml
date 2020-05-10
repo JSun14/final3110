@@ -36,7 +36,9 @@ let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
   let target_vec_hat =  target_vec |> unit_vec in 
   let tiny_dt = fscale target_vec_hat 0.01 in 
   let num_query  = total_dist /. Const.query_distance in 
-  let probe_coords = List.map (fun x -> (fsum (fscale tiny_dt x) enemy.loc) |> pfloor) (float_range num_query) in
+  let probe_coords = 
+    List.map (fun x -> (fsum (fscale tiny_dt x) enemy.loc) |> pfloor) 
+      (float_range num_query) in
   let simp_probe = List.sort_uniq comp_pair_s probe_coords in
   let wall_locs = List.map (fun x -> pfloor x.coord) wl in 
   let bools = List.map (fun x -> List.mem x wall_locs) simp_probe in 
@@ -67,7 +69,8 @@ let attempt_shoot_map w st=
   let wl = w.wall_list in 
   let player = get_player_tank st.tanks in 
   let enemy_tank_list = get_enemy_tanks st.tanks in
-  let proj_tank_list = List.map (fun t -> attempt_shoot wl st.cycle_no player t) enemy_tank_list in 
+  let proj_tank_list = 
+    List.map (fun t -> attempt_shoot wl st.cycle_no player t) enemy_tank_list in 
   let (new_projs, new_enemies) = List.split proj_tank_list in
   let new_projs = List.filter_map (fun x -> x) new_projs in 
   {
