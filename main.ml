@@ -3,25 +3,9 @@ open Render
 open Interactions
 open Input
 open Process
-open Read_json
 open Ai 
 open Const 
-
-(* eventually needs to do something with w *)
-let init_state map = {
-  sys_time = 0.0;
-  cycle_no = 0; 
-  score = 100 * 100 * 10;
-  tanks = map.tank_list;
-  projectiles = [];
-  win_cond = Playing;
-}
-
-(* eventually needs to load world from json *)
-let init_world map = {
-  wall_list = map.wall_list;
-  ditch_list = map.ditch_list;
-}
+open Initializer
 
 (** [waiter ref_time] recusrively calls itself and waits until 
     [Const.cycle_time] has elpased since [ref_time]. *)
@@ -94,15 +78,6 @@ let rec game_helper (w:State.world) (st:State.state) =
     ANSITerminal.(print_string [red] "\n\nYou Lost! Please try again.\n");
     ANSITerminal.(print_string [red] 
                     ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
-    Stdlib.exit 0
-
-(**[json_file_to_map] reads in a json file*)
-let json_file_to_map f =
-  try let json = f |> Yojson.Basic.from_file in
-    json |> Read_json.from_json
-  with e ->      
-    ANSITerminal.(print_string [red]
-                    "\n\nInvalid Map Name. Please try.\n");
     Stdlib.exit 0
 
 (**[main] begins the user interface of the game *)

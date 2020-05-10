@@ -40,8 +40,8 @@ module AiT = struct
   open Ai
   open State 
 
-  let map = Main.json_file_to_map "map3.json"
-  let w = Main.init_world map
+  let map = Initializer.json_file_to_map "map3.json"
+  let w = Initializer.init_world map
 
   let tankA : Movable.tank = 
     {loc = (3.0,3.0); 
@@ -66,7 +66,7 @@ module AiT = struct
   }
 
   let tests = [
-    "check dict8" >:: 
+    "check true clear line of sight" >:: 
     (fun _ -> assert_equal true (Ai.clear_los w.wall_list player tankA));
   ]
 end 
