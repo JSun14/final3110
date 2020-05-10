@@ -1,19 +1,25 @@
 (**TEST PLAN:
    Four main modules/parts of the system were tested: Ai, State, Interactions, 
-   and Util. The renderings, processes, and generations/initializations of all 
-   states and entities were further tested by manually make play style testing. 
-   Interactions were partially automatically tested as well as visually/manually
-   tested due to the ease in which one can visually see whether an interaction 
-   is properly performed. The tests were primarily glass/white box testing, 
-   since as the developers, we know the internal logic of all the code and thus
-   test it accordingly with that context. This testing approach is appropriate 
-   for this system, since the system is a game and thus is more suited to being
-   tested manually in certain aspects vs others due to the end goal being a 
-   visual representation of the system's logic. For example, making sure that 
-   enemy AI shot their projects in the right direction was visually confirmed 
-   to be working since the outputs were continuously values that would be hard 
-   to test precisely using unit tests. Furthermore, more complex 
-   interactions, would require many more lines of code just to set 
+   and Util. Within the Ai module, shot attempt, velocity caps, and clear lines 
+   of sight were OUnit tested; within the State module, win conditions was 
+   tested; within Interactions, the movement, wall interactions, and entity 
+   removal functionalities were tested; and within Util, all of the functions in
+   there were tested. The aforementioned parts of the system were tested 
+   primarily because they weren't too complex and didn't rely on manual/visual 
+   testing of functionalities. The renderings, processes, and generations/
+   initializations of all states and entities were further tested by manually 
+   make play style testing. Interactions were partially automatically tested as 
+   well as visually/manually tested due to the ease in which one can visually 
+   see whether an interaction is properly performed. The tests were primarily 
+   glass/white box testing, since as the developers, we know the internal logic 
+   of all the code and thus test it accordingly with that context. This testing 
+   approach is appropriate for this system, since the system is a game and thus 
+   is more suited to being tested manually in certain aspects vs others due to 
+   the end goal being a visual representation of the system's logic. For 
+   example, making sure that enemy AI shot their projects in the right direction 
+   was visually confirmed to be working since the outputs were continuously 
+   values that would be hard to test precisely using unit tests. Furthermore, 
+   more complex interactions, would require many more lines of code just to set 
    up the proper environment in which a specific interaction would occur, 
    whereas manually testing it would prove to be much faster and more visually 
    effective with less error prone testing code.*)
@@ -167,20 +173,20 @@ module AiT = struct
 
     "check shot generation NONE GENERATE" >:: 
     (fun _ -> assert_equal (None, tankB) 
-      (Ai.attempt_shoot w.wall_list 10 player tankB));
+        (Ai.attempt_shoot w.wall_list 10 player tankB));
     "check shot generation NONE GENERATE" >:: 
     (fun _ -> assert_equal (None, tankA) 
-      (Ai.attempt_shoot w.wall_list 10 player tankA));
+        (Ai.attempt_shoot w.wall_list 10 player tankA));
     "check shot generation SOME GENERATION" >:: 
     (fun _ -> assert_equal true 
-      (match Ai.attempt_shoot w.wall_list 100 player tankA with 
-      | Some p, t -> true
-      | None, t -> false));
+        (match Ai.attempt_shoot w.wall_list 100 player tankA with 
+         | Some p, t -> true
+         | None, t -> false));
     "check shot generation SOME GENERATION, no walls" >:: 
     (fun _ -> assert_equal true 
-      (match Ai.attempt_shoot [] 200 player tankB with 
-      | Some p, t -> true
-      | None, t -> false));
+        (match Ai.attempt_shoot [] 200 player tankB with 
+         | Some p, t -> true
+         | None, t -> false));
   ]
 end 
 
