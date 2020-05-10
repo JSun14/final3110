@@ -31,7 +31,7 @@ play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
 zip:
-	zip tank_src.zip *.ml* _tags Makefile *.json doc.public -r
+	zip tank_src.zip *.ml* _tags Makefile *.json doc.public -r *.md
 
 docs: docs-public
 

@@ -31,5 +31,5 @@ let json_file_to_map f =
     json |> Read_json.from_json
   with e ->      
     ANSITerminal.(print_string [red]
-                    "\n\nInvalid Map Name. Please try.\n");
+                    "\n\nInvalid Map Name. Please try again.\n");
     Stdlib.exit 0

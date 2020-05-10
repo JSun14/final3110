@@ -67,7 +67,7 @@ module AiT = struct
   open Ai
   open State 
 
-  let map = Initializer.json_file_to_map "map3.json"
+  let map = Initializer.json_file_to_map "level1.json"
   let w = Initializer.init_world map
 
   let tankA : Movable.tank = 
