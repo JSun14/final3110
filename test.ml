@@ -1,3 +1,19 @@
+(**TEST PLAN:
+   Three main modules/parts of the system were tested: Ai, State, Interactions, 
+   and Util. The renderings, processes, and generations/initializations of all 
+   states and entities were further tested by manually make play style testing. 
+   Interactions were partially automatically tested as well as visually/manually
+   tested due to the ease in which one can visually see whether an interaction 
+   is properly performed. The tests were primarily glass/white box testing, 
+   since as the developers, we know the internal logic of all the code and thus
+   test it accordingly with that context. This testing approach is appropriate 
+   for this system, since the system is a game and thus is more suited to being
+   tested manually in certain aspects vs others due to the end goal being a 
+   visual representation of the system's logic. Furthermore, more complex 
+   interactions, would require many more lines of code just to set 
+   up the proper environment in which a specific interaction would occur, 
+   whereas manually testing it would prove to be much faster and more visually 
+   effective with less error prone testing code.*)
 open OUnit2
 (** [pp_string s] pretty-prints string [s]. 
 
