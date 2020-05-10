@@ -44,3 +44,5 @@ docs-public: build
 clean:
 	ocamlbuild -clean
 	rm -rf doc.public doc.private report search_src.zip bisect*.out
+	rm $(MAIN)
+	rm $(TEST)
