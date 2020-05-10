@@ -29,7 +29,7 @@ let move_all_enemies st =
     List.map (fun x -> if x.side = Enemy then randomize x else x) st.tanks in
   {st with tanks = updated_tanks}
 
-(**[clear_los w player enemy] is true if there's a clear los to player*)
+(**[clear_los w player enemy] is true iff there's a clear los to player*)
 let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
   let target_vec = fdiff player.loc enemy.loc in 
   let total_dist = target_vec |> magn in 

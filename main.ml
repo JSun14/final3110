@@ -64,8 +64,6 @@ let rec game_helper (w:State.world) (st:State.state) =
   let s = Interactions.wall_execute w s in 
   let s = Interactions.entity_removal_execute w s in 
 
-  (* Render.execute world s3 *)
-
   (* step forward top level state *)
   let s = {
     s with cycle_no = s.cycle_no + 1; 
@@ -86,8 +84,7 @@ let rec game_helper (w:State.world) (st:State.state) =
       ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
     Stdlib.exit 0
   | Loss ->       
-    ANSITerminal.(print_string [red]
-      "\n\nYou Lost! Please try again.\n");
+    ANSITerminal.(print_string [red] "\n\nYou Lost! Please try again.\n");
     ANSITerminal.(print_string [red] 
       ("Your final score is: " ^ (string_of_int final_state.score) ^ "\n"));
     Stdlib.exit 0
@@ -115,7 +112,8 @@ let main () =
   let () = match start_rend () with
     | exception e -> 
       ANSITerminal.(print_string [red]
-        "\n\nWindow not found. Please start a valid X Server to render the game.\n");
+        "\n\nWindow not found. 
+        Please start a valid X Server to render the game.\n");
       Stdlib.exit 0
     | _ -> ()
     in
