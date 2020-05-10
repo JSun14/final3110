@@ -1,5 +1,5 @@
 (** 
-   Representation of a json file as a game state and a map 
+   Representation of a json file as a game state and a map. 
 *)
 open Yojson.Basic.Util
 open Movable

@@ -1,5 +1,5 @@
 (**
-    A set of constants to be referenced by multiple modules
+    A set of constants to be referenced by multiple modules.
 *)
 
 (** Velocity of player projectiles*)

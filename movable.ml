@@ -1,5 +1,5 @@
 (** 
-   Representation of movable in-game objects
+   Representation of movable in-game objects.
 *)
 
 open Util

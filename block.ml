@@ -1,5 +1,5 @@
 (** 
-    Representation of in-game blocks 
+    Representation of in-game blocks. 
 *)
 
 (**[block_type] is a variant of wall and ditch*)

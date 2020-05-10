@@ -1,4 +1,5 @@
-(** UTILITY MODULE *)
+(** A module of mathematical operations on tuples, floats, and ints
+    to be referenced by other modules. *)
 
 (** [diff (a,b) (x,y)] is the tuple difference of two int tuples. *)
 let diff (a,b) (x,y) =

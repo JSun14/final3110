@@ -1,5 +1,5 @@
 (**
-    Loading of game state and world
+    Loading of game state and world.
 *)
 open Read_json
 open Block

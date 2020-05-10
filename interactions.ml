@@ -168,7 +168,7 @@ let tank_detect (tank: Movable.tank) (projs: Movable.projectile list) :
 (**[proj_detect proj projs] takes in a list of projectiles and a projectile and
    checks to see if any projectiles share a spare with one another, thus removing
    both of them*)
-let rec proj_detect (proj: Movable.projectile) (projs: Movable.projectile list) : 
+let rec proj_detect (proj: Movable.projectile) (projs: Movable.projectile list): 
   Movable.projectile list=
   match projs with 
   | [] -> []

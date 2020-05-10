@@ -1,5 +1,5 @@
 (**
-   Progression of the game state machine
+   Progression of the game state machine.
 *)
 
 open State
