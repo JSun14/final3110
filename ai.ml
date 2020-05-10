@@ -14,8 +14,8 @@ open Block
 let cap_velocity (t : Movable.tank) accel = 
   fsum t.velocity accel |> magn <= max_enemy_speed
 
-(* [randomize t] is a tank with a new, random acceleration added to 
-   [t]'s velocity. *)
+(** [randomize t] is a tank with a new, random acceleration added to 
+    [t]'s velocity. *)
 let rec randomize (t : Movable.tank) : Movable.tank =
   let x_accel = (Random.float 1.0) *. 2.0 |> (-.) 1.0 in
   let y_accel = (Random.float 1.0) *. 2.0 |> (-.) 1.0 in

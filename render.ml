@@ -75,16 +75,16 @@ let remap_block (t:Block.block) =
     | (x, y) -> (scale *. (x -. 0.5), scale *. (y -. 0.5)) in
   {t with coord = new_loc}
 
-(*[remap_coords_state st] takes in a state [st], multiplies grid coords by scale 
-  factor and draws them, returning another state*)
+(** [remap_coords_state st] takes in a state [st], multiplies grid coords by 
+    scale factor and draws them, returning another state*)
 let remap_coords_state (st:State.state) =
   {
     st with tanks = List.map remap_tank st.tanks;
             projectiles = List.map remap_proj st.projectiles
   }
 
-(*[remap_coords_world w] takes in a world [w], multiplies grid coords by scale 
-  factor and draws them, returning another world*)
+(** [remap_coords_world w] takes in a world [w], multiplies grid coords by scale 
+    factor and draws them, returning another world*)
 let remap_coords_world (w:State.world) =
   {
     wall_list = List.map remap_block w.wall_list;
