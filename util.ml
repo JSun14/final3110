@@ -1,4 +1,4 @@
-(* UTILITY MODULE *)
+(** UTILITY MODULE *)
 
 (** [diff (a,b) (x,y)] is the tuple difference of two int tuples. *)
 let diff (a,b) (x,y) =
