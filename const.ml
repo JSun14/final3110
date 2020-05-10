@@ -1,3 +1,5 @@
+
+(** List of constants*)
 let standard_vel = 0.035
 let enemy_bullet_vel = 0.04
 let tank_rad = 0.4

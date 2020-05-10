@@ -6,16 +6,18 @@ open Input
 open Const
 open Util
 
+(**[start_rend] is of type unit and initializes the rendering*)
 let start_rend () = 
   open_graph ":0";
   auto_synchronize false
 
+(**[draw_tank t] is of type unit and draws a rendering of a tank *)
 let draw_tank (t:Movable.tank)=
-  (* NOT FINISHED LMAO, NEED TAKE ACTUAL ARGS *)
   if t.side = Enemy then set_color red else set_color blue;
   fill_circle (fst t.loc |> int_of_float) (snd t.loc |> int_of_float) 
     ((scale *. 0.4) |> int_of_float)
 
+(**[draw_wall t] is of type unit and draws a rendering of a wall *)
 let draw_wall (t:Block.block)=
   if t.kind = Wall then set_color yellow else set_color (rgb 139 69 19);
   let scaled_x = fst t.coord |> int_of_float in
@@ -23,6 +25,7 @@ let draw_wall (t:Block.block)=
   fill_rect scaled_x scaled_y (int_of_float scale * 1) 
     (int_of_float scale * 1)
 
+(**[draw_projectile p] is of type unit and draws a rendering of a projectile *)
 let draw_projectile (p:Movable.projectile) =
   set_color black;
   set_line_width 2;
@@ -34,15 +37,19 @@ let draw_projectile (p:Movable.projectile) =
   lineto (x + x_vel) (y + y_vel);
   set_line_width 1
 
+(**[draw_projectiles pl] is of type unit list and draws all projectiles *)
 let draw_projectiles (pl : Movable.projectile list) =
   List.map draw_projectile pl
 
+(**[draw_walls tl] is of type unit list and draws all walls *)
 let draw_walls (tl:Block.block list) =
   List.map draw_wall tl
 
+(**[draw_tanks tl] is of type unit list and draws all tanks *)
 let draw_tanks (tl:Movable.tank list) =
   List.map draw_tank tl
 
+(**[remap_tank t] is of type tank and scales the tank accordingly to the map *)
 let remap_tank (t:Movable.tank) =
   let new_loc = match t.loc with
     | (x, y) -> (scale *. x, scale *. y) in
@@ -50,6 +57,8 @@ let remap_tank (t:Movable.tank) =
     t with loc = new_loc
   }
 
+(**[remap_proj t] is of type projectile and scales the proojectile accordingly 
+   to the map *)
 let remap_proj (t:Movable.projectile) =
   let new_loc = match t.loc with
     | (x, y) -> (scale *. x, scale *. y) in
@@ -57,6 +66,8 @@ let remap_proj (t:Movable.projectile) =
     t with loc = new_loc
   }
 
+(**[remap_bloock t] is of type block and scales the block accordingly to the 
+   map *)
 let remap_block (t:Block.block) =
   let new_loc = match t.coord with
     | (x, y) -> (scale *. (x -. 0.5), scale *. (y -. 0.5)) in
@@ -64,19 +75,23 @@ let remap_block (t:Block.block) =
     t with coord = new_loc
   }
 
-(* take in world file, multiply grid coords by scale factor and draw them *)
+(*[remap_coords_state st] takes in a state, multiplies grid coords by scale 
+  factor and draws them, returning another state*)
 let remap_coords_state (st:State.state) =
   {
     st with tanks = List.map remap_tank st.tanks;
             projectiles = List.map remap_proj st.projectiles
   }
 
+(*[remap_coords_world w] takes in a world, multiplies grid coords by scale 
+  factor and draws them, returning another world*)
 let remap_coords_world (w:State.world) =
   {
     wall_list = List.map remap_block w.wall_list;
     ditch_list = List.map remap_block w.ditch_list;
   }
 
+(**[draw_grid] is of type unit and draws grid lines*)
 let draw_grid () =
 
   set_color yellow;
@@ -96,7 +111,7 @@ let draw_grid () =
   let _ = List.map draw_vert d_scaled in 
   ()
 
-
+(**[render_frame w st] is of type unit and renders the entire frame of view*)
 let render_frame (w:State.world) (st:State.state) =
   let () = clear_graph () in
   let remapped_state = remap_coords_state st in 

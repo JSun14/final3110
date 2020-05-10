@@ -43,9 +43,11 @@ let clear_los (wl:Block.block list) (player:Movable.tank) (enemy:Movable.tank) =
   let wall_in_way = List.fold_left (fun acc x -> x || acc) false bools in 
   not wall_in_way
 
+(**[can_shoot ccno tank] returns a bool of whether a tank can shoot*)
 let can_shoot ccno tank = 
   ccno - tank.last_fire_time > Const.standard_reload
 
+(**[attempt_shoot wl ccno player enemy] is an option projectile and a tank*)
 let attempt_shoot wl ccno (player:Movable.tank)  (enemy:Movable.tank) =
   let fire = can_shoot ccno enemy in 
   if fire && clear_los wl player enemy then 

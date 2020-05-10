@@ -1,26 +1,27 @@
 (* UTILITY MODULE *)
 
-(** [diff (a,b) (x,y)] is the difference of the two tuples of ints. *)
+(** [diff (a,b) (x,y)] is the tuple difference of two int tuples. *)
 let diff (a,b) (x,y) =
   (a-x, b-y)
 
-(** [fdiff (a,b) (x,t)] is the difference of the two tuples of floats. *)
+(** [fdiff (a,b) (x,t)] is the tuple difference of two float tuples. *)
 let fdiff (a,b) (x,y) =
   (a -. x, b -. y)
 
-(* float tuple sum *)
+(** [fsum (a,b) (x,y)] is the tuple sum of two float tuples. *)
 let fsum (a,b) (x,y) =
   (a +. x, b +. y)
 
-(* multiplicative inverse *)
+(** [mult_inv flt] is the multiplicative inverse of [flt]. *)
 let mult_inv flt = 
   1.0 /. flt
 
-(* magnitude of a vector *)
+(** [magn (a,b)] is the magnitude of the vector [(a,b)]. *)
 let magn (a,b) =
   sqrt (a *. a +. b *. b)
 
-(* scale a vector by a scale factor *)
+(** [fscale (a,b) scale_fact] is a vector in the direction of [(a,b)] 
+    multiplied by [scale_fact]. *)
 let fscale (a,b) scale_fact =
   (a *. scale_fact, b *. scale_fact) 
 
@@ -28,6 +29,11 @@ let fscale (a,b) scale_fact =
     Otherwise, it is false. *)
 let fcompare x y = 
   Float.abs (x -. y) <= 0.000001
+
+(** [compare_pairs (a,b) (x,y)] is true when [a] and [b] and [x] and [y] are 
+    within 0.000001 from each other. Otherwise, it is false. *)
+let compare_pairs (a, b) (x, y) =
+  fcompare a x && fcompare b y
 
 (** [pfloor (a,b)] is the grid location [(x,y)] cooresponding to a coord [(a,b)]*)
 let pfloor (a,b) = 
@@ -40,10 +46,11 @@ let comp_pair (a, b) (x, y) =
 (**[comp_pair (a, b) (x, y)] is an int of 0 if two tuples are equal and -1 if
    the first is less than the second and 1 otherwise*)
 let comp_pair_s (a, b) (x, y) = 
-  if comp_pair (a,b) (x,y) then 0 else
-  if a < b then -1 else 1
+  if comp_pair (a,b) (x,y) then 0 
+  else if a < x then -1 
+  else 1
 
-(* unit vector *)
+(** [unit_vec vec] is a vector in the direction of [vec] with length 1. *)
 let unit_vec vec = 
   let magn_inv = magn vec |> mult_inv in 
   fscale vec magn_inv
