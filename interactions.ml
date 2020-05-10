@@ -1,3 +1,8 @@
+(**
+   Interaction of the in-game objects with one another.
+*)
+
+
 open Block
 open Movable
 open State

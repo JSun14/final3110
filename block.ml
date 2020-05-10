@@ -1,3 +1,7 @@
+(** 
+    Representation of in-game blocks 
+*)
+
 (**type block_type is a variant of wall and ditch*)
 type block_type = Wall | Ditch
 

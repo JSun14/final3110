@@ -1,3 +1,7 @@
+(** 
+  Representation of movable in-game objects
+ *)
+
 open Util
 
 (**type team is a variant of either Self or Enemy, describing each tank *)

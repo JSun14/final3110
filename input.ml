@@ -1,6 +1,11 @@
+(** 
+    Set of functions to interface with the operating system to get user input.
+*)
+
 open Graphics
 open Const 
 
+(** the type of user input data*)
 type user_in_data = {
   lmb : bool;
   m_pos : float * float;

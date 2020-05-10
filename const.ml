@@ -1,3 +1,6 @@
+(**
+    A set of constants to be referenced by multiple modules
+*)
 
 (** Velocity of player projectiles*)
 let standard_vel = 0.035
@@ -20,7 +23,7 @@ let query_distance = 0.01
 (** Scaling factor*)
 let scale = 20.0
 
-(* [eps] which stands for epsilon, is a small float*)
+(** eps, which stands for epsilon, is a small float*)
 let eps = 0.1
 (** Time per cycle*)
 let cycle_time = 0.008

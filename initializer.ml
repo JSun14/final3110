@@ -1,3 +1,8 @@
+(**
+    Loading of game state and world
+ *)
+
+
 open Read_json
 open Block
 open State

@@ -1,3 +1,8 @@
+(**
+  Progression of the game state machine
+*)
+
+
 open State
 open Render
 open Interactions
