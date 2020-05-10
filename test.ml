@@ -77,56 +77,82 @@ module DummyB = struct
     name >:: (fun _ -> assert_equal exp_out (entity_removal_execute world state))
 
   let tankA : Movable.tank = 
-    {loc=(5.0,5.0); past_loc=(5.0,5.0); velocity=(1.0,1.0);health=1;
-     last_fire_time=0;side=Enemy}
+    {loc = (5.0,5.0); 
+     past_loc = (5.0,5.0); 
+     velocity = (1.0,1.0);
+     health = 1;
+     last_fire_time = 0;
+     side = Enemy}
   let tankB : Movable.tank = 
-    {tankA with loc=(6.2,6.2); past_loc=(6.5,6.5)}
+    {tankA with loc = (6.2,6.2); 
+                past_loc = (6.5,6.5)}
   let projA : Movable.projectile = 
-    {loc=(5.0,5.0);past_loc=(5.0,5.0);velocity=(1.0,1.0);health=1;
-     weap_species=Bullet}
+    {loc = (5.0,5.0);
+     past_loc = (5.0,5.0);
+     velocity = (1.0,1.0);
+     health = 1;
+     weap_species = Bullet}
   let projB : Movable.projectile = 
-    {projA with loc=(3.0,3.0)}
+    {projA with loc = (3.0,3.0)}
   let stateA : State.state=
     {sys_time=0.0; cycle_no=0; score=0; 
-     tanks=[{tankA with velocity=(2.0, 2.0)}; 
-            {tankA with velocity=(-2.0, 1.0)};
-            {tankA with velocity=(-2.0, -1.0)};
-            {tankA with velocity=(1.0, -2.0);}];
-     projectiles=[{projA with velocity=(2.0, 2.0)}; 
-                  {projA with velocity=(-2.0, 1.0)};
-                  {projA with velocity=(-2.0, -1.0)}; 
-                  {projA with velocity=(1.0, -2.0);}];
+     tanks=[{tankA with velocity = (2.0, 2.0)}; 
+            {tankA with velocity = (-2.0, 1.0)};
+            {tankA with velocity = (-2.0, -1.0)};
+            {tankA with velocity = (1.0, -2.0);}];
+     projectiles=[{projA with velocity = (2.0, 2.0)}; 
+                  {projA with velocity = (-2.0, 1.0)};
+                  {projA with velocity = (-2.0, -1.0)}; 
+                  {projA with velocity = (1.0, -2.0);}];
      win_cond=Playing}
   let stateB : State.state=
-    {stateA with tanks=[{tankA with loc=(4.7,5.5); past_loc=(4.0,4.0)}; tankB];}
+    {stateA with tanks = [{tankA with loc=(4.7,5.5); 
+                                      past_loc = (4.0,4.0)}; 
+                          tankB];}
   let stateC : State.state=
-    {stateA with tanks=[{tankA with loc=(5.5,5.5)}; {tankB with loc=(7.0,7.0)}]; 
-                 projectiles=[{projA with loc=(5.25,5.25)}; projB]}
+    {stateA with tanks = [{tankA with loc = (5.5,5.5)}; 
+                          {tankB with loc = (7.0,7.0)}]; 
+                 projectiles = [{projA with loc = (5.25,5.25)}; 
+                                projB]}
   let blockA : Block.block =
-    {id="1"; kind=Wall; width=0.5; coord=(5.5,5.5);}
+    {id = "1"; 
+     kind = Wall; 
+     width = 0.5; 
+     coord = (5.5,5.5);}
   let worldA : State.world = 
-    {wall_list=[blockA];ditch_list=[]}
+    {wall_list = [blockA];
+     ditch_list = []}
   let worldB : State.world = 
-    {worldA with wall_list=[]}
+    {worldA with wall_list = []}
 
   let tests = [
     move_helper "Testing execute for interactions" worldA stateA
       {stateA with 
        tanks=[
-         {tankA with loc=(7.0,7.0);velocity=(2.0, 2.0)};
-         {tankA with loc=(3.0,6.0);velocity=(-2.0, 1.0)};
-         {tankA with loc=(3.0,4.0);velocity=(-2.0, -1.0)};
-         {tankA with loc=(6.0,3.0);velocity=(1.0, -2.0);};];
-       projectiles=[
-         {projA with loc=(7.0,7.0);velocity=(2.0, 2.0)};
-         {projA with loc=(3.0,6.0);velocity=(-2.0, 1.0)};
-         {projA with loc=(3.0,4.0);velocity=(-2.0, -1.0)};
-         {projA with loc=(6.0,3.0);velocity=(1.0, -2.0)}]};
+         {tankA with loc = (7.0,7.0);
+                     velocity = (2.0, 2.0)};
+         {tankA with loc = (3.0,6.0);
+                     velocity = (-2.0, 1.0)};
+         {tankA with loc = (3.0,4.0);
+                     velocity = (-2.0, -1.0)};
+         {tankA with loc = (6.0,3.0);
+                     velocity = (1.0, -2.0);};];
+       projectiles = [
+         {projA with loc = (7.0,7.0);
+                     velocity = (2.0, 2.0)};
+         {projA with loc = (3.0,6.0);
+                     velocity = (-2.0, 1.0)};
+         {projA with loc = (3.0,4.0);
+                     velocity = (-2.0, -1.0)};
+         {projA with loc = (6.0,3.0);
+                     velocity = (1.0, -2.0)}]};
     wall_helper "Testing execute for walls/other tanks" worldA stateB 
-      {stateB with tanks=[{tankA with loc=(4.0,4.0); past_loc=(4.0,4.0)};
-                          {tankB with loc=(6.5,6.5)}]};
+      {stateB with tanks=[{tankA with loc = (4.0,4.0); 
+                                      past_loc = (4.0,4.0)};
+                          {tankB with loc = (6.5,6.5)}]};
     entity_removal_helper "Testing entity removal for tanks/projs" worldB stateC 
-      {stateC with tanks=[{tankB with loc=(7.0,7.0)}]; projectiles=[projB]};
+      {stateC with tanks = [{tankB with loc = (7.0,7.0)}]; 
+                   projectiles = [projB]};
   ]
 end 
 
@@ -160,12 +186,48 @@ module UtilT = struct
     (fun _ -> assert_equal (3.0, -4.0) (fscale (1.5, -2.0) 2.0) 
         ~printer:(pp_tuple string_of_float));
     "Test fscale function" >:: 
-    (fun _ -> assert_equal (-3.0, -3.9) (fscale (1.0, 1.3) (-3.0)) 
+    (fun _ -> assert_equal (0.0, -4.5) (fscale (0.0, 1.5) (-3.0)) 
         ~printer:(pp_tuple string_of_float));
+    "Test fcompare function when true" >:: 
+    (fun _ -> assert_equal true (fcompare (-3.9) (1.3 *. -3.0)) 
+        ~printer:(string_of_bool));
+    "Test fcompare function when false" >:: 
+    (fun _ -> assert_equal false (fcompare 4.0 4.2) ~printer:(string_of_bool));
+    "Test pfloor function" >:: 
+    (fun _ -> assert_equal (1, 2) (pfloor (1.5, 2.8)) 
+        ~printer:(pp_tuple string_of_int));
+    "Test pfloor function" >:: 
+    (fun _ -> assert_equal (-1, 10) (pfloor (-0.5, 10.1)) 
+        ~printer:(pp_tuple string_of_int));
+    "Test pfloor function" >:: 
+    (fun _ -> assert_equal (2, 0) (pfloor (2.0, 0.0)) 
+        ~printer:(pp_tuple string_of_int));
+    "Test comp_pair function when true" >:: 
+    (fun _ -> assert_equal true (comp_pair (1.0, 2.0) (1.0, 2.0)) 
+        ~printer:(string_of_bool));
+    "Test comp_pair function when false" >:: 
+    (fun _ -> assert_equal false (comp_pair (1.0, 2.0) (1.0, -2.0)) 
+        ~printer:(string_of_bool));
+    "Test comp_pair function when false" >:: 
+    (fun _ -> assert_equal false (comp_pair (1.0, 2.0) (1.0, 2.00000001)) 
+        ~printer:(string_of_bool));
+    "Test comp_pair_s function" >:: 
+    (fun _ -> assert_equal 0 (comp_pair_s (1.0, 2.0) (1.0, 2.0)) 
+        ~printer:(string_of_int));
+    "Test comp_pair_s function" >:: 
+    (fun _ -> assert_equal ~-1 (comp_pair_s (0.0, 15.0) (1.0, -7.0)) 
+        ~printer:(string_of_int));
+    "Test comp_pair_s function" >:: 
+    (fun _ -> assert_equal 1 (comp_pair_s (3.1, -0.5) (2.9, 1.1)) 
+        ~printer:(string_of_int));
+    "Test comp_pair_s function" >:: 
+    (fun _ -> assert_equal 1 (comp_pair_s (-6.2, 1.0) (-6.2, 1.1)) 
+        ~printer:(string_of_int));
+    "Test unit_vec function" >:: 
+    (fun _ -> assert_equal (0.6, 0.8) (unit_vec (3.0, 4.0)) 
+        ~cmp:(compare_pairs) ~printer:(pp_tuple string_of_float));
   ]
 end 
-
-
 
 let suite = "We Play Tanks test suite" >::: List.flatten 
               [DummyA.tests; DummyB.tests; UtilT.tests]
