@@ -7,11 +7,12 @@ open Util
 (**type team is a variant of either Self or Enemy, describing each tank *)
 type team = Self | Enemy
 
-(**type proj_species is a variant of either Bouncy or Bullet, describing each projectile *)
+(**type proj_species is a variant of either Bouncy or Bullet, describing each 
+   projectile *)
 type proj_species = Bouncy | Bullet
 
-(**type tank is a record of a tank's location, immediate past location, velocity,
-   health, last time it fired a projectile, and its team*)
+(**type tank is a record of a tank's location, immediate past location, 
+   velocity, health, last time it fired a projectile, and its team*)
 type tank = {
   loc : float * float;
   past_loc : float * float;

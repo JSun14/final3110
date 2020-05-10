@@ -35,7 +35,8 @@ let fcompare x y =
 let compare_pairs (a, b) (x, y) =
   fcompare a x && fcompare b y
 
-(** [pfloor (a,b)] is the grid location [(x,y)] cooresponding to a coord [(a,b)]*)
+(** [pfloor (a,b)] is the grid location [(x,y)] cooresponding to a coord 
+    [(a,b)]*)
 let pfloor (a,b) = 
   (int_of_float (floor a), int_of_float (floor b))
 
@@ -72,6 +73,7 @@ let rec range_helper target iter acc =
 let range target =
   range_helper target 0 [] |> List.rev
 
-(** [range target] is a list from [0.0; 1.0; 2.0; ... target -. 2.0; target -. 1.0]*)
+(** [range target] is a list from [0.0; 1.0; 2.0; ... target -. 2.0; 
+    target -. 1.0]*)
 let float_range target = 
   List.map (fun x -> float_of_int x) (range (int_of_float target))

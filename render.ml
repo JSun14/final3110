@@ -2,7 +2,6 @@ open Graphics
 open Movable
 open State
 open Input 
-
 open Const
 open Util
 
@@ -53,27 +52,21 @@ let draw_tanks (tl:Movable.tank list) =
 let remap_tank (t:Movable.tank) =
   let new_loc = match t.loc with
     | (x, y) -> (scale *. x, scale *. y) in
-  {
-    t with loc = new_loc
-  }
+  {t with loc = new_loc}
 
 (**[remap_proj t] is of type projectile and scales the proojectile accordingly 
    to the map *)
 let remap_proj (t:Movable.projectile) =
   let new_loc = match t.loc with
     | (x, y) -> (scale *. x, scale *. y) in
-  {
-    t with loc = new_loc
-  }
+  {t with loc = new_loc}
 
 (**[remap_bloock t] is of type block and scales the block accordingly to the 
    map *)
 let remap_block (t:Block.block) =
   let new_loc = match t.coord with
     | (x, y) -> (scale *. (x -. 0.5), scale *. (y -. 0.5)) in
-  {
-    t with coord = new_loc
-  }
+  {t with coord = new_loc}
 
 (*[remap_coords_state st] takes in a state, multiplies grid coords by scale 
   factor and draws them, returning another state*)
@@ -124,5 +117,4 @@ let render_frame (w:State.world) (st:State.state) =
   let _ = draw_walls remapped_world.ditch_list in
   let _ = draw_projectiles remapped_state.projectiles in
 
-  let () = synchronize () in
-  ()
+  let () = synchronize () in ()

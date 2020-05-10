@@ -1,6 +1,7 @@
 open Movable
 open Block
 
+(** [progress] is a type that represents the game progress. *)
 type progress = Playing | Win | Loss
 (* Master state that is passed around in MCL *)
 type state = {
@@ -84,18 +85,12 @@ let update_tl_player old_tank_list new_player_tank =
   let enemies = List.filter (fun x -> x.side = Enemy) old_tank_list in
   new_player_tank::enemies
 
-(**[update_tl_enemies old_tank_list new_enemies] is a list of tanks including
-   the player tank and new enemies *)
+(** [update_tl_enemies old_tank_list new_enemies] is a list of tanks including
+    the player tank and new enemies *)
 let update_tl_enemies old_tank_list new_enemies =
   let player = get_player_tank old_tank_list in 
   player::new_enemies
 
-(* (** [player_loc st] is the location of the player tank on the map
-    as a tuple of floats 
-
-    Requires: [st] is a valid game state *)
-   let player_loc st = 
-   (get_player_tank st).loc  *)
-
+(** [get_enemy_tanks st_tank_list] is a list of enemy tanks *)
 let get_enemy_tanks st_tank_list = 
   List.filter (fun x -> x.side = Enemy) st_tank_list

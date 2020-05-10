@@ -2,7 +2,7 @@
     Representation of in-game blocks 
 *)
 
-(**type block_type is a variant of wall and ditch*)
+(**[block_type] is a variant of wall and ditch*)
 type block_type = Wall | Ditch
 
 (**type block is a record of a block's id, kind, width, and coordinates *)
